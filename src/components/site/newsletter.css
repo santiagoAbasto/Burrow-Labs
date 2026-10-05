@@ -1,0 +1,261 @@
+/* Newsletter del sitio: el burro asoma por detrás del campo, agarrado del borde con las pezuñas.
+   Lo escribe newsletter.tsx; los estados van en data-state de la sección (idle, focus, typing,
+   pending, ok, error). Solo transform y opacity; con prefers-reduced-motion quedan los estados finales.
+   Entra en globals.css dentro de layer(components): sin @layer acá. */
+
+.nl {
+  /* hueco para que el burro asome por encima del borde de la tarjeta sin chocar con lo de arriba */
+  --nl-w: 4rem; /* ancho del burro */
+  --nl-room: 4.5rem; /* en una columna, aire sobre el campo para el burro */
+  padding-top: 2.5rem;
+}
+.nl-card {
+  position: relative;
+  display: grid;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+}
+.nl-copy {
+  max-width: 34rem;
+}
+.nl-form {
+  position: relative;
+  display: grid;
+  gap: 0.25rem;
+  container-type: inline-size;
+}
+.nl-row {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: var(--nl-room);
+}
+@container (min-width: 28rem) {
+  .nl-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+@media (min-width: 48rem) {
+  .nl {
+    --nl-w: 5.5rem;
+    --nl-room: 0px; /* dos columnas: el burro sale por arriba de la tarjeta, no sobre el texto */
+    padding-top: 3.5rem;
+  }
+  .nl-card {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+    gap: 2.5rem;
+    padding: 2rem 2.5rem;
+  }
+}
+.nl-edge {
+  position: relative;
+}
+.nl-input,
+.nl-done {
+  position: relative;
+  z-index: 1;
+  min-height: 3.5rem;
+}
+.nl-done {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--panel);
+  font-weight: 600;
+}
+.nl-done svg {
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.nl-msg {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  min-height: 1.5rem;
+  font-size: var(--text-small);
+  font-weight: 600;
+  line-height: 1.45;
+}
+.nl-msg:empty {
+  display: none;
+}
+
+/* ---------- el burro ---------- */
+.nl-burro {
+  position: absolute;
+  right: 1.25rem;
+  bottom: 100%;
+  width: var(--nl-w);
+  height: calc(var(--nl-w) * 1.55); /* proporción del vector (529 × 820) */
+  pointer-events: none;
+}
+.nl-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden; /* lo que queda bajo el borde del campo no asoma por debajo */
+}
+.nl-bust {
+  position: absolute;
+  inset: 0;
+  transform: translateY(44%);
+  transition: transform var(--motion-slow) var(--ease-out);
+}
+.nl-hands {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 2;
+  height: calc(var(--nl-w) * 0.4);
+  overflow: visible;
+}
+.nl-grip {
+  transform-box: fill-box;
+}
+
+/* se asoma al enfocar; al escribir, las orejas */
+.nl[data-state="focus"] .nl-bust,
+.nl[data-state="typing"] .nl-bust {
+  transform: translateY(30%);
+}
+@keyframes nl-ears {
+  from {
+    transform: rotate(-6deg);
+  }
+  to {
+    transform: rotate(4deg);
+  }
+}
+.nl[data-state="typing"] .mascot-ears {
+  animation: nl-ears 0.42s var(--ease-in-out) infinite alternate;
+}
+
+/* cava mientras se envía: se agita y salta tierra */
+@keyframes nl-dig {
+  from {
+    transform: translateY(38%) rotate(-2deg);
+  }
+  to {
+    transform: translateY(41%) rotate(2deg);
+  }
+}
+@keyframes nl-dirt {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.5);
+  }
+  12%,
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) scale(1.1);
+  }
+}
+.nl-dirt {
+  position: absolute;
+  bottom: -0.25rem;
+  z-index: 2;
+  width: 0.875rem;
+  height: 0.875rem;
+  opacity: 0;
+}
+.nl[data-state="pending"] .nl-bust {
+  animation: nl-dig 0.16s linear infinite alternate;
+}
+.nl[data-state="pending"] .nl-grip {
+  animation: cart-grip 0.16s linear infinite alternate;
+}
+.nl[data-state="pending"] .nl-dirt {
+  animation: nl-dirt 0.75s var(--ease-out) calc(var(--i) * 0.19s) infinite;
+}
+
+/* éxito: sube con el cartel */
+.nl-sign {
+  position: absolute;
+  right: calc(100% - 0.75rem);
+  bottom: 48%;
+  z-index: 3;
+  padding: 0.3rem 0.7rem;
+  border: 3px solid var(--color-ink);
+  border-radius: 0.625rem;
+  background-color: var(--color-white);
+  box-shadow: 0 0 0 3px var(--color-yellow-400);
+  color: var(--color-ink);
+  font-size: 0.9375rem;
+  font-weight: 800;
+  font-stretch: 112%;
+  line-height: 1;
+  white-space: nowrap;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: scale(0.5) rotate(-12deg);
+  transform-origin: 100% 100%;
+  transition:
+    transform var(--motion-normal) var(--ease-out),
+    opacity var(--motion-fast) var(--ease-out);
+}
+@keyframes nl-pop {
+  0% {
+    transform: scale(0.5) rotate(-12deg);
+  }
+  65% {
+    transform: scale(1.1) rotate(2deg);
+  }
+  100% {
+    transform: scale(1) rotate(-4deg);
+  }
+}
+.nl[data-state="ok"] .nl-bust {
+  transform: translateY(20%);
+}
+.nl[data-state="ok"] .nl-sign {
+  opacity: 1;
+  transform: scale(1) rotate(-4deg);
+  animation: nl-pop var(--motion-slow) var(--ease-out);
+}
+.nl[data-state="ok"] .mascot-ears {
+  transform: rotate(4deg);
+  transition: transform var(--motion-slow) var(--ease-out);
+}
+
+/* error: se sacude con las orejas caídas */
+@keyframes nl-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-6px) rotate(-1deg);
+  }
+  40%,
+  80% {
+    transform: translateX(6px) rotate(1deg);
+  }
+}
+.nl[data-state="error"] .nl-burro {
+  animation: nl-shake 0.5s var(--ease-out);
+}
+.nl[data-state="error"] .nl-bust {
+  transform: translateY(42%);
+}
+.nl[data-state="error"] .mascot-ears {
+  transform: rotate(-9deg);
+  transition: transform var(--motion-slow) var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nl *,
+  .nl .mascot-ears {
+    animation: none !important;
+    transition: none !important;
+  }
+  .nl-dirt {
+    display: none;
+  }
+}

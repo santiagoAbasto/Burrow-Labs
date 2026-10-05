@@ -1,0 +1,77 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# burrow labs
+/.next-*/
+/storage/
+/test-results/
+/playwright-report/
+/blob-report/
+/MEMORY.md
+!.env.example
+
+# ── Privado: nunca al repositorio público ──────────────────────────────
+# Asistentes de IA y memoria local del proyecto
+/.claude/
+/CLAUDE.md
+/AGENTS.md
+/MEMORY.md
+/graphify-out/
+.memanto/
+# Secretos y credenciales (además de .env*)
+*.key
+*.p12
+*.dump
+id_rsa*
+id_ed25519*
+# Operación del servidor: kit de despliegue y documentos internos (quedan solo en la máquina de trabajo)
+/deploy/
+/docs/DEPLOY.md
+/docs/ROLLBACK.md
+/docs/SERVER-INVENTORY.md
+/docs/PRODUCTION-CHECKLIST.md
+/docs/GO-LIVE-AUDIT.md
+/docs/SECURITY-AUDIT.md
+/docs/LEGAL-STATUS.md
+/docs/CONTENT-STATUS.md
+/docs/BRIEF.md
+/docs/SEO-AUDIT.md

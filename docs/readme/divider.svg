@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 24" width="1200" height="24" role="img" aria-label="">
+<rect y="11" width="1200" height="2" fill="#080a09" opacity=".15"/>
+<rect y="10" width="180" height="4" rx="2" fill="#fcea10"><animate attributeName="x" values="-180;1200" dur="4.5s" repeatCount="indefinite"/></rect>
+<rect y="10" width="60" height="4" rx="2" fill="#1671b1"><animate attributeName="x" values="-60;1200" dur="4.5s" begin="1.2s" repeatCount="indefinite"/></rect>
+</svg>

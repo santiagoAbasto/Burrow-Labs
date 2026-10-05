@@ -1,0 +1,68 @@
+# Producción en un servidor propio: sitio + PostgreSQL + volumen de media. Ver README («Despliegue»).
+
+# Rotación de logs: sin esto Docker los guarda sin tope y terminan llenando el disco.
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "5"
+
+services:
+  db:
+    image: postgres:17
+    restart: unless-stopped
+    logging: *logging
+    environment:
+      POSTGRES_USER: burrow
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?definir en .env}
+      POSTGRES_DB: burrow_labs
+    volumes:
+      - db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U burrow -d burrow_labs"]
+      interval: 5s
+      retries: 10
+
+  web:
+    build: .
+    restart: unless-stopped
+    logging: *logging
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://burrow:${POSTGRES_PASSWORD}@db:5432/burrow_labs
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:?definir en .env}
+      AUTH_SECRET: ${AUTH_SECRET:?definir en .env}
+      # Solo para el primer arranque: crean el administrador inicial. Después se borran del .env
+      # (docs/SECURITY.md, «Después del primer arranque»); vacías, el seed no crea ni toca usuarios.
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      STORAGE_DRIVER: local
+      NEXT_PUBLIC_GA_ID: ${NEXT_PUBLIC_GA_ID:-}
+      NEXT_PUBLIC_CLARITY_ID: ${NEXT_PUBLIC_CLARITY_ID:-}
+      NEXT_PUBLIC_GSC_VERIFICATION: ${NEXT_PUBLIC_GSC_VERIFICATION:-}
+      # Correo: con `log` (por defecto) nada sale del servidor. Con resend o brevo, las otras dos son obligatorias.
+      EMAIL_DRIVER: ${EMAIL_DRIVER:-log}
+      EMAIL_API_KEY: ${EMAIL_API_KEY:-}
+      EMAIL_FROM: ${EMAIL_FROM:-}
+      EMAIL_FROM_NEWSLETTER: ${EMAIL_FROM_NEWSLETTER:-}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+    volumes:
+      - media:/app/storage
+    ports:
+      - "127.0.0.1:3000:3000" # detrás de un proxy con HTTPS (nginx, Caddy): docs/SECURITY.md, «Detrás de un proxy»
+    healthcheck:
+      # /api/health responde 200 solo si la base contesta. El primer arranque migra, siembra y construye: de ahí el margen.
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/health').then((r) => process.exit(r.ok ? 0 : 1), () => process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10m
+
+volumes:
+  db:
+  media:

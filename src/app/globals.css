@@ -1,0 +1,859 @@
+@import "tailwindcss";
+@import "../components/ui/ui.css" layer(components);
+@import "../components/admin/admin.css" layer(components);
+@import "../components/admin/charts.css" layer(components);
+@import "../components/site/newsletter.css" layer(components);
+@import "../components/plans/plans.css";
+
+/* ==========================================================================
+   Burrow Labs — tokens. Fuente de verdad: docs/DESIGN.md §2–§6.
+   Los componentes usan SOLO las variables semánticas del estrato.
+   plans.css entra sin capa: sus estados deben ganarle a las utilidades.
+   ========================================================================== */
+
+/* Primitivos (valores exactos del vector del logo, ver docs/BRAND-ASSETS.md). `static`: siempre se emiten como variables. */
+@theme static {
+  --color-*: initial;
+  --color-blue-600: #156ead; /* derivado: blue-500 apenas oscurecido para texto chico sobre paper (AA) */
+  --color-blue-500: #1671b1;
+  --color-blue-400: #3e93cf;
+  --color-blue-300: #699bba;
+  --color-blue-200: #aec6d4;
+  --color-navy-700: #174e74;
+  --color-navy-800: #123c5a;
+  --color-night-900: #0f1921;
+  --color-night-950: #080d12;
+  --color-ink: #080a09;
+  --color-paper: #ededed;
+  --color-white: #ffffff;
+  --color-yellow-400: #fcea10;
+  --color-yellow-500: #eedd28;
+  --color-donkey-300: #c4c2c1;
+  --color-donkey-400: #b7b6b2;
+  --color-steel-600: #5e615e;
+
+  --radius-*: initial;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  /* Escala fluida 375 → 1440 px. El min() de display y h1 achica por debajo de
+     ~450px para que una palabra larga en mayúsculas (CODIFICANDO, AUTOMATIZACIÓN)
+     entre en 320px sin partirse. */
+  --text-display: clamp(2.125rem, min(11.2vw, 1.254rem + 6.385vw), 7rem);
+  --text-h1: clamp(1.6875rem, min(8.6vw, 1.458rem + 3.38vw), 4.5rem);
+  --text-h2: clamp(1.5rem, 1.03rem + 2.35vw, 3.25rem); /* 24px a 320: «AUTOMATIZACIÓN» entra entera */
+  --text-h3: clamp(1.25rem, 1.074rem + 0.751vw, 1.75rem);
+  --text-lead: clamp(1.125rem, 1.037rem + 0.376vw, 1.375rem);
+  --text-body: clamp(1.0625rem, 1.0405rem + 0.094vw, 1.125rem);
+  --text-small: 0.875rem;
+  --text-mono-xs: 0.75rem;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --container-site: 80rem;
+  --container-wide: 90rem;
+  --spacing-section: clamp(5rem, 12vw, 10rem);
+  --spacing-gutter: clamp(1rem, 0.5rem + 2vw, 1.5rem);
+}
+
+/* Semánticos → utilidades: bg-bg, bg-panel, text-fg, text-muted, border-line,
+   border-line-strong, bg-accent, text-accent-fg, text-link, outline-focus.
+   `inline`: la utilidad lee la variable en el estrato donde está el elemento. */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-panel: var(--panel);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --color-link: var(--link);
+  --color-focus: var(--focus);
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
+:root {
+  --motion-fast: 140ms;
+  --motion-normal: 280ms;
+  --motion-slow: 600ms;
+  --wdth-display: 106%; /* ancho del eje wdth en titulares: 106 → 112 → 125 */
+}
+@media (min-width: 40rem) {
+  :root {
+    --wdth-display: 112%;
+  }
+}
+@media (min-width: 64rem) {
+  :root {
+    --wdth-display: 125%;
+  }
+}
+
+/* ---------- Estratos ------------------------------------------------------
+   Ratios de contraste verificados: docs/UI-KIT.md §3.
+   --panel: superficie contigua (tarjeta, campo, pozo). --line-strong: borde de
+   control (≥3:1). --accent-hover / --accent-mark: hover del acento y la veta que
+   se enciende sobre él (solo estratos claros). --focus: anillo.
+   El selector `:has(main > .page-enter > header…) .site-header:not([data-synced])` da al header, antes de hidratar, el estrato del
+   encabezado de la página: sin eso arranca con texto oscuro sobre fondo oscuro hasta que corre el JS. */
+@layer base {
+  :root,
+  [data-stratum="surface"] {
+    --bg: var(--color-paper);
+    --panel: var(--color-white);
+    --fg: var(--color-ink);
+    --muted: #4a4f52;
+    --line: #080a0926;
+    --line-strong: #080a098c;
+    --accent: var(--color-ink);
+    --accent-fg: var(--color-white);
+    --accent-hover: var(--color-ink);
+    --accent-mark: var(--color-yellow-400);
+    --link: var(--color-blue-600);
+    --focus: var(--color-ink);
+    color-scheme: light;
+  }
+  [data-stratum="chalk"] {
+    --bg: var(--color-white);
+    --panel: var(--color-paper);
+    --fg: var(--color-ink);
+    --muted: #4a4f52;
+    --line: #080a0920;
+    --line-strong: #080a098c;
+    --accent: var(--color-ink);
+    --accent-fg: var(--color-white);
+    --accent-hover: var(--color-ink);
+    --accent-mark: var(--color-yellow-400);
+    --link: var(--color-blue-600);
+    --focus: var(--color-ink);
+    color-scheme: light;
+  }
+  [data-stratum="topsoil"],
+  :root:has(main > .page-enter > header[data-stratum="topsoil"]) .site-header:not([data-synced]) {
+    --bg: var(--color-blue-500);
+    --panel: var(--color-navy-700);
+    --fg: var(--color-white);
+    --muted: #e9f2f8; /* DESIGN.md decía #DCEBF5 (4.33:1): no llegaba a AA */
+    --line: #ffffff40;
+    --line-strong: #ffffffb3;
+    --accent: var(--color-yellow-400);
+    --accent-fg: var(--color-ink);
+    --accent-hover: var(--color-yellow-500);
+    --accent-mark: transparent;
+    --link: var(--color-white);
+    --focus: var(--color-yellow-400);
+    color-scheme: dark;
+  }
+  [data-stratum="deep"],
+  :root:has(main > .page-enter > header[data-stratum="deep"]) .site-header:not([data-synced]) {
+    --bg: var(--color-navy-700);
+    --panel: var(--color-navy-800);
+    --fg: var(--color-white);
+    --muted: #c5d8e4;
+    --line: #ffffff2e;
+    --line-strong: #ffffff8c;
+    --accent: var(--color-yellow-400);
+    --accent-fg: var(--color-ink);
+    --accent-hover: var(--color-yellow-500);
+    --accent-mark: transparent;
+    --link: var(--color-blue-200);
+    --focus: var(--color-yellow-400);
+    color-scheme: dark;
+  }
+  [data-stratum="lab"],
+  :root:has(main > .page-enter > header[data-stratum="lab"]) .site-header:not([data-synced]) {
+    --bg: var(--color-night-900);
+    --panel: var(--color-night-950);
+    --fg: #f2f5f7;
+    --muted: #9fb3c1;
+    --line: #ffffff24;
+    --line-strong: #ffffff66;
+    --accent: var(--color-yellow-400);
+    --accent-fg: var(--color-ink);
+    --accent-hover: var(--color-yellow-500);
+    --accent-mark: transparent;
+    --link: #7db9e6;
+    --focus: var(--color-yellow-400);
+    color-scheme: dark;
+  }
+  [data-stratum="bedrock"],
+  :root:has(main > .page-enter > header[data-stratum="bedrock"]) .site-header:not([data-synced]) {
+    --bg: var(--color-night-950);
+    --panel: var(--color-night-900);
+    --fg: #f2f5f7;
+    --muted: #8fa3b1;
+    --line: #ffffff1f;
+    --line-strong: #ffffff66;
+    --accent: var(--color-yellow-400);
+    --accent-fg: var(--color-ink);
+    --accent-hover: var(--color-yellow-500);
+    --accent-mark: transparent;
+    --link: #7db9e6;
+    --focus: var(--color-yellow-400);
+    color-scheme: dark;
+  }
+  [data-stratum] {
+    background-color: var(--bg);
+    color: var(--fg);
+  }
+}
+
+/* ---------- Base ---------------------------------------------------------- */
+@layer base {
+  html {
+    scroll-padding-top: 5rem;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--fg) 35%, transparent) transparent;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+  /* Un <dialog> modal abierto bloquea el scroll del documento. */
+  html:has(dialog:modal) {
+    overflow: hidden;
+    scrollbar-gutter: stable;
+  }
+  body {
+    min-height: 100dvh;
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+  p,
+  li,
+  dd,
+  blockquote {
+    text-wrap: pretty;
+  }
+  ::selection {
+    background-color: var(--accent);
+    color: var(--accent-fg);
+  }
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+  input,
+  textarea {
+    caret-color: var(--fg);
+  }
+  button:not(:disabled),
+  summary,
+  [role="tab"],
+  label:has(input:not(:disabled)) {
+    cursor: pointer;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------- Utilidades de tipografía y motion ----------------------------- */
+@utility type-display {
+  overflow-wrap: break-word; /* último recurso: nunca desbordar */
+  font-size: var(--text-display);
+  font-weight: 900;
+  font-stretch: var(--wdth-display);
+  line-height: 0.94;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+@utility type-h1 {
+  overflow-wrap: break-word; /* último recurso: nunca desbordar */
+  font-size: var(--text-h1);
+  font-weight: 900;
+  font-stretch: var(--wdth-display);
+  line-height: 0.96;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+@utility type-h2 {
+  overflow-wrap: break-word; /* último recurso: nunca desbordar */
+  font-size: var(--text-h2);
+  font-weight: 800;
+  font-stretch: var(--wdth-display);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+@utility type-h3 {
+  font-size: var(--text-h3);
+  font-weight: 600;
+  font-stretch: 100%;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+@utility type-lead {
+  font-size: var(--text-lead);
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 60ch;
+  text-wrap: pretty;
+}
+@utility type-body {
+  font-size: var(--text-body);
+  line-height: 1.6;
+  max-width: 68ch;
+}
+@utility type-small {
+  font-size: var(--text-small);
+  line-height: 1.5;
+}
+@utility type-mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+@utility duration-fast {
+  transition-duration: var(--motion-fast);
+}
+@utility duration-normal {
+  transition-duration: var(--motion-normal);
+}
+@utility duration-slow {
+  transition-duration: var(--motion-slow);
+}
+
+/* ---------- Mascota (capas del asset original) ---------------------------- */
+@keyframes ear-twitch {
+  30% {
+    transform: rotate(-4deg);
+  }
+  62% {
+    transform: rotate(2.5deg);
+  }
+}
+@layer components {
+  .mascot {
+    position: relative;
+    display: block;
+    flex: none;
+  }
+  .mascot img {
+    object-fit: contain;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+  .mascot-pupil {
+    position: absolute;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: #090a0b; /* el negro de la pupila en el vector original */
+    transform: translate(-50%, -50%);
+    transition: transform 160ms var(--ease-out);
+    pointer-events: none;
+  }
+  :is(.mascot:hover, :is(a, button):is(:hover, :focus-visible) .mascot, .mascot[data-twitch="true"]) .mascot-ears {
+    animation: ear-twitch var(--motion-slow) var(--ease-out);
+  }
+
+  /* Header: se oculta al bajar, reaparece al subir, y toma el estrato que tiene debajo. */
+  .site-header {
+    transition:
+      transform var(--motion-normal) var(--ease-out),
+      background-color var(--motion-normal) var(--ease-out),
+      color var(--motion-normal) var(--ease-out),
+      border-color var(--motion-normal) var(--ease-out);
+    border-bottom: 1px solid transparent;
+    background-color: transparent;
+  }
+  .site-header[data-compact="true"] {
+    background-color: var(--bg);
+    border-bottom-color: var(--line);
+  }
+  .site-header[data-hidden="true"]:not(:focus-within) {
+    transform: translateY(-100%);
+  }
+  .nav-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding-inline: 0.25rem;
+    font-weight: 550;
+    font-size: 0.9375rem;
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0.25rem;
+    bottom: 9px;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--motion-normal) var(--ease-out);
+  }
+  .nav-link:is(:hover, [aria-current="page"])::after {
+    transform: scaleX(1);
+  }
+}
+
+/* ---------- Vagoneta en marcha -----------------------------------------------
+   Con data-rolling giran las ruedas, la vagoneta traquetea y las pezuñas aprietan el borde. */
+@keyframes cart-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes cart-rumble {
+  to {
+    transform: translateY(-1.5%);
+  }
+}
+@keyframes cart-grip {
+  to {
+    transform: translateY(1.5px);
+  }
+}
+.cart-wheel {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.cart[data-rolling="true"] .cart-wheel {
+  animation: cart-spin 0.45s linear infinite;
+}
+.cart[data-rolling="true"] {
+  animation: cart-rumble 0.14s linear infinite alternate;
+}
+.cart[data-rolling="true"] .cart-grip {
+  animation: cart-grip 0.14s linear infinite alternate;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cart,
+  .cart * {
+    animation: none !important;
+  }
+}
+
+/* ---------- Hero: descenso -------------------------------------------------
+ Por defecto (sin WebGL, hardware limitado, reduced motion) los tres paneles se apilan
+ como bloques normales. Con data-live la escena se fija y el scroll dirige el descenso. */
+/* Sin capa a propósito: estos estados deben ganarle a las utilidades (flex, relative…). */
+.hero-stage {
+  position: relative;
+}
+.hero-canvas {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.9s var(--ease-out);
+}
+.hero[data-live="true"] {
+  height: 420svh;
+  background: var(--color-paper);
+}
+@media (max-width: 47.99rem) {
+  .hero[data-live="true"] {
+    height: 320svh;
+  }
+}
+.hero[data-live="true"] .hero-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+.hero[data-live="true"] .hero-canvas {
+  opacity: 1;
+}
+.hero[data-live="true"] .hero-panel {
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  will-change: opacity;
+}
+.hero[data-live="true"] .hero-panel:not(.hero-intro) {
+  opacity: 0;
+  pointer-events: none;
+}
+.hero[data-live="true"] .hero-static {
+  display: none;
+}
+/* En el primer panel el burro se queda: con la escena viva solo cambian las etiquetas, que se van rápido
+   y recién después caen las tarjetas 3D, una tras otra (ENTER en scene.tsx). Siguen ocupando su espacio,
+   así nada salta al cargar el 3D. */
+.hero[data-live="true"] .hero-intro .hero-static {
+  display: block;
+}
+.hero-intro .hero-static ul {
+  transition:
+    opacity var(--motion-normal) var(--ease-out),
+    visibility 0s linear var(--motion-normal);
+}
+.hero[data-live="true"] .hero-intro .hero-static ul {
+  visibility: hidden;
+  opacity: 0;
+}
+/* Portátiles de 13–14": el primer panel se compacta para entrar entero en pantalla, que es la condición
+   para fijar la escena 3D (si no entra, queda la versión estática). */
+@media (min-width: 64rem) and (max-height: 53rem) {
+  .hero-intro {
+    padding-top: 5rem;
+    padding-bottom: 2.5rem;
+  }
+  .hero-intro .type-display {
+    font-size: min(var(--text-display), 12svh);
+  }
+  .hero-intro .hero-static ul {
+    display: none;
+  }
+}
+/* El texto del puente termina antes del túnel: con la cámara del descenso, su borde izquierdo queda en
+   50vw + 20svh. Lo que se resta es el margen izquierdo del contenedor y un respiro. */
+.hero-bridge {
+  max-width: min(22ch, calc(50vw + 20svh - max(var(--spacing-gutter), 50vw - var(--container-site) / 2 + var(--spacing-gutter)) - 2.5rem));
+}
+
+/* ---------- WhatsApp flotante y modo Burro Developer ---------------------- */
+@keyframes fab-nudge {
+  0%,
+  88%,
+  100% {
+    transform: none;
+  }
+  92% {
+    transform: translateY(-5px) rotate(-6deg);
+  }
+  96% {
+    transform: translateY(0) rotate(4deg);
+  }
+}
+.whatsapp-fab {
+  border: 2.5px solid var(--color-ink);
+  box-shadow:
+    0 0 0 3px var(--color-white),
+    4px 4px 0 3px var(--color-ink);
+  animation: fab-nudge 9s var(--ease-in-out) 4s infinite;
+  transition: transform var(--motion-fast) var(--ease-out);
+}
+@media (max-width: 39.99rem) {
+  .whatsapp-fab {
+    width: 3.5rem;
+    justify-content: center;
+    padding-inline: 0;
+  }
+}
+.whatsapp-fab:is(:hover, [aria-expanded="true"]) {
+  animation: none;
+  transform: scale(1.06);
+}
+.whatsapp-fab:active {
+  transform: scale(0.96);
+}
+/* Konami: cada estrato se etiqueta como si fuera código. */
+html[data-burro-dev] main [data-stratum-label] {
+  outline: 2px dashed var(--color-yellow-400);
+  outline-offset: -6px;
+}
+html[data-burro-dev] main [data-stratum-label]::before {
+  content: "<" attr(data-stratum-label) " depth=" attr(data-depth) " tone=" attr(data-stratum) " />";
+  position: absolute;
+  top: 10px;
+  left: 14px;
+  z-index: 20;
+  padding: 2px 8px;
+  border: 1.5px solid var(--color-ink);
+  border-radius: 4px;
+  background: var(--color-yellow-400);
+  color: var(--color-ink);
+  font: 700 0.75rem var(--font-mono);
+}
+
+/* ---------- Entrada de página y revelado por scroll ----------------------------
+   La página entra con un fundido que sube; la cabecera escalona sus piezas; lo marcado con
+   data-reveal aparece al entrar en pantalla (solo cuando hay JS: body[data-reveal-ready]). */
+/* solo opacidad: un transform acá sería el contenedor de los elementos fijos y del hero anclado */
+.page-enter {
+  animation: page-enter 0.9s var(--ease-out) both;
+}
+@keyframes page-enter {
+  from {
+    opacity: 0;
+  }
+}
+/* la cabecera entra pieza por pieza, con aire entre una y otra: nada cae de golpe */
+.page-header .section-heading > *,
+.page-header .page-actions,
+.page-header .scroll-cue {
+  animation: rise-in 1s var(--ease-out) both;
+  animation-delay: 120ms;
+}
+.page-header .section-heading > :nth-child(2) {
+  animation-delay: 280ms;
+}
+.page-header .section-heading > :nth-child(3) {
+  animation-delay: 440ms;
+}
+.page-header .page-actions {
+  animation-delay: 620ms;
+}
+.page-header .scroll-cue {
+  animation-delay: 860ms;
+}
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+}
+/* --reveal-delay la pone Reveal: lo que entra en pantalla a la vez se revela en cascada */
+[data-reveal] {
+  transition:
+    opacity 0.9s var(--ease-out),
+    transform 0.9s var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+body[data-reveal-ready] [data-reveal]:not([data-revealed]) {
+  opacity: 0;
+  transform: translateY(1.5rem);
+}
+/* las cabeceras de página ya entran escalonadas: no se revelan dos veces */
+.page-header [data-reveal] {
+  transition: none;
+}
+body[data-reveal-ready] .page-header [data-reveal]:not([data-revealed]) {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-enter,
+  .page-header .section-heading > *,
+  .page-header .page-actions,
+  .page-header .scroll-cue {
+    animation: none;
+  }
+  [data-reveal] {
+    transition: none;
+  }
+  body[data-reveal-ready] [data-reveal]:not([data-revealed]) {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- Señal de «hay más abajo» en las cabeceras de página ---------------- */
+.scroll-cue {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 2.75rem;
+  margin-top: 2.5rem;
+  color: var(--muted);
+  border-radius: var(--radius-md);
+  transition:
+    opacity var(--motion-normal) var(--ease-out),
+    transform var(--motion-normal) var(--ease-out);
+}
+.scroll-cue[data-gone] {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(0.5rem);
+}
+.scroll-cue-arrow {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid var(--color-ink);
+  border-radius: 50%;
+  background-color: var(--color-yellow-400);
+  color: var(--color-ink);
+  animation: cue-bounce 1.6s var(--ease-out) infinite;
+}
+.scroll-cue-arrow svg {
+  width: 1rem;
+  height: 1rem;
+}
+.scroll-cue:hover .scroll-cue-arrow {
+  animation-duration: 0.8s;
+}
+@keyframes cue-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(0.375rem);
+  }
+}
+
+/* ---------- Cinta de frases de marca (Home, bajo el hero) ----------------------
+   Banda amarilla fina y liviana: trazo de tinta arriba y abajo, texto en tinta, la insignia entre frases. */
+.ticker {
+  overflow: hidden;
+  padding-block: 0.625rem;
+  border-block: 1.5px solid var(--color-ink);
+  background-color: var(--color-yellow-400);
+  color: var(--color-ink);
+}
+.ticker-track {
+  display: flex;
+  width: max-content;
+  gap: 2.75rem;
+  padding-left: 2.75rem;
+  animation: ticker var(--ticker-seconds, 30s) linear infinite;
+  will-change: transform;
+}
+.ticker:hover .ticker-track {
+  animation-play-state: paused;
+}
+.ticker-item {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 1rem;
+  font-size: clamp(0.875rem, 0.8rem + 0.35vw, 1.0625rem);
+  font-weight: 650;
+  font-stretch: 106%;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.ticker-badge {
+  flex: none;
+  width: 1.375rem;
+  height: 1.375rem;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1.5px var(--color-ink);
+  animation: ticker-nod 3s var(--ease-out) infinite;
+}
+.ticker-item:nth-child(2n) .ticker-badge {
+  animation-delay: -1.5s;
+}
+@keyframes ticker {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes ticker-nod {
+  0%,
+  100% {
+    transform: rotate(-6deg);
+  }
+  50% {
+    transform: rotate(6deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track {
+    width: auto;
+    flex-wrap: wrap;
+    gap: 0.75rem 2.75rem;
+    animation: none;
+  }
+  .ticker-badge {
+    animation: none;
+  }
+}
+
+/* ---------- Frases de marca rotando (pie de página) ---------------------------- */
+.brand-rotator {
+  display: grid;
+}
+.brand-rotator-item {
+  grid-area: 1 / 1;
+  animation: phrase-in var(--motion-slow) var(--ease-out);
+}
+@keyframes phrase-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue-arrow,
+  .brand-rotator-item {
+    animation: none;
+  }
+}
+
+/* ---------- Login del admin: el burro que acompaña ---------------------------
+   Sin capa: el brazo y las orejas se mueven por estado (data-cover, data-sad). */
+.login-burro {
+  position: relative;
+}
+/* La pezuña está dibujada ya tapando el ojo (centro en 44,67 del lienzo de 100 × 155). En reposo baja
+   detrás de la laptop; al espiar resbala hacia abajo y deja la pupila al descubierto. */
+.login-arm {
+  transform-origin: 30px 118px;
+  transform: translate(10px, 48px) rotate(-70deg);
+  opacity: 0;
+  transition:
+    transform var(--motion-slow) var(--ease-out),
+    opacity var(--motion-normal) var(--ease-out);
+}
+.login-burro[data-cover="cover"] .login-arm {
+  transform: none;
+  opacity: 1;
+}
+.login-burro[data-cover="peek"] .login-arm {
+  transform: translate(-5px, 10px) rotate(-8deg);
+  opacity: 1;
+}
+@keyframes login-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-6px) rotate(-1deg);
+  }
+  40%,
+  80% {
+    transform: translateX(6px) rotate(1deg);
+  }
+}
+.login-burro[data-sad="true"] {
+  animation: login-shake 0.5s var(--ease-out);
+}
+.login-burro[data-sad="true"] .mascot-ears {
+  transform: rotate(-9deg);
+  transition: transform var(--motion-slow) var(--ease-out);
+}
+@media (prefers-reduced-motion: reduce) {
+  .login-burro,
+  .login-arm {
+    animation: none !important;
+    transition: none !important;
+  }
+}

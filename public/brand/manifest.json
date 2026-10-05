@@ -1,0 +1,83 @@
+{
+  "note": "Geometría normalizada (0–1) respecto del lienzo de cada juego de capas; los radios son fracción del ancho.",
+  "badge": {
+    "eye": {
+      "center": [
+        0.46462,
+        0.43234
+      ],
+      "radius": 0.08287
+    },
+    "pupil": {
+      "center": [
+        0.50171,
+        0.39393
+      ],
+      "radius": 0.01191
+    },
+    "pupilMaxTravel": 0.06474,
+    "earPivot": [
+      0.45966,
+      0.32596
+    ]
+  },
+  "mascot": {
+    "eye": {
+      "center": [
+        0.425,
+        0.43405
+      ],
+      "radius": 0.13599
+    },
+    "pupil": {
+      "center": [
+        0.48587,
+        0.39337
+      ],
+      "radius": 0.01954
+    },
+    "pupilMaxTravel": 0.10624,
+    "earPivot": [
+      0.41687,
+      0.32142
+    ]
+  },
+  "sizes": {
+    "badge": {
+      "width": 868,
+      "height": 868
+    },
+    "badge-bg": {
+      "width": 868,
+      "height": 868
+    },
+    "badge-ears": {
+      "width": 868,
+      "height": 868
+    },
+    "badge-body": {
+      "width": 868,
+      "height": 868
+    },
+    "mascot": {
+      "width": 529,
+      "height": 820
+    },
+    "mascot-ears": {
+      "width": 529,
+      "height": 820
+    },
+    "mascot-body": {
+      "width": 529,
+      "height": 820
+    },
+    "logo-full": {
+      "width": 868,
+      "height": 875
+    },
+    "wordmark": {
+      "width": 654,
+      "height": 119
+    }
+  }
+}

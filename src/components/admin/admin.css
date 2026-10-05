@@ -1,0 +1,755 @@
+/* ---------- Admin: «plano de taller» ------------------------------------------
+   El panel es la mesa de trabajo del taller: papel con grilla punteada, fichas blancas con su
+   pestaña en el borde, campos que se levantan con el halo amarillo del logo al enfocarlos y
+   avisos como placas de mina. Mismo lenguaje del sitio (tinta, amarillo, mono, sticker). */
+.admin {
+  --ink-45: color-mix(in srgb, var(--color-ink) 45%, transparent);
+  --ink-55: color-mix(in srgb, var(--color-ink) 55%, transparent);
+  --ink-10: color-mix(in srgb, var(--color-ink) 10%, transparent);
+  --yellow-tint: color-mix(in srgb, var(--color-yellow-400) 16%, var(--color-white));
+  --lift: 4px 4px 0 0 var(--color-yellow-400);
+  --card-shadow: 3px 3px 0 0 var(--ink-10);
+}
+/* mesa de trabajo: papel con grilla punteada */
+.admin-canvas {
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--ink-10) 1px, transparent 1.5px);
+  background-size: 1.5rem 1.5rem;
+}
+
+/* ---------- campos --------------------------------------------------------- */
+.admin .control {
+  min-height: 2.875rem;
+  padding: 0.5rem 0.875rem;
+  border: 1.5px solid var(--ink-55);
+  border-radius: 0.625rem;
+  background-color: var(--color-white);
+  color: var(--color-ink);
+  box-shadow: inset 0 1.5px 0 var(--ink-10);
+  transition:
+    border-color var(--motion-fast) var(--ease-out),
+    box-shadow var(--motion-fast) var(--ease-out),
+    transform var(--motion-fast) var(--ease-out);
+}
+.admin .control::placeholder {
+  color: var(--ink-55);
+}
+.admin .control:hover:not(:disabled) {
+  border-color: var(--color-ink);
+}
+/* foco: el campo se levanta y deja ver el halo amarillo, como un sticker despegado */
+.admin .control:focus-visible {
+  outline: none;
+  border-color: var(--color-ink);
+  box-shadow:
+    0 0 0 1.5px var(--color-ink),
+    var(--lift);
+  transform: translate(-1px, -1px);
+}
+.admin .control[aria-invalid="true"] {
+  border-color: var(--color-ink);
+  background-color: var(--yellow-tint);
+  box-shadow: inset 5px 0 0 var(--color-yellow-400);
+}
+.admin .control[aria-invalid="true"]:focus-visible {
+  box-shadow:
+    inset 5px 0 0 var(--color-yellow-400),
+    0 0 0 1.5px var(--color-ink),
+    var(--lift);
+}
+.admin textarea.control {
+  line-height: 1.55;
+}
+.admin .select-chevron {
+  color: var(--color-ink);
+}
+.admin .field {
+  gap: 0.4375rem;
+}
+.admin .field-label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 650;
+  letter-spacing: 0.005em;
+}
+.admin .field-optional {
+  margin-left: 0;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.admin .field-hint {
+  font-size: 0.8125rem;
+}
+.admin .field-error {
+  color: var(--color-ink);
+}
+/* casillas: una tarjeta que se enciende al marcarla; el tilde es tinta sobre amarillo */
+.admin .checkbox {
+  min-height: 2.875rem;
+  padding: 0.5rem 0.75rem;
+  border: 1.5px solid var(--ink-55);
+  border-radius: 0.625rem;
+  background-color: var(--color-white);
+  color: var(--color-ink);
+  transition:
+    border-color var(--motion-fast) var(--ease-out),
+    background-color var(--motion-fast) var(--ease-out),
+    box-shadow var(--motion-fast) var(--ease-out);
+}
+.admin .checkbox:hover {
+  border-color: var(--color-ink);
+}
+.admin .checkbox:has(input:checked) {
+  border-color: var(--color-ink);
+  background-color: var(--yellow-tint);
+}
+.admin .checkbox input {
+  border-color: var(--color-ink);
+  background-color: var(--color-white);
+}
+.admin .checkbox input:checked {
+  border-color: var(--color-ink);
+  background-color: var(--color-yellow-400);
+}
+.admin .checkbox input:checked::after {
+  background-color: var(--color-ink);
+}
+.admin .checkbox input:focus-visible {
+  outline: none;
+}
+.admin .checkbox:has(input:focus-visible) {
+  border-color: var(--color-ink);
+  box-shadow:
+    0 0 0 1.5px var(--color-ink),
+    var(--lift);
+}
+.admin .switch:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 1.5px var(--color-ink),
+    3px 3px 0 0 var(--color-yellow-400);
+}
+/* grupos de campos: ficha blanca con la etiqueta en el borde */
+.admin fieldset {
+  border: 1.5px solid var(--ink-45);
+  border-radius: 0.875rem;
+  background-color: var(--color-white);
+}
+.admin fieldset > legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: -0.25rem;
+  padding: 0.125rem 0.75rem 0.125rem 0.625rem;
+  border: 1.5px solid var(--color-ink);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-white);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.admin fieldset > legend::before,
+.admin-panel-title::before,
+.admin-tag::before {
+  content: "";
+  flex: none;
+  width: 0.5rem;
+  height: 0.5rem;
+  border: 1.5px solid var(--color-ink);
+  border-radius: 50%;
+  background-color: var(--color-yellow-400);
+}
+.admin [data-stratum="lab"] .control,
+.admin [data-stratum="lab"] .checkbox {
+  color: var(--color-ink);
+}
+/* mini editor Markdown: la barra va pegada al campo, así que el campo no se desplaza al enfocarse */
+.admin .md-toolbar {
+  border: 1.5px solid var(--ink-55);
+  border-bottom: 0;
+  border-radius: 0.625rem 0.625rem 0 0;
+  background-color: var(--bg);
+}
+.admin .md-toolbar button {
+  color: var(--color-ink);
+}
+.admin .md-toolbar button:hover,
+.admin .md-toolbar button[aria-pressed="true"] {
+  background-color: var(--yellow-tint);
+  box-shadow: inset 0 0 0 1.5px var(--color-ink);
+}
+.admin .md-editor .control:focus-visible {
+  transform: none;
+}
+.admin .md-preview {
+  border: 1.5px solid var(--ink-55);
+  border-top: 0;
+  border-radius: 0 0 0.625rem 0.625rem;
+  background-color: var(--color-white);
+}
+
+/* ---------- fichas (paneles) ----------------------------------------------- */
+.admin-panel {
+  position: relative;
+  padding: 1.25rem;
+  border: 1.5px solid var(--ink-45);
+  border-radius: 0.875rem;
+  background-color: var(--color-white);
+  box-shadow: var(--card-shadow);
+}
+.admin-panel:has(> .admin-panel-head),
+.admin-panel:has(> .admin-panel-title) {
+  padding-top: 1.75rem;
+}
+/* la pestaña (y sus acciones) se apoyan sobre el borde superior */
+.admin-panel-head,
+.admin-panel > .admin-panel-title {
+  position: absolute;
+  top: 0;
+  left: 1rem;
+  transform: translateY(-50%);
+}
+.admin-panel-head {
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  pointer-events: none;
+}
+.admin-panel-head > * {
+  pointer-events: auto;
+}
+.admin-panel-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-inline: 0.375rem;
+  background-color: var(--color-white);
+  font-size: var(--text-small);
+}
+.admin-panel-title,
+.admin-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 100%;
+  min-height: 1.75rem;
+  padding: 0.125rem 0.75rem 0.125rem 0.625rem;
+  border: 1.5px solid var(--color-ink);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-white);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.admin-panel-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* ficha de tabla: el listado vive dentro de una hoja */
+.admin-sheet {
+  overflow-x: auto;
+  padding: 0 1.25rem;
+  border: 1.5px solid var(--ink-45);
+  border-radius: 0.875rem;
+  background-color: var(--color-white);
+  box-shadow: var(--card-shadow);
+}
+.admin-sheet .admin-table th {
+  padding-top: 1rem;
+  padding-bottom: 0.625rem;
+}
+.admin-sheet .admin-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+/* tarjeta chica dentro de una ficha (sesiones, contadores, filas del Home) */
+.admin-tile {
+  border: 1.5px solid var(--line);
+  border-radius: 0.625rem;
+  background-color: var(--color-white);
+  transition:
+    border-color var(--motion-fast) var(--ease-out),
+    background-color var(--motion-fast) var(--ease-out);
+}
+a.admin-tile:hover,
+button.admin-tile:hover:not(:disabled),
+.admin-tile:has(> a:only-child):hover {
+  border-color: var(--color-ink);
+  background-color: var(--yellow-tint);
+}
+.admin-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+/* cabecera de pantalla: línea de tinta con la veta amarilla apoyada a la izquierda */
+.admin-heading {
+  position: relative;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1.5px solid var(--ink-45);
+}
+.admin-heading::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 4.5rem;
+  height: 7px;
+  border: 1.5px solid var(--color-ink);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-yellow-400);
+}
+.admin-title {
+  font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.25rem);
+  font-weight: 800;
+  font-stretch: 112%;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+/* estado vacío: hoja punteada con el burro */
+.admin-empty {
+  display: grid;
+  justify-items: center;
+  gap: 0.75rem;
+  padding: 3rem 1.5rem;
+  border: 1.5px dashed var(--ink-55);
+  border-radius: 0.875rem;
+  background-color: var(--color-white);
+  text-align: center;
+}
+
+/* ---------- avisos: placa de mina (error), sello (listo) y nota (info) ----- */
+.admin-alert {
+  display: flex;
+  gap: 0.875rem;
+  align-items: flex-start;
+  padding: 0.875rem 1rem;
+  border: 1.5px solid var(--color-ink);
+  border-radius: 0.75rem;
+  background-color: var(--color-white);
+  color: var(--color-ink);
+  box-shadow: 3px 3px 0 0 var(--color-ink);
+}
+.admin-alert[data-kind="error"] {
+  background-image: repeating-linear-gradient(135deg, var(--color-yellow-400) 0 10px, var(--color-ink) 10px 20px);
+  background-size: 10px 100%;
+  background-repeat: no-repeat;
+  padding-left: 1.625rem;
+}
+.admin-alert[data-kind="success"] {
+  background-color: var(--color-yellow-400);
+}
+.admin-alert[data-kind="info"] {
+  border-style: dashed;
+  border-color: var(--ink-55);
+  box-shadow: var(--card-shadow);
+}
+.admin-alert-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1.5px solid var(--color-ink);
+  border-radius: 0.5rem;
+  background-color: var(--color-yellow-400);
+}
+.admin-alert[data-kind="success"] .admin-alert-icon {
+  background-color: var(--color-ink);
+  color: var(--color-yellow-400);
+}
+.admin-alert-icon svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* el aviso de guardado entra como un sticker y se va solo (sigue en el DOM para el lector de pantalla) */
+@keyframes admin-toast {
+  0% {
+    opacity: 0;
+    transform: translateY(-0.75rem) rotate(-2deg);
+  }
+  8%,
+  85% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+    visibility: hidden;
+  }
+}
+.admin-toast {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: min(22rem, calc(100vw - 2rem));
+  padding: 0.75rem 1rem 0.75rem 0.75rem;
+  border: 3px solid var(--color-ink);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-white);
+  color: var(--color-ink);
+  box-shadow: 0 0 0 4px var(--color-yellow-400);
+  font-weight: 650;
+  animation: admin-toast 6s var(--ease-out) forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .admin-toast {
+    animation: none;
+  }
+}
+
+/* ---------- guía desplegable con el burro: una nota con lomo amarillo ------ */
+.admin-help {
+  border: 1.5px dashed var(--ink-55);
+  border-radius: 0.875rem;
+  background-color: var(--color-white);
+  box-shadow:
+    inset 6px 0 0 var(--color-yellow-400),
+    var(--card-shadow);
+}
+.admin-help > summary {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 3.25rem;
+  padding: 0.5rem 1rem 0.5rem 1.5rem;
+  font-weight: 650;
+  cursor: pointer;
+  list-style: none;
+}
+.admin-help > summary::-webkit-details-marker {
+  display: none;
+}
+.admin-help > summary:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--color-ink);
+  border-radius: 0.875rem;
+}
+.admin-help[open] > summary {
+  border-bottom: 1.5px dashed var(--ink-55);
+}
+.admin-help-body {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem 1.25rem 1.5rem;
+}
+.admin-help-body ol,
+.admin-help-body ul {
+  display: grid;
+  gap: 0.375rem;
+  padding-left: 1.25rem;
+}
+.admin-help-body ol {
+  list-style: decimal;
+}
+.admin-help-body ul {
+  list-style: disc;
+}
+
+/* ---------- menú: ítem con subpantallas (Configuración) ---------------------- */
+.admin-nav-group > summary {
+  list-style: none;
+  cursor: pointer;
+}
+.admin-nav-group > summary::-webkit-details-marker {
+  display: none;
+}
+.admin-nav-group > summary.is-open {
+  color: var(--accent);
+  font-weight: 650;
+}
+.admin-nav-chevron {
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  margin-left: auto;
+  opacity: 0.7;
+  transition: transform var(--motion-normal) var(--ease-out);
+}
+.admin-nav-group[open] > summary .admin-nav-chevron {
+  transform: rotate(180deg);
+}
+/* subpantallas colgadas de un riel, como la veta */
+.admin-nav-sub {
+  display: grid;
+  gap: 0.125rem;
+  margin: 0.25rem 0 0.375rem 1.4rem;
+  padding-left: 0.5rem;
+  border-left: 1.5px solid var(--line-strong);
+}
+.admin-nav-sub .admin-nav-link {
+  min-height: 2.125rem;
+  padding-inline: 0.625rem;
+  font-size: 0.9375rem;
+}
+
+/* ---------- Configuración: bloques del resumen y pasos de la guía ---------- */
+.admin-block {
+  transition:
+    transform var(--motion-fast) var(--ease-out),
+    box-shadow var(--motion-fast) var(--ease-out);
+}
+.admin-block:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 0 var(--color-yellow-400);
+}
+.admin-block-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1.5px solid var(--color-ink);
+  border-radius: 0.75rem;
+  background-color: var(--color-yellow-400);
+  color: var(--color-ink);
+  box-shadow: 2px 2px 0 0 var(--color-ink);
+}
+.admin-block-icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.admin-block-arrow {
+  margin-top: 0.75rem;
+  color: var(--muted);
+  transition: transform var(--motion-fast) var(--ease-out);
+}
+.admin-block:hover .admin-block-arrow {
+  color: var(--color-ink);
+  transform: translateX(3px);
+}
+.admin-tag.is-pending {
+  border-style: dashed;
+  background-color: var(--yellow-tint);
+}
+.admin-tag.is-pending::before {
+  background-color: var(--color-white);
+}
+/* pasos numerados con el círculo amarillo de la veta */
+.admin-steps {
+  display: grid;
+  gap: 0.75rem;
+  counter-reset: paso;
+}
+.admin-steps > li {
+  position: relative;
+  padding-left: 2.25rem;
+  font-size: var(--text-small);
+  line-height: 1.5;
+}
+.admin-steps > li::before {
+  content: counter(paso);
+  counter-increment: paso;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: 1.625rem;
+  height: 1.625rem;
+  border: 1.5px solid var(--color-ink);
+  border-radius: 50%;
+  background-color: var(--color-yellow-400);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  font-weight: 700;
+}
+
+/* ---------- tabla ------------------------------------------------------------ */
+.admin-table thead th {
+  background-color: var(--color-white);
+}
+.admin-table tbody tr {
+  transition: background-color var(--motion-fast) var(--ease-out);
+}
+.admin-table tbody tr:hover {
+  background-color: color-mix(in srgb, var(--color-yellow-400) 6%, var(--color-white));
+}
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: 1.625rem;
+  padding: 0.125rem 0.625rem;
+  border: 1.5px solid var(--ink-55);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.status-pill::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: var(--ink-55);
+}
+.status-pill[data-status="published"] {
+  border-color: var(--color-ink);
+  background-color: var(--color-ink);
+  color: var(--color-yellow-400);
+}
+.status-pill[data-status="published"]::before {
+  background-color: var(--color-yellow-400);
+}
+.status-pill[data-status="draft"]::before {
+  background-color: var(--color-yellow-400);
+  border: 1px solid var(--color-ink);
+}
+.status-pill:is([data-status="archived"], [data-status="unsubscribed"]) {
+  color: var(--muted);
+}
+.status-pill:is([data-status="active"], [data-status="sent"]) {
+  border-color: var(--color-ink);
+  background-color: var(--color-ink);
+  color: var(--color-yellow-400);
+}
+.status-pill:is([data-status="active"], [data-status="sent"])::before,
+.status-pill[data-status="sending"]::before {
+  background-color: var(--color-yellow-400);
+}
+/* enlace principal de una fila: insignia del burro + nombre, sin subrayado */
+.row-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 100%;
+  min-height: 2rem;
+  color: var(--color-ink);
+  font-weight: 650;
+  border-radius: var(--radius-sm);
+  transition: color var(--motion-fast) var(--ease-out);
+}
+.row-link-badge {
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  transition: transform var(--motion-fast) var(--ease-out);
+}
+.row-link:hover {
+  color: var(--link);
+}
+.row-link:hover .row-link-badge {
+  transform: rotate(-10deg) scale(1.15);
+}
+/* cambio de estado desde el listado: un <select> vestido de pastilla, con el color del estado */
+.status-select {
+  appearance: none;
+  min-height: 1.875rem;
+  padding: 0.125rem 1.875rem 0.125rem 0.75rem;
+  border: 1.5px solid var(--color-ink);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-white);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    transform var(--motion-fast) var(--ease-out),
+    box-shadow var(--motion-fast) var(--ease-out);
+}
+.status-select:is([data-status="published"], [data-status="won"], [data-status="active"], [data-status="sent"]) {
+  background-color: var(--color-ink);
+  color: var(--color-yellow-400);
+}
+.status-select:is([data-status="draft"], [data-status="new"]) {
+  background-color: var(--color-yellow-400);
+}
+.status-select:is([data-status="archived"], [data-status="lost"], [data-status="spam"], [data-status="unsubscribed"]) {
+  border-color: var(--ink-55);
+  color: var(--muted);
+}
+.status-select:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 2px 2px 0 0 var(--color-yellow-400);
+}
+.status-select:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 1.5px var(--color-ink),
+    3px 3px 0 0 var(--color-yellow-400);
+}
+.select:has(> .status-select) .select-chevron {
+  right: 0.625rem;
+  width: 0.875rem;
+  height: 0.875rem;
+}
+.select:has(> .status-select:is([data-status="published"], [data-status="won"], [data-status="active"], [data-status="sent"])) .select-chevron {
+  color: var(--color-yellow-400);
+}
+.select:has(> .status-select:is([data-status="archived"], [data-status="lost"], [data-status="spam"], [data-status="unsubscribed"])) .select-chevron {
+  color: var(--muted);
+}
+/* la fila se enciende con una veta a la izquierda, no con un bloque plano */
+.admin-table tbody tr:hover td:first-child {
+  box-shadow: inset 4px 0 0 var(--color-yellow-400);
+}
+
+/* ---------- dashboard --------------------------------------------------------- */
+.admin-stat {
+  position: relative;
+  padding-left: 1.5rem;
+  background-color: var(--color-white);
+}
+.admin-stat::before {
+  content: "";
+  position: absolute;
+  top: 1.4rem;
+  left: 0.875rem;
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 50%;
+  background-color: var(--color-yellow-400);
+  box-shadow: 0 0 0 1.5px var(--color-ink);
+}
+.admin-stat-value {
+  font-size: 2.25rem;
+  font-stretch: 112%;
+  letter-spacing: -0.02em;
+}
+.admin-progress {
+  height: 0.625rem;
+  overflow: hidden;
+  border: 1.5px solid var(--color-ink);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-white);
+}
+.admin-progress > span {
+  display: block;
+  height: 100%;
+  background-color: var(--color-yellow-400);
+  background-image: repeating-linear-gradient(135deg, transparent 0 6px, var(--ink-10) 6px 8px);
+  transition: width var(--motion-slow) var(--ease-out);
+}

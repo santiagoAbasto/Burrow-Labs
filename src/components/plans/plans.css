@@ -1,0 +1,705 @@
+/* ---------- Planes: el burro sostiene cada plan ---------------------------
+   Lienzo de 240 × 200 (ver plan-mascot.tsx): 1 unidad = 0,5% del alto. La mascota es el vector
+   original; pezuñas, patas y accesorios son piezas aparte. Las animaciones corren solo con la escena
+   en pantalla (data-live) y se apagan con prefers-reduced-motion.
+   Sin capa a propósito: estos estados deben ganarle a las utilidades. */
+.plan-scene {
+  position: relative;
+  container-type: inline-size;
+  aspect-ratio: 240 / 200;
+  margin-bottom: 1.25rem;
+}
+.plan-scene-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.plan-scene-ground {
+  position: absolute;
+  inset-inline: 0;
+  top: 97%;
+  height: 3px;
+  margin-top: -1.5px;
+  border-radius: 2px;
+  background: var(--color-yellow-400);
+  box-shadow: 0 0 0 1.5px var(--color-ink);
+}
+.scene-enter,
+.scene-party,
+.scene-actor,
+.rig-top,
+.rig-bust-clip {
+  position: absolute;
+  inset: 0;
+}
+.scene-enter,
+.scene-party,
+.scene-actor {
+  transform-origin: 50% 97%;
+}
+/* Corta al burro a media altura del cartel: lo de abajo queda tapado por el cartel, no asoma por debajo. */
+.rig-bust-clip {
+  clip-path: inset(-100% -100% 26% -100%);
+}
+.rig-bust {
+  position: absolute;
+}
+
+/* el cartel: el nombre del plan */
+.plan-sign {
+  position: absolute;
+  top: 63%;
+  left: 2.5%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 95%;
+  height: 22%;
+  padding-inline: 5cqw;
+  border: 3px solid var(--color-ink);
+  border-radius: 0.625rem;
+  background: var(--color-white);
+  box-shadow: 0 0 0 3px var(--color-yellow-400);
+  color: var(--color-ink);
+}
+.plan-sign-name {
+  padding-top: 3cqw; /* deja lugar a las pezuñas que cuelgan del borde */
+  font-size: 7.4cqw;
+  font-weight: 800;
+  font-stretch: 112%;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-align: center;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+/* sentado a la derecha: el nombre va a la izquierda, lejos de las patas que cuelgan */
+.pose-sits .plan-sign {
+  justify-content: flex-start;
+}
+.pose-sits .plan-sign-name {
+  max-width: 68%;
+  padding-top: 0;
+  text-align: left;
+}
+
+.plan-scene:not([data-live="true"]) * {
+  animation-play-state: paused !important;
+}
+.plan-card {
+  transition: transform var(--motion-normal) var(--ease-out);
+}
+.plan-card:hover {
+  transform: translateY(-4px);
+}
+
+/* entrada con rebote y festejo al pasar el cursor */
+@keyframes scene-pop {
+  0% {
+    transform: scale(0) rotate(-10deg);
+  }
+  60% {
+    transform: scale(1.08) rotate(3deg);
+  }
+  80% {
+    transform: scale(0.97) rotate(-1deg);
+  }
+}
+@keyframes scene-party {
+  30% {
+    transform: translateY(-9%) rotate(-5deg);
+  }
+  55% {
+    transform: translateY(0) rotate(4deg);
+  }
+  78% {
+    transform: translateY(-4%) rotate(-2deg);
+  }
+}
+.plan-scene[data-live="true"] .scene-enter {
+  animation: scene-pop 0.75s var(--ease-out) calc(var(--i, 0) * 70ms) both;
+}
+.plan-card:hover .scene-party {
+  animation: scene-party 0.75s var(--ease-out);
+}
+
+/* la mascota con vida propia: orejas que aletean y ojos que miran alrededor */
+@keyframes ear-flap {
+  0%,
+  58%,
+  100% {
+    transform: rotate(0);
+  }
+  65% {
+    transform: rotate(-7deg);
+  }
+  72% {
+    transform: rotate(5deg);
+  }
+  80% {
+    transform: rotate(-4deg);
+  }
+  90% {
+    transform: rotate(2deg);
+  }
+}
+@keyframes pupil-look {
+  0%,
+  16%,
+  100% {
+    transform: translate(-50%, -50%);
+  }
+  22%,
+  38% {
+    transform: translate(-406%, 8%);
+  }
+  44%,
+  58% {
+    transform: translate(-190%, 310%);
+  }
+  64%,
+  80% {
+    transform: translate(4%, 246%);
+  }
+}
+.mascot-lively .mascot-ears {
+  animation: ear-flap 2.4s var(--ease-in-out) calc(var(--i, 0) * -0.43s) infinite;
+}
+.mascot-lively .mascot-pupil {
+  transition: none;
+  animation: pupil-look 5.2s var(--ease-in-out) calc(var(--i, 0) * -0.9s) infinite;
+}
+
+/* ---------- pezuñas y patas ---------- */
+@keyframes hoof-tap {
+  0%,
+  76%,
+  100% {
+    transform: none;
+  }
+  82% {
+    transform: translateY(-3px);
+  }
+  88% {
+    transform: none;
+  }
+  94% {
+    transform: translateY(-2px);
+  }
+}
+@keyframes leg-step {
+  0%,
+  66%,
+  100% {
+    transform: none;
+  }
+  76% {
+    transform: translateY(-3.5px);
+  }
+  86% {
+    transform: none;
+  }
+}
+@keyframes leg-swing {
+  from {
+    transform: rotate(-12deg);
+  }
+  to {
+    transform: rotate(12deg);
+  }
+}
+@keyframes leg-run {
+  from {
+    transform: rotate(-36deg);
+  }
+  to {
+    transform: rotate(36deg);
+  }
+}
+@keyframes leg-flop {
+  0%,
+  100% {
+    transform: rotate(4deg);
+  }
+  50% {
+    transform: rotate(-24deg);
+  }
+}
+@keyframes leg-flop-b {
+  0%,
+  100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(24deg);
+  }
+}
+.fx-hoof {
+  animation: hoof-tap 2.8s var(--ease-out) infinite;
+}
+.fx-step {
+  animation: leg-step 2.4s var(--ease-out) infinite;
+}
+.fx-step.leg-b {
+  animation-delay: -1.2s;
+}
+.fx-swing {
+  animation: leg-swing 1.05s var(--ease-in-out) infinite alternate;
+}
+.fx-run {
+  animation: leg-run 0.15s linear infinite alternate;
+}
+:is(.fx-swing, .fx-run).leg-b {
+  animation-direction: alternate-reverse;
+}
+.fx-flop {
+  animation: leg-flop 0.95s var(--ease-in-out) infinite;
+}
+.fx-flop.leg-b {
+  animation-name: leg-flop-b;
+}
+
+/* ---------- piezas comunes ---------- */
+:is(.fx-dirt, .fx-twinkle, .fx-check, .fx-dust, .fx-rise, .fx-streak, .fx-shadow) {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+@keyframes fx-twinkle {
+  0%,
+  100% {
+    transform: scale(0.35) rotate(0);
+    opacity: 0.35;
+  }
+  50% {
+    transform: scale(1.2) rotate(45deg);
+    opacity: 1;
+  }
+}
+@keyframes fx-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes fx-grow {
+  0%,
+  100% {
+    transform: scaleY(0.4);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+@keyframes fx-flow {
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+.fx-twinkle {
+  animation: fx-twinkle 1.3s var(--ease-in-out) infinite;
+}
+.fx-spin {
+  animation: fx-spin 3.2s linear infinite;
+}
+.fx-spin-reverse {
+  animation: fx-spin 2.2s linear infinite reverse;
+}
+.fx-grow {
+  animation: fx-grow 1.6s var(--ease-in-out) infinite;
+}
+.fx-flow {
+  animation: fx-flow 0.6s linear infinite;
+}
+
+/* ---------- madriguera: se esconde detrás del cartel y vuelve a asomar ---------- */
+@keyframes peek {
+  0%,
+  8%,
+  92%,
+  100% {
+    transform: translateY(72%);
+  }
+  16% {
+    transform: translateY(-4%);
+  }
+  21%,
+  36% {
+    transform: translateY(0);
+  }
+  43%,
+  58% {
+    transform: translateY(24%); /* solo los ojos por encima del borde */
+  }
+  65%,
+  82% {
+    transform: translateY(0);
+  }
+}
+@keyframes fx-dirt {
+  0%,
+  9% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.4);
+  }
+  12%,
+  22% {
+    opacity: 1;
+  }
+  30%,
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) scale(1);
+  }
+}
+@keyframes fx-mound {
+  0%,
+  9%,
+  22%,
+  100% {
+    transform: none;
+  }
+  13% {
+    transform: scale(1.06, 0.9);
+  }
+  17% {
+    transform: scale(0.97, 1.05);
+  }
+}
+.scene-madriguera .rig-bust {
+  animation: peek 6s var(--ease-in-out) infinite;
+}
+.fx-dirt {
+  opacity: 0;
+  animation: fx-dirt 6s var(--ease-out) infinite;
+}
+.fx-mound {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: fx-mound 6s var(--ease-out) infinite;
+}
+
+/* ---------- impulso: el cartel rebota sobre resortes ---------- */
+/* El resorte mide 24 unidades: al estirarse a 1,35 el cartel sube 8,4 (4,2%); al comprimirse a 0,8 baja 4,8 (2,4%). */
+@keyframes boing {
+  0%,
+  100% {
+    transform: translateY(2.4%);
+  }
+  50% {
+    transform: translateY(-4.2%);
+  }
+}
+@keyframes fx-spring {
+  0%,
+  100% {
+    transform: scaleY(0.8);
+  }
+  50% {
+    transform: scaleY(1.35);
+  }
+}
+@keyframes fx-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-36px);
+  }
+}
+.scene-impulso .scene-actor {
+  animation: boing 0.95s var(--ease-in-out) infinite;
+}
+.fx-spring {
+  animation: fx-spring 0.95s var(--ease-in-out) infinite;
+}
+.fx-rise {
+  opacity: 0;
+  animation: fx-rise 0.85s var(--ease-out) infinite;
+}
+
+/* ---------- turbo: corre con el cartel ---------- */
+@keyframes turbo-lean {
+  0%,
+  100% {
+    transform: rotate(2.5deg);
+  }
+  50% {
+    transform: rotate(3.2deg) translateY(-0.8%);
+  }
+}
+@keyframes fx-streak {
+  0% {
+    transform: translateX(64px);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+}
+@keyframes fx-flame {
+  from {
+    transform: scale(1, 1);
+  }
+  to {
+    transform: scale(1.3, 0.8);
+  }
+}
+@keyframes fx-dust {
+  0% {
+    opacity: 0.9;
+    transform: translate(0, 0) scale(0.3);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-56px, -12px) scale(1.4);
+  }
+}
+.scene-turbo .scene-actor {
+  transform-origin: 60% 97%;
+  animation: turbo-lean 0.22s linear infinite;
+}
+.fx-streak {
+  opacity: 0;
+  animation: fx-streak 0.55s linear infinite;
+}
+.fx-flame {
+  transform-origin: 12px 148px;
+  animation: fx-flame 0.16s steps(2) infinite alternate;
+}
+.fx-dust {
+  opacity: 0;
+  animation: fx-dust 0.9s var(--ease-out) infinite;
+}
+
+/* ---------- conecta: datos que entran por los cables ---------- */
+@keyframes fx-packet {
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  12%,
+  88% {
+    opacity: 1;
+  }
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+@keyframes fx-pulse {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.22);
+  }
+}
+.fx-packet {
+  offset-rotate: 0deg;
+  opacity: 0;
+  animation: fx-packet 1.35s linear infinite;
+}
+.fx-pulse {
+  animation: fx-pulse 0.7s var(--ease-in-out) infinite alternate;
+}
+
+/* ---------- automatiza: saluda con la pezuña libre ---------- */
+@keyframes arm-wave {
+  from {
+    transform: rotate(4deg);
+  }
+  to {
+    transform: rotate(30deg);
+  }
+}
+@keyframes fx-check {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.3);
+  }
+  12% {
+    opacity: 1;
+    transform: translateY(0) scale(1.2);
+  }
+  20% {
+    transform: translateY(0) scale(1);
+  }
+  55% {
+    opacity: 1;
+    transform: translateY(-10px) scale(1);
+  }
+  78%,
+  100% {
+    opacity: 0;
+    transform: translateY(-28px) scale(1);
+  }
+}
+.fx-wave {
+  animation: arm-wave 0.45s var(--ease-in-out) infinite alternate;
+}
+.fx-check {
+  opacity: 0;
+  animation: fx-check 2.1s var(--ease-out) infinite;
+}
+
+/* ---------- escala: levanta el cartel en puntas de pie ---------- */
+@keyframes lift {
+  0%,
+  100% {
+    transform: none;
+  }
+  40%,
+  72% {
+    transform: translateY(-3.5%);
+  }
+}
+@keyframes fx-arrow {
+  0% {
+    stroke-dashoffset: 1;
+    opacity: 1;
+  }
+  45%,
+  88% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+@keyframes fx-arrowhead {
+  0%,
+  40% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.35);
+  }
+  60%,
+  88% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.scene-escala .rig-top {
+  animation: lift 1.9s var(--ease-in-out) infinite;
+}
+.fx-arrow {
+  stroke-dasharray: 1;
+  animation: fx-arrow 1.9s var(--ease-out) infinite;
+}
+.fx-arrowhead {
+  transform-origin: 226px 22px;
+  animation: fx-arrowhead 1.9s var(--ease-out) infinite;
+}
+
+/* ---------- sistema: ventanas vivas ---------- */
+@keyframes fx-float {
+  from {
+    transform: translateY(-4px) rotate(-1deg);
+  }
+  to {
+    transform: translateY(4px) rotate(1deg);
+  }
+}
+@keyframes fx-type {
+  0% {
+    transform: scaleX(0);
+  }
+  45%,
+  85% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(0);
+  }
+}
+@keyframes fx-ping {
+  0%,
+  55%,
+  100% {
+    transform: scale(1);
+  }
+  66% {
+    transform: scale(1.6) translateY(-4px);
+  }
+  80% {
+    transform: scale(0.85);
+  }
+}
+.fx-float {
+  animation: fx-float 1.9s var(--ease-in-out) infinite alternate;
+}
+.fx-type {
+  animation: fx-type 1.7s steps(7) infinite;
+}
+.fx-ping {
+  animation: fx-ping 1.6s var(--ease-out) infinite;
+}
+
+/* ---------- infinito: levita con el cartel ---------- */
+@keyframes levitate {
+  from {
+    transform: translateY(-2.5%) rotate(-1.2deg);
+  }
+  to {
+    transform: translateY(-6.5%) rotate(1.2deg);
+  }
+}
+@keyframes fx-shadow {
+  from {
+    transform: scaleX(1);
+    opacity: 0.3;
+  }
+  to {
+    transform: scaleX(0.68);
+    opacity: 0.14;
+  }
+}
+@keyframes fx-orbit {
+  to {
+    offset-distance: 100%;
+  }
+}
+.scene-infinito .scene-actor {
+  animation: levitate 2.6s var(--ease-in-out) infinite alternate;
+}
+.fx-shadow {
+  animation: fx-shadow 2.6s var(--ease-in-out) infinite alternate;
+}
+.fx-orbit {
+  offset-rotate: 0deg;
+  animation: fx-orbit 4s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plan-scene *,
+  .mascot-lively * {
+    animation: none !important;
+  }
+  .fx-dirt,
+  .fx-check,
+  .fx-rise,
+  .fx-streak,
+  .fx-dust,
+  .fx-packet {
+    opacity: 0;
+  }
+}

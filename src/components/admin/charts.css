@@ -1,0 +1,460 @@
+/* Gráficos del dashboard (SVG en servidor). Lo escribe charts.tsx; ver docs/CMS.md.
+   Mismo lenguaje del plano de taller: tinta como trazo, amarillo como relleno, azul
+   secundario, mono para los ejes, bordes de 1.5px y sombras duras. Se importa desde
+   globals.css dentro de layer(components): acá no va ningún @layer. */
+
+/* ---------- tonos compartidos (puntos de leyenda, líneas, rellenos) -------- */
+.chart-dot {
+  display: inline-block;
+  flex: none;
+  width: 0.625rem;
+  height: 0.625rem;
+  border: 1.5px solid var(--color-ink);
+  border-radius: 50%;
+  background-color: var(--color-white);
+}
+.chart-dot[data-tone="ink"] {
+  background-color: var(--color-ink);
+}
+.chart-dot[data-tone="yellow"] {
+  background-color: var(--color-yellow-400);
+}
+.chart-dot[data-tone="blue"] {
+  background-color: var(--color-blue-500);
+}
+.chart-dot[data-tone="blue-300"] {
+  background-color: var(--color-blue-300);
+}
+.chart-dot[data-tone="donkey"] {
+  background-color: var(--color-donkey-300);
+}
+.chart-dot[data-tone="paper"] {
+  background-color: var(--color-paper);
+}
+
+.chart-line {
+  fill: none;
+  stroke: var(--color-ink);
+  stroke-width: 2px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.chart-line[data-tone="yellow"] {
+  stroke: var(--color-yellow-400);
+}
+.chart-line[data-tone="blue"] {
+  stroke: var(--color-blue-500);
+}
+/* la serie en tinta rellena en amarillo; las demás en su propio tono, más tenue */
+.chart-fill {
+  fill: var(--color-yellow-400);
+  fill-opacity: 0.45;
+  stroke: none;
+}
+.chart-fill[data-tone="blue"] {
+  fill: var(--color-blue-500);
+  fill-opacity: 0.14;
+}
+.chart-baseline {
+  stroke: var(--color-ink);
+  stroke-width: 1.5px;
+}
+
+/* ---------- estado vacío --------------------------------------------------- */
+.chart-empty {
+  display: grid;
+  place-items: center;
+  min-height: 7rem;
+  padding: 1rem;
+  border: 1.5px dashed var(--line-strong);
+  border-radius: 0.75rem;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: 0.06em;
+  text-align: center;
+  text-transform: uppercase;
+}
+.chart-empty[data-size="sm"] {
+  min-height: 2rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+}
+
+/* ---------- leyenda: punto, nombre y último valor en mono ------------------- */
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-small);
+}
+.chart-legend > li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+.chart-legend > li > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.chart-legend > li > b {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.chart-legend small {
+  color: var(--muted);
+  font-size: inherit;
+  font-weight: 500;
+}
+.chart-legend[data-stack="true"] {
+  flex: 1 1 10rem;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.chart-legend[data-stack="true"] > li > span {
+  flex: 1;
+}
+
+/* ---------- AreaChart: eje y en HTML a la izquierda, trazo SVG estirado ----- */
+.chart-area {
+  container-type: inline-size;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem 0.625rem;
+  padding-top: 0.5rem;
+}
+/* angosto (≈320 px): de 5 fechas quedan la primera, la del medio y la última */
+@container (max-width: 24rem) {
+  .chart-area-x > span:nth-child(even) {
+    display: none;
+  }
+}
+.chart-area-y {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-block: -0.5em;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  text-align: right;
+}
+.chart-area-plot {
+  position: relative;
+  margin-right: 0.375rem;
+}
+.chart-area-plot > svg {
+  position: relative;
+  display: block;
+}
+.chart-grid {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.chart-grid > i {
+  display: block;
+  height: 0;
+  border-top: 1px dashed var(--line-strong);
+}
+.chart-grid > i:last-child {
+  border-top: 1.5px solid var(--color-ink);
+}
+/* el punto del último valor vive en HTML: no se deforma con preserveAspectRatio="none" */
+.chart-area-plot > .chart-dot,
+.chart-spark > .chart-dot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+.chart-area-x {
+  position: relative;
+  grid-column: 2;
+  height: 1rem;
+  margin-right: 0.375rem;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  line-height: 1;
+}
+.chart-area-x > span {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+.chart-area-x > span[data-edge="start"] {
+  transform: none;
+}
+.chart-area-x > span[data-edge="end"] {
+  transform: translateX(-100%);
+}
+.chart-area > .chart-legend {
+  grid-column: 2;
+}
+
+/* ---------- Sparkline: una línea en una tarjeta KPI ------------------------- */
+.chart-spark {
+  position: relative;
+  height: 2rem;
+  margin-right: 0.375rem;
+}
+.chart-spark > svg {
+  display: block;
+  overflow: visible;
+}
+.chart-spark .chart-line {
+  stroke-width: 1.5px;
+}
+
+/* ---------- BarList: barras horizontales en HTML ---------------------------- */
+.chart-bars {
+  display: grid;
+  gap: 0.875rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.chart-bar {
+  display: grid;
+  gap: 0.375rem;
+}
+.chart-bar-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: var(--text-small);
+}
+.chart-bar-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.chart-bar-label > a {
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+.chart-bar-label > a:hover {
+  color: var(--color-ink);
+}
+.chart-bar-value {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.chart-bar-value > small {
+  color: var(--muted);
+  font-size: inherit;
+  font-weight: 500;
+}
+.chart-bar-track {
+  height: 0.625rem;
+  overflow: hidden;
+  border: 1.5px solid var(--color-ink);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-white);
+}
+/* mismo relleno que la barra de progreso del admin: amarillo con veta diagonal */
+.chart-bar-fill {
+  display: block;
+  height: 100%;
+  min-width: 2px;
+  background-color: var(--color-yellow-400);
+  background-image: repeating-linear-gradient(135deg, transparent 0 6px, color-mix(in srgb, var(--color-ink) 10%, transparent) 6px 8px);
+  box-shadow: inset -1.5px 0 0 var(--color-ink);
+  transform-origin: left;
+}
+.chart-bar-hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+
+/* ---------- Donut: anillo con borde de tinta y separadores blancos ---------- */
+.chart-donut {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+}
+.chart-donut > svg {
+  flex: none;
+  width: 100%;
+  max-width: 9.5rem;
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(3px 3px 0 color-mix(in srgb, var(--color-ink) 10%, transparent));
+}
+.chart-arc {
+  fill: none;
+  stroke: var(--color-paper);
+  stroke-width: 16;
+}
+.chart-arc[data-tone="ink"] {
+  stroke: var(--color-ink);
+}
+.chart-arc[data-tone="yellow"] {
+  stroke: var(--color-yellow-400);
+}
+.chart-arc[data-tone="blue"] {
+  stroke: var(--color-blue-500);
+}
+.chart-arc[data-tone="blue-300"] {
+  stroke: var(--color-blue-300);
+}
+.chart-arc[data-tone="donkey"] {
+  stroke: var(--color-donkey-300);
+}
+.chart-arc-gap {
+  stroke: var(--color-white);
+  stroke-width: 1.5;
+}
+.chart-arc-edge {
+  fill: none;
+  stroke: var(--color-ink);
+  stroke-width: 1.5;
+}
+.chart-donut-center {
+  fill: var(--color-ink);
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-stretch: 112%;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+/* ---------- HourBars: 24 barras, la hora pico en tinta ---------------------- */
+.chart-hours {
+  display: grid;
+  gap: 0.375rem;
+  padding-top: 1.5rem; /* lugar para la etiqueta del pico */
+}
+.chart-hours-plot {
+  position: relative;
+  height: 6rem;
+}
+.chart-hours-plot > svg {
+  display: block;
+  overflow: visible;
+}
+.chart-hour {
+  fill: var(--color-yellow-400);
+  stroke: var(--color-ink);
+  stroke-width: 1.5px;
+}
+.chart-hour[data-peak="true"] {
+  fill: var(--color-ink);
+}
+.chart-hours-peak {
+  position: absolute;
+  top: -0.375rem;
+  padding: 0.0625rem 0.375rem;
+  border: 1.5px solid var(--color-ink);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-white);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+  white-space: nowrap;
+  transform: translate(-50%, -100%);
+}
+.chart-hours-x {
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  line-height: 1;
+}
+.chart-hours-x > span {
+  white-space: nowrap;
+}
+
+/* ---------- Delta: chip mono con la flecha como texto (el color no es el único aviso) */
+.chart-delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25em;
+  min-height: 1.375rem;
+  padding: 0.0625rem 0.5rem;
+  border: 1.5px solid var(--color-ink);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-white);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.chart-delta[data-dir="up"],
+.chart-delta[data-dir="new"] {
+  background-color: var(--color-yellow-400);
+}
+.chart-delta[data-dir="down"] {
+  background-color: var(--color-paper);
+}
+.chart-delta[data-dir="flat"] {
+  border-style: dashed;
+  color: var(--muted);
+}
+
+/* ---------- motion: solo transform/opacity, y nada con reduced motion ------- */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes chart-grow-x {
+    from {
+      transform: scaleX(0);
+    }
+  }
+  @keyframes chart-grow-y {
+    from {
+      transform: scaleY(0);
+    }
+  }
+  @keyframes chart-fade {
+    from {
+      opacity: 0;
+    }
+  }
+  .chart-bar-fill {
+    animation: chart-grow-x 400ms var(--ease-out) both;
+  }
+  .chart-series,
+  .chart-hours-bars {
+    transform-box: fill-box;
+    transform-origin: bottom;
+    animation: chart-grow-y 400ms var(--ease-out) both;
+  }
+  .chart-area-plot > .chart-dot,
+  .chart-spark > .chart-dot,
+  .chart-hours-peak {
+    animation: chart-fade 280ms var(--ease-out) 320ms both;
+  }
+  .chart-arc {
+    animation: chart-fade 400ms var(--ease-out) both;
+  }
+}

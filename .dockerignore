@@ -1,0 +1,10 @@
+node_modules
+.next*
+.git
+.env*
+storage
+test-results
+playwright-report
+brand-src/*.py
+MEMORY.md
+.claude

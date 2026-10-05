@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 160" width="1200" height="160" role="img" aria-label="Codificando soluciones.">
+<rect width="1200" height="160" fill="#080a09"/>
+<path fill="#1671b1" d="M0 40 Q 150 28 300 40 T 600 40 T 900 40 T 1200 40 T 1500 40 T 1800 40 V 160 H 0 Z"><animateTransform attributeName="transform" type="translate" values="0 0;-600 0" dur="10s" repeatCount="indefinite"/></path><path fill="#0f3d5f" d="M0 62 Q 150 50 300 62 T 600 62 T 900 62 T 1200 62 T 1500 62 T 1800 62 V 160 H 0 Z"><animateTransform attributeName="transform" type="translate" values="0 0;-600 0" dur="14s" repeatCount="indefinite"/></path><path fill="#0b2436" d="M0 84 Q 150 72 300 84 T 600 84 T 900 84 T 1200 84 T 1500 84 T 1800 84 V 160 H 0 Z"><animateTransform attributeName="transform" type="translate" values="0 0;-600 0" dur="18s" repeatCount="indefinite"/></path>
+<text x="600" y="132" text-anchor="middle" font-family="SFMono-Regular, Menlo, Consolas, monospace" font-size="20" font-weight="700" letter-spacing="4" fill="#fcea10">CODIFICANDO SOLUCIONES.<animate attributeName="opacity" values=".55;1;.55" dur="3s" repeatCount="indefinite"/></text>
+</svg>
