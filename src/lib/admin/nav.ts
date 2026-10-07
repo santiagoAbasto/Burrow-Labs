@@ -6,6 +6,7 @@ import {
   Briefcase,
   Building2,
   CircleHelp,
+  ClipboardList,
   History,
   LifeBuoy,
   Home,
@@ -88,6 +89,7 @@ export const ADMIN_NAV: NavGroup[] = [
     title: "Captación",
     items: [
       { href: "/admin/leads", label: "Consultas", icon: Inbox },
+      { href: "/admin/fichas", label: "Fichas de proyecto", icon: ClipboardList },
       {
         href: "/admin/newsletter",
         label: "Newsletter",

@@ -22,6 +22,7 @@ export const leadType = pgEnum("lead_type", ["contact", "diagnostic"]);
 export const leadStatus = pgEnum("lead_status", ["new", "contacted", "won", "lost", "spam"]);
 export const subscriberStatus = pgEnum("subscriber_status", ["active", "unsubscribed"]);
 export const campaignStatus = pgEnum("campaign_status", ["draft", "sending", "sent"]);
+export const projectSheetStatus = pgEnum("project_sheet_status", ["new", "in_progress", "paused", "delivered"]);
 
 const id = () => uuid().primaryKey().defaultRandom();
 const ts = () => timestamp({ withTimezone: true });
@@ -387,3 +388,22 @@ export const rateLimits = pgTable("rate_limits", {
   count: integer().notNull(),
   windowStart: ts().notNull(),
 });
+
+// Fichas de proyecto: relevamiento interno (datos, técnica, requerimientos, peticiones del cliente).
+// El contenido completo vive en `data` (jsonb); las columnas sueltas son solo para listar y buscar.
+// `token` abre el enlace público de solo lectura (/ficha/<token>), sin sesión.
+export const projectSheets = pgTable(
+  "project_sheets",
+  {
+    id: id(),
+    code: text().notNull().default(""),
+    token: text().notNull().unique(), // randomBytes(18) base64url; nunca se adivina
+    empresa: text().notNull().default(""),
+    status: projectSheetStatus().notNull().default("new"),
+    priority: text().notNull().default("Media"),
+    data: jsonb().notNull().default({}),
+    createdBy: text().notNull().default(""), // nombre del admin que la creó
+    ...timestamps,
+  },
+  (t) => [index("project_sheets_status_updated_idx").on(t.status, t.updatedAt)],
+);
