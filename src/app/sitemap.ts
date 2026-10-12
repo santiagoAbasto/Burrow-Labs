@@ -3,7 +3,7 @@ import { hasPendingMarkers } from "@/db/seed/legal";
 import { getPost, getPosts, getProject, getProjects, getSeo, getServices, getSettings } from "@/lib/content";
 import { absoluteUrl } from "@/lib/seo";
 
-const STATIC = ["/", "/servicios", "/proyectos", "/planes", "/nosotros", "/clientes", "/lab", "/contacto", "/diagnostico", "/calculadora", "/faq"];
+const STATIC = ["/", "/servicios", "/proyectos", "/planes", "/nosotros", "/clientes", "/lab", "/contacto", "/diagnostico", "/calculadora", "/faq", "/desarrollo-de-software-cochabamba"];
 
 type Entry = { path: string; lastModified?: string };
 

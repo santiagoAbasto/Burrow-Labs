@@ -9,7 +9,7 @@ import { Markdown } from "@/components/ui/markdown";
 import { Container, Stratum } from "@/components/ui/stratum";
 import { TerrainCut } from "@/components/ui/terrain-cut";
 import { getFaqs, getPlans, getSettings } from "@/lib/content";
-import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
+import { breadcrumbJsonLd, buildMetadata, plansJsonLd } from "@/lib/seo";
 
 export const generateMetadata = (): Promise<Metadata> => buildMetadata({ path: "/planes", title: "Planes y precios base" });
 
@@ -67,7 +67,7 @@ export default async function PlansPage() {
       )}
       <TerrainCut from={pricing.length ? "lab" : "chalk"} to="topsoil" variant="ridge" />
       <CTA title="¿No sabés cuál te conviene?" lead="El diagnóstico express te orienta en cinco preguntas." action={{ label: "Hacer el diagnóstico express", href: "/diagnostico" }} secondary={{ label: "Mostranos cómo trabajan hoy", href: "/contacto" }} />
-      <JsonLd data={breadcrumbJsonLd([{ name: "Inicio", path: "/" }, { name: "Planes", path: "/planes" }])} />
+      <JsonLd data={[breadcrumbJsonLd([{ name: "Inicio", path: "/" }, { name: "Planes", path: "/planes" }]), plansJsonLd(plans, settings)]} />
     </>
   );
 }

@@ -33,7 +33,7 @@ const SETTINGS: Record<string, unknown> = {
     whatsappGreeting: "Hola 👋 ¿Qué problema querés dejar de hacer a mano?",
     whatsappDefaultMessage: "Hola Burrow Labs, quiero conversar sobre un proyecto.",
   },
-  social: { instagram: "https://www.instagram.com/burrowlabsbo/", linkedin: "", github: "", facebook: "", tiktok: "", x: "" },
+  social: { instagram: "https://www.instagram.com/burrowlabsbo/", linkedin: "", github: "", facebook: "", tiktok: "", x: "", googleMaps: "" },
   seo: {
     siteName: "Burrow Labs",
     // Contrato con src/lib/seo.ts: la plantilla se aplica salvo que el título ya contenga «Burrow Labs».
@@ -43,8 +43,8 @@ const SETTINGS: Record<string, unknown> = {
       "Burrow Labs es un software studio de Bolivia que construye sistemas a medida, automatizaciones, integraciones e IA aplicada para empresas.",
     ogImage: "/brand/og-logo.png",
     locale: "es_BO",
-    city: "",
-    region: "",
+    city: "Cochabamba",
+    region: "Cochabamba",
     country: "BO",
   },
   sectors: ["Industria", "Comercio", "Inmobiliarias", "Servicios", "Retail", "Manufactura", "Tecnología"],
@@ -327,17 +327,18 @@ const FAQS: { question: string; answer: string; category: string; home?: boolean
 // agrega « · Burrow Labs»; si ya contiene «Burrow Labs» se usa tal cual (Home y Nosotros). Descripción: 140–160
 // caracteres, qué resuelve la página y para quién. Ningún título repetido. Mapa de intención: docs/SEO-CONTENT-ROADMAP.md
 const SEO: [path: string, title: string, description: string][] = [
-  ["/", "Burrow Labs | Software a medida, automatización e IA", "Software studio boliviano: sistemas a medida, automatizaciones, integraciones e IA aplicada para empresas que quieren operar con menos trabajo manual."],
+  ["/", "Burrow Labs | Software a medida en Bolivia", "Software studio en Cochabamba, Bolivia: sistemas a medida, automatizaciones, integraciones e IA aplicada para empresas que quieren operar con menos trabajo manual."],
   ["/servicios", "Servicios de software a medida para empresas", "Cuatro servicios para empresas: sistemas empresariales, automatización e integraciones, IA aplicada y plataformas web. Primero entendemos el proceso."],
   ["/proyectos", "Casos de estudio de software a medida e IA", "Casos reales de sistemas empresariales, e-commerce, CRM, trazabilidad, cotizaciones e IA aplicada: qué problema había, qué construimos y qué cambió."],
-  ["/planes", "Precios de páginas web y sistemas a medida", "Precios base publicados: planes web desde USD 85 y planes de automatización y sistemas desde USD 450. El alcance final se confirma por escrito antes de empezar."],
-  ["/nosotros", "Burrow Labs | Ingeniería de software desde Bolivia", "Quiénes somos y cómo trabajamos: un software studio boliviano que entiende el proceso antes de programar. Entender, modelar, construir, probar, medir y mejorar."],
+  ["/planes", "Precios de páginas web y sistemas a medida en Bolivia", "Precios base publicados: planes web desde USD 85 y planes de automatización y sistemas desde USD 450. El alcance final se confirma por escrito antes de empezar."],
+  ["/nosotros", "Burrow Labs | Software studio en Cochabamba, Bolivia", "Quiénes somos y cómo trabajamos: un software studio con base en Cochabamba que entiende el proceso antes de programar. Entender, modelar, construir, probar, medir y mejorar."],
   ["/clientes", "Clientes y sectores con los que trabajamos", "Sectores para los que construimos software, automatizaciones e integraciones: industria, comercio, inmobiliarias, servicios, retail, manufactura y tecnología."],
   ["/lab", "Lab: notas de automatización, software e IA", "Notas y experimentos de Burrow Labs sobre automatización de procesos, software empresarial e IA aplicada: qué conviene hacer, qué no y por dónde empezar."],
-  ["/contacto", "Contacto: cotizá tu sistema o automatización", "Contanos cómo funciona hoy tu proceso. Vemos qué vale la pena automatizar, integrar o convertir en sistema y te respondemos con una propuesta concreta."],
+  ["/contacto", "Contacto: cotizá tu sistema o automatización", "Software studio en Cochabamba, Bolivia. Contanos cómo funciona hoy tu proceso: vemos qué vale la pena automatizar, integrar o convertir en sistema y te respondemos con una propuesta concreta."],
   ["/diagnostico", "Diagnóstico express: ¿qué necesita tu negocio?", "Respondé cinco preguntas en dos minutos y te decimos por dónde conviene empezar: una web, una automatización, un sistema a medida, una integración o IA."],
   ["/calculadora", "Calculadora de costo de procesos manuales", "Calculá cuántas horas y cuánto dinero por año le cuesta a tu empresa una tarea que se hace a mano todas las semanas, y qué parte de ese tiempo es repetitiva."],
   ["/faq", "Preguntas frecuentes sobre software a medida", "Respuestas directas sobre costos, plazos, automatización, integraciones, IA, CRM a medida, propiedad del código y cómo abordamos un proyecto de software."],
+  ["/desarrollo-de-software-cochabamba", "Desarrollo de software a medida en Cochabamba", "Software studio en Cochabamba, Bolivia: sistemas a medida, automatización de procesos, integraciones e IA aplicada para empresas de Cochabamba y de todo el país."],
   ["/privacidad", "Política de privacidad", "Qué datos recopila el sitio de Burrow Labs en sus formularios y estadísticas, para qué se usan, cuánto tiempo se conservan y cómo pedir acceso o eliminación."],
   ["/terminos", "Términos y condiciones", "Condiciones de uso del sitio de Burrow Labs: información y precios base, herramientas de estimación, propiedad intelectual, contratos y ley aplicable."],
   ["/cookies", "Política de cookies", "Qué cookies y almacenamiento local usa el sitio de Burrow Labs, cómo cambiar tu elección y cómo medimos el uso del sitio sin cookies, con un identificador seudónimo diario."],
@@ -433,11 +434,13 @@ export async function seedContent(db: Db): Promise<void> {
   await db
     .insert(posts)
     .values(
-      POSTS.map(({ category, ...p }, i) => ({
+      // Los tres primeros artículos no traen fecha: se escalonan hacia atrás desde el 30/09/2026.
+      // Un artículo nuevo declara su propia `publishedAt` y no depende de su posición en la lista.
+      POSTS.map(({ category, publishedAt, ...p }, i) => ({
         ...p,
         categoryId: postCats.get(category),
         status: "published" as const,
-        publishedAt: new Date(Date.UTC(2026, 8, 30 - i * 7, 12)),
+        publishedAt: publishedAt ? new Date(publishedAt) : new Date(Date.UTC(2026, 8, 30 - i * 7, 12)),
       })),
     )
     .onConflictDoNothing();

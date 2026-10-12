@@ -56,7 +56,7 @@ export const SETTINGS_GUIDE: SettingsGuide[] = [
       { label: "Pie de página (todas las páginas)", href: "/" },
       { label: "Página de contacto (solo Instagram)", href: "/contacto" },
     ],
-    steps: ["Pegá la dirección completa del perfil, empezando por https://.", "Dejá vacías las redes que no uses: no aparecen.", "Instagram además se muestra en la página de contacto."],
+    steps: ["Pegá la dirección completa del perfil, empezando por https://.", "Dejá vacías las redes que no uses: no aparecen.", "Instagram además se muestra en la página de contacto.", "La ficha de Google no es una red, pero va acá: le confirma a los buscadores que el estudio y la ficha verificada son lo mismo."],
     fields: {
       instagram: { label: "Instagram", placeholder: "https://www.instagram.com/burrowlabsbo/" },
       linkedin: { label: "LinkedIn", placeholder: "https://www.linkedin.com/company/burrow-labs/" },
@@ -64,6 +64,7 @@ export const SETTINGS_GUIDE: SettingsGuide[] = [
       facebook: { label: "Facebook", placeholder: "https://www.facebook.com/burrowlabs" },
       tiktok: { label: "TikTok", placeholder: "https://www.tiktok.com/@burrowlabs" },
       x: { label: "X (Twitter)", placeholder: "https://x.com/burrowlabs" },
+      googleMaps: { label: "Ficha de Google (Maps)", hint: "La dirección de tu ficha verificada. Abrí la ficha en Google Maps, tocá «Compartir» y copiá el enlace.", placeholder: "https://maps.app.goo.gl/..." },
     },
     status: ({ social }) => {
       const count = Object.values(social).filter(filled).length;

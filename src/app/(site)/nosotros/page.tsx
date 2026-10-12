@@ -4,13 +4,14 @@ import { JsonLd } from "@/components/site/json-ld";
 import { PageHeader } from "@/components/site/page-header";
 import { CTA } from "@/components/ui/cta";
 import { Markdown } from "@/components/ui/markdown";
+import { SmartLink } from "@/components/ui/smart-link";
 import { BrandPhrase } from "@/components/ui/section-heading";
 import { Container, Stratum } from "@/components/ui/stratum";
 import { TerrainCut } from "@/components/ui/terrain-cut";
 import { getSettings } from "@/lib/content";
 import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 
-export const generateMetadata = (): Promise<Metadata> => buildMetadata({ path: "/nosotros", title: "Sobre Burrow Labs, software studio boliviano" });
+export const generateMetadata = (): Promise<Metadata> => buildMetadata({ path: "/nosotros", title: "Sobre Burrow Labs, software studio en Cochabamba" });
 
 export default async function AboutPage() {
   const { about } = await getSettings();
@@ -24,6 +25,13 @@ export default async function AboutPage() {
           <aside className="lg:sticky lg:top-28 lg:self-start">
             <Mascot variant="badge" sizes="320px" alt="La mascota de Burrow Labs: un burro con capucha azul programando en su laptop" className="w-full max-w-xs" />
             <p className="mt-6 type-mono text-muted">Built in Bolivia · Working everywhere</p>
+            <p className="mt-3 type-small text-muted">
+              Software studio con base en{" "}
+              <SmartLink href="/desarrollo-de-software-cochabamba" className="text-link underline-offset-4 hover:underline">
+                Cochabamba, Bolivia
+              </SmartLink>
+              . Trabajamos presencialmente en el valle y en remoto con el resto del país.
+            </p>
           </aside>
         </Container>
       </Stratum>

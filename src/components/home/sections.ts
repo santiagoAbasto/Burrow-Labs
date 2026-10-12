@@ -11,7 +11,7 @@ export const HOME_SECTIONS = {
       body: "De procesos manuales a sistemas que dan control y escala. Diseñamos software, automatizaciones e integraciones para empresas que necesitan ordenar operaciones, conectar información y dejar atrás procesos que consumen tiempo.",
       ctaPrimary: "Contanos qué querés resolver",
       ctaSecondary: "Ver proyectos",
-      badge: "Built in Bolivia · Working everywhere",
+      badge: "Cochabamba, Bolivia · Working everywhere",
       bridge: "Vos ves tareas repetitivas. Nosotros vemos un sistema esperando ser construido.",
       surfaceItems: ["Excel", "Mensajes", "Papeles", "Tareas repetitivas", "Datos aislados", "Sistemas desconectados"],
       depthItems: ["Datos", "APIs", "Automatizaciones", "Dashboards", "Software", "IA"],

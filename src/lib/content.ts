@@ -124,6 +124,8 @@ export const settingsSchema = z.object({
     facebook: profileUrl(),
     tiktok: profileUrl(),
     x: profileUrl(),
+    // La ficha verificada de Google: es la fuente local que más peso tiene para buscadores y asistentes.
+    googleMaps: profileUrl(),
   }),
   seo: group({
     siteName: text("Burrow Labs"),

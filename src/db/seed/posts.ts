@@ -208,4 +208,109 @@ A veces la respuesta es un [asistente conectado al catálogo](/proyectos/asisten
 
 Las tres son buenas respuestas. La mala es implementar IA porque todos lo están haciendo.`,
   },
+  {
+    slug: "cuanto-cuesta-un-sistema-a-medida-en-bolivia",
+    category: "software-empresarial",
+    title: "Cuánto cuesta un sistema a medida en Bolivia",
+    excerpt:
+      "Qué define el precio de un software a medida, qué tramos existen y cómo pedir una cotización que se pueda comparar. Con nuestros precios base publicados.",
+    readingMinutes: 8,
+    publishedAt: "2026-10-12T06:00:00.000Z",
+    seoTitle: "Cuánto cuesta un sistema a medida en Bolivia",
+    seoDescription:
+      "Qué define el precio de un software a medida en Bolivia: módulos, usuarios, integraciones y reglas. Tramos reales, precios base publicados y cómo pedir una cotización comparable.",
+    content: `Si pediste cotizaciones para un sistema a medida, ya conocés la escena: tres proveedores, tres números muy distintos y ninguna forma clara de compararlos. Uno cotiza por hora, otro da un total cerrado y el tercero pide una reunión más antes de decir nada.
+
+El problema no es que oculten el precio. Es que «un sistema a medida» no es un producto: es un rango enorme que va desde una planilla ordenada con un formulario hasta una plataforma que sostiene toda la operación de una empresa. Sin acotar el alcance, cualquier número es inventado.
+
+Esta nota explica qué mueve realmente el precio, qué tramos existen y cómo pedir una cotización que puedas comparar con otra.
+
+## Por qué casi nadie publica precios
+
+Hay dos razones, y solo una es buena.
+
+La buena: el precio depende del alcance, y el alcance no se conoce hasta entender el proceso. Dar un número antes de eso es adivinar.
+
+La mala: publicar precios obliga a sostenerlos. Es más cómodo cotizar cada caso desde cero y ajustar según quién pregunta.
+
+Nosotros elegimos publicar [precios base](/planes). No son presupuestos cerrados: son el piso de cada tipo de trabajo, para que sepas en qué orden de magnitud estás antes de la primera reunión. El alcance final se confirma por escrito antes de empezar.
+
+## Qué define el precio, en orden de peso
+
+### 1. Cuántos procesos toca
+
+Un sistema que resuelve una sola cosa —tomar pedidos, controlar inventario, armar cotizaciones— es un proyecto acotado. Uno que conecta ventas con stock, con facturación y con reportes es otro animal, porque cada conexión agrega reglas y casos borde.
+
+La pregunta útil no es «¿cuántas pantallas tiene?» sino «¿cuántos procesos distintos cambian si esto existe?».
+
+### 2. Cuántas reglas tiene el proceso
+
+Acá está la mayor parte del costo real, y casi nunca se ve en la primera conversación.
+
+Un catálogo donde todos los clientes ven el mismo precio es simple. Un catálogo con precios por cliente, descuentos por volumen, listas que vencen y autorizaciones por monto es otra cosa, aunque la pantalla se vea igual. Lo mismo pasa con permisos, estados y excepciones: «todos menos los lunes», «salvo que el cliente sea antiguo», «si lo aprueba el gerente».
+
+Esas reglas existen aunque nadie las haya escrito. Buena parte del trabajo de un proyecto serio es sacarlas a la luz antes de programar.
+
+### 3. Con qué se tiene que conectar
+
+Un sistema aislado cuesta menos que uno que se habla con lo que ya usás. Cada integración —un ERP, una pasarela de pago, WhatsApp, una planilla compartida— suma trabajo de desarrollo y, sobre todo, trabajo de manejar los errores: qué pasa cuando el otro sistema no responde, o responde distinto a lo esperado.
+
+Las [integraciones y automatizaciones](/servicios/automatizacion) son de lo que más valor devuelve, pero hay que presupuestarlas aparte, no darlas por incluidas.
+
+### 4. Cuánta información vieja hay que mudar
+
+Migrar datos de planillas es trabajo real y casi siempre se subestima. Si hay cinco años de información en Excel, con columnas que cambiaron de significado y fechas en tres formatos, eso es una etapa del proyecto, no un detalle del final.
+
+### 5. Cuántas personas lo van a usar, y con qué permisos
+
+Dos usuarios que confían entre sí no necesitan control de accesos. Quince personas en cuatro roles, con cosas que unos pueden aprobar y otros no, sí. Los permisos son baratos de pedir y caros de agregar después.
+
+## Los tramos, en la práctica
+
+Los nombres y los números de abajo son los nuestros, pero los tramos se repiten en el mercado.
+
+**Presencia web.** Una página que presenta el negocio y recibe contactos, o un sitio administrable donde vos cambiás textos e imágenes. Es el tramo más predecible porque el alcance se cierra rápido. Nuestros [planes web](/planes) empiezan desde USD 85.
+
+**Automatización puntual.** Un proceso repetitivo que deja de hacerse a mano: cargar datos, avisar, generar el mismo reporte todas las semanas. Se mide en días, no en meses, y suele pagarse solo si la tarea es frecuente. Desde USD 450.
+
+**Sistema para un área.** Una aplicación a medida para ventas, inventario, clientes u operaciones, con usuarios, permisos y reportes. Acá empieza el software de verdad: hay base de datos propia, reglas del negocio y migración de lo que ya existe. Desde USD 900.
+
+**Plataforma conectada.** Varios módulos sobre una misma base, integraciones con sistemas externos y, donde aporte, IA aplicada. Se construye por fases, nunca de una sola vez. Desde USD 1.500, y el número final depende enteramente del alcance.
+
+Si tu proyecto está entre dos tramos, la respuesta honesta suele ser empezar por el de abajo y crecer. Es más barato equivocarse en una etapa chica.
+
+## Lo que no deberías estar pagando
+
+**Un sistema completo antes de haber usado nada.** Preferimos entregar bloques funcionales que puedas probar desde el principio. Si el primer entregable llega a los cuatro meses, nadie sabe si va bien hasta que es tarde.
+
+**Funciones que pediste por las dudas.** La mitad de las pantallas de un sistema sobredimensionado nunca se abren. Cada una costó.
+
+**Licencias que no entendés.** Preguntá de quién es el código, dónde viven los datos y qué pasa si dejás de trabajar con el proveedor. Si la respuesta es confusa, es cara.
+
+**La reunión número seis sin nada escrito.** Si después de varias conversaciones no hay un documento con alcance, plazo y precio, no hay proyecto: hay charla.
+
+## Cómo pedir una cotización que se pueda comparar
+
+Mandá siempre lo mismo a todos los proveedores:
+
+1. **Qué proceso querés resolver**, descrito como pasa hoy, con nombres de puestos y no de personas.
+2. **Quiénes lo usan** y qué puede hacer cada uno.
+3. **Con qué sistemas tiene que hablar**, si hay alguno.
+4. **Qué datos viejos hay que traer** y en qué formato están.
+5. **Qué pasa si falla**: cuánto duele un error y cuánto se puede esperar.
+
+Con eso, dos cotizaciones ya son comparables. Sin eso, cada proveedor imagina un proyecto distinto y los números no significan nada.
+
+Pedí también que te separen el precio por etapas. Un total único de cinco cifras no dice nada; el mismo total partido en relevamiento, primer módulo, integraciones y migración sí.
+
+## Antes de cotizar: ¿cuánto te cuesta no hacerlo?
+
+Un sistema compite contra seguir como estás, y esa opción también tiene precio: horas de gente haciendo a mano lo que una máquina haría igual, errores que se arreglan después, decisiones tomadas con datos de la semana pasada.
+
+Antes de pedir presupuestos, poné un número a eso. Nuestra [calculadora de procesos manuales](/calculadora) estima cuántas horas y cuánto dinero por año te cuesta una tarea que se repite todas las semanas. Si el resultado es menor al precio del sistema, la respuesta es esperar, y está bien.
+
+Si no sabés en qué tramo cae lo tuyo, el [diagnóstico express](/diagnostico) son cinco preguntas y te orienta por dónde empezar: una web, una automatización, una integración o un [sistema a medida](/servicios/sistemas-empresariales).
+
+Y si ya lo tenés claro, [contanos cómo funciona hoy tu proceso](/contacto). Te respondemos con alcance, plazo y precio por escrito.`,
+  },
 ];

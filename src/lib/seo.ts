@@ -1,6 +1,6 @@
 import "server-only";
 import type { Metadata } from "next";
-import { getSeo, getSettings, type Post, type Project, type Service, type Settings } from "./content";
+import { getSeo, getSettings, type Plan, type Post, type Project, type Service, type Settings } from "./content";
 import { env } from "./env";
 import { slugSchema } from "./validation";
 
@@ -108,6 +108,8 @@ function organizationFields(settings: Settings): JsonLd {
     image: absoluteUrl(seo.ogImage || DEFAULT_OG_IMAGE),
     description: seo.description,
     email: contact.email,
+    // El WhatsApp del panel es el teléfono público del estudio: lo usan buscadores y asistentes para identificar la ficha.
+    telephone: contact.whatsappPhone,
     // Sin dirección postal inventada: el país siempre; ciudad y región solo si se cargan en Admin → Configuración → SEO.
     address: seo.country
       ? compact({ "@type": "PostalAddress", addressLocality: seo.city, addressRegion: seo.region, addressCountry: seo.country })
@@ -171,6 +173,91 @@ export function serviceJsonLd(service: Pick<Service, "slug" | "name" | "tagline"
       areaServed: settings.seo.country,
     }),
     provider: { "@id": ORG_ID },
+  };
+}
+
+/** Nombre del país a partir de su código ISO («BO» → «Bolivia»). Devuelve vacío si el código no se reconoce. */
+function countryLabel(code: string, locale: string): string {
+  if (!code) return "";
+  try {
+    return new Intl.DisplayNames([locale], { type: "region" }).of(code) || "";
+  } catch {
+    return "";
+  }
+}
+
+/**
+ * Página local: los servicios del estudio acotados a la ciudad donde está.
+ * `areaServed` nombra la ciudad y el país, que es lo que un buscador o un asistente necesita
+ * para responder «quién desarrolla software en Cochabamba». Sin dirección postal: la calle
+ * solo vive en los textos legales y en la ficha de Google.
+ */
+export function localServiceJsonLd(services: Pick<Service, "slug" | "name" | "tagline" | "seoDescription">[], settings: Settings): JsonLd {
+  const { seo } = settings;
+  // `country` se guarda como código ISO («BO»), pero un nodo Country se nombra con el nombre del país.
+  const countryName = countryLabel(seo.country, language(settings));
+  const area = compact({ "@type": "City", name: seo.city, containedInPlace: countryName ? { "@type": "Country", name: countryName } : undefined });
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "@id": `${absoluteUrl("/desarrollo-de-software-cochabamba")}#servicios-locales`,
+    name: seo.city ? `Servicios de Burrow Labs en ${seo.city}` : "Servicios de Burrow Labs",
+    inLanguage: language(settings),
+    itemListElement: services.map((service, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      item: compact({
+        "@type": "Service",
+        "@id": serviceId(service.slug),
+        name: service.name,
+        description: service.seoDescription || service.tagline,
+        url: absoluteUrl(`/servicios/${service.slug}`),
+        serviceType: service.name,
+        provider: { "@id": ORG_ID },
+        areaServed: seo.city ? area : seo.country,
+      }),
+    })),
+  };
+}
+
+/**
+ * Planes con precio publicado: cada uno es un Service del estudio con su oferta.
+ * Hace legible para buscadores y asistentes lo que la página ya dice en texto («desde USD 85»).
+ * `from` se marca como minPrice —es un precio base, no cerrado—; `quote` y `hidden` no emiten oferta.
+ */
+export function plansJsonLd(plans: Pick<Plan, "slug" | "name" | "tagline" | "priceAmount" | "currency" | "priceMode">[], settings: Settings): JsonLd {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "@id": `${absoluteUrl("/planes")}#planes`,
+    name: "Planes de Burrow Labs",
+    inLanguage: language(settings),
+    itemListElement: plans.map((plan, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      item: compact({
+        "@type": "Service",
+        name: plan.name,
+        description: plan.tagline,
+        url: absoluteUrl("/planes"),
+        provider: { "@id": ORG_ID },
+        areaServed: settings.seo.country,
+        offers:
+          plan.priceAmount !== null && (plan.priceMode === "from" || plan.priceMode === "fixed")
+            ? compact({
+                "@type": "Offer",
+                priceCurrency: plan.currency,
+                price: plan.priceMode === "fixed" ? plan.priceAmount : undefined,
+                priceSpecification:
+                  plan.priceMode === "from"
+                    ? { "@type": "PriceSpecification", minPrice: plan.priceAmount, priceCurrency: plan.currency, valueAddedTaxIncluded: false }
+                    : undefined,
+                availability: "https://schema.org/InStock",
+                url: absoluteUrl("/planes"),
+              })
+            : undefined,
+      }),
+    })),
   };
 }
 

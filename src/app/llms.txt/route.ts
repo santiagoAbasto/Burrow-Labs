@@ -25,6 +25,8 @@ export async function GET() {
     `> ${seo.description}`,
     "",
     `Slogan: «Codificando soluciones.» El sitio está en español (${seo.locale.replace("_", "-")}).`,
+    // La ciudad es el dato que más piden los asistentes cuando alguien busca un proveedor local.
+    ...(seo.city ? [`Ubicación: ${[seo.city, seo.region !== seo.city ? seo.region : "", "Bolivia"].filter(Boolean).join(", ")}. Trabajamos presencialmente en ${seo.city} y en remoto con el resto del país y del exterior.`] : []),
     "",
     "## Servicios",
     ...services.map((service) => link(service.name, `/servicios/${service.slug}`, service.tagline)),
@@ -36,6 +38,7 @@ export async function GET() {
     link("Proyectos", "/proyectos"),
     link("Planes y precios base", "/planes", settings.plansDisclaimer),
     link("Nosotros", "/nosotros"),
+    link("Desarrollo de software en Cochabamba", "/desarrollo-de-software-cochabamba", "Software a medida, automatización e IA para empresas de Cochabamba y de todo el país."),
     link("Clientes y sectores", "/clientes"),
     link("Lab", "/lab"),
     link("Preguntas frecuentes", "/faq"),

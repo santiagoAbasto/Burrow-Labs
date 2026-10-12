@@ -15,6 +15,7 @@ const SOCIAL_LABELS: Record<keyof Settings["social"], string> = {
   facebook: "Facebook",
   tiktok: "TikTok",
   x: "X",
+  googleMaps: "Google Maps",
 };
 
 function Column({ title, links }: { title: string; links: readonly { label: string; href: string }[] }) {
@@ -67,7 +68,12 @@ export function Footer({ settings }: { settings: Settings }) {
             Desde sm el botón lleva el rótulo «WhatsApp» y ocupa ~12 rem desde el borde: sin ese hueco tapaba «Volver a la superficie». */}
         <div className="mt-16 flex flex-col gap-6 border-t border-line pt-8 pr-[max(0px,calc(5.75rem-(100vw-100%)/2))] sm:flex-row sm:items-center sm:justify-between sm:pr-[max(0px,calc(12.5rem-(100vw-100%)/2))]">
           <div>
-            <p className="type-small text-muted">Hecho desde Bolivia para trabajar con empresas de cualquier lugar.</p>
+            <p className="type-small text-muted">
+              <SmartLink href="/desarrollo-de-software-cochabamba" className="hover:text-fg">
+                Software studio en Cochabamba, Bolivia
+              </SmartLink>
+              {" "}· Trabajamos con empresas de cualquier lugar.
+            </p>
             <ul className="mt-2 flex flex-wrap gap-x-5">
               {LEGAL_LINKS.map((link) => (
                 <li key={link.href}>

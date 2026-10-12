@@ -70,6 +70,10 @@ const nextConfig: NextConfig = {
       { source: "/:path*", headers: securityHeaders },
       { source: "/admin/:path*", headers: noindex },
       { source: "/api/:path*", headers: noindex },
+      // Prefetch de React Server Components: el proxy compartido convierte la cabecera RSC en un 307 a `?_rsc`,
+      // así que Google termina rastreando esas URLs como páginas normales (22 en Search Console al 12/10/2026).
+      // El canonical ya las descarta; el noindex evita que gasten rastreo.
+      { source: "/:path*", has: [{ type: "query", key: "_rsc" }], headers: noindex },
       // Los assets de marca no llevan hash en el nombre: un día de caché y revalidación en segundo plano.
       { source: "/brand/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }] },
     ];
