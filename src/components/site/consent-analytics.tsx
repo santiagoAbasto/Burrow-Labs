@@ -77,8 +77,10 @@ export function ConsentAnalytics() {
     <div role="region" aria-label="Cookies de analítica" data-stratum="chalk" className="fixed bottom-4 left-4 z-40 max-w-sm rounded-lg border border-line-strong p-5 shadow-none sm:bottom-6 sm:left-6">
       <p className="type-small">
         Usamos cookies de analítica ({PROVIDERS}) solo si aceptás. Nos ayudan a saber qué páginas sirven y cómo se usa el sitio.{" "}
+        {/* El texto del enlace nombra su destino: «Más información» no dice a dónde lleva y Lighthouse lo
+            marca como vínculo sin texto descriptivo (era el único fallo de SEO del sitio, 92/100). */}
         <Link href="/cookies" className="text-link underline underline-offset-4">
-          Más información
+          Ver la política de cookies
         </Link>
       </p>
       <div className="mt-4 flex gap-2">
