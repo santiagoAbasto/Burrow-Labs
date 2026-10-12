@@ -6,7 +6,7 @@ import type { JsonShape } from "./json-form";
 export const SETTINGS_SHAPE = {
   contact: { email: "", whatsappPhone: "", whatsappEnabled: true, whatsappTooltip: "", whatsappGreeting: "", whatsappDefaultMessage: "" },
   social: { instagram: "", linkedin: "", github: "", facebook: "", tiktok: "", x: "", googleMaps: "" },
-  seo: { siteName: "", titleTemplate: "", description: "", ogImage: "", locale: "", city: "", region: "", country: "" },
+  seo: { siteName: "", titleTemplate: "", description: "", ogImage: "", locale: "", street: "", city: "", region: "", country: "" },
   sectors: [""],
   brandPhrases: [""],
   plansDisclaimer: "",

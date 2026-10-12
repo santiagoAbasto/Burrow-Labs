@@ -88,7 +88,7 @@ export const SETTINGS_GUIDE: SettingsGuide[] = [
       "Plantilla del título: «%s» se reemplaza por el título de cada página.",
       "Descripción: entre 120 y 160 caracteres, con qué hacés y para quién.",
       "Imagen al compartir: una imagen de Media de 1200×630; vacío = el logo.",
-      "Ciudad, departamento y país: para que Google asocie el estudio a su lugar.",
+      "Dirección, ciudad, departamento y país: para que Google asocie el estudio a su lugar. La calle, igual que en tu ficha de Google.",
     ],
     fields: {
       siteName: { label: "Nombre del sitio", placeholder: "Burrow Labs" },
@@ -96,6 +96,7 @@ export const SETTINGS_GUIDE: SettingsGuide[] = [
       description: { label: "Descripción por defecto", hint: "Lo que Google muestra bajo el título cuando la página no tiene una propia. Entre 120 y 160 caracteres funciona mejor." },
       ogImage: { label: "Imagen al compartir un enlace", hint: "Ruta de una imagen subida en Media (empieza con /media/) o una dirección completa. Recomendado 1200×630. Vacío = el logo.", placeholder: "/media/portada.webp" },
       locale: { label: "Idioma y región", hint: "Código para las redes sociales: es_BO para Bolivia. No lo cambies salvo que el sitio cambie de idioma.", placeholder: "es_BO" },
+      street: { label: "Calle y número", hint: "Tal cual figura en la ficha de Google, carácter por carácter: los buscadores cruzan las dos. Vacío = solo la ciudad.", placeholder: "Av. San Martín 123, Edificio Las Palmas, piso 2, oficina 4" },
       city: { label: "Ciudad", hint: "Dónde está el estudio. Vacío = sin SEO local.", placeholder: "Santa Cruz de la Sierra" },
       region: { label: "Departamento", placeholder: "Santa Cruz" },
       country: { label: "País (código de 2 letras)", hint: "BO para Bolivia.", placeholder: "BO" },

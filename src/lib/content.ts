@@ -135,6 +135,9 @@ export const settingsSchema = z.object({
     ),
     ogImage: text(),
     locale: text("es_BO"),
+    // La calle y el número. Lo piden los directorios de empresas y Bing Places, y tiene que decir
+    // exactamente lo mismo que la ficha de Google para que esa cita se cruce con el sitio.
+    street: text(),
     city: text(),
     region: text(),
     country: text("BO"),

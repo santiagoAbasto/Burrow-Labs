@@ -110,9 +110,9 @@ function organizationFields(settings: Settings): JsonLd {
     email: contact.email,
     // El WhatsApp del panel es el teléfono público del estudio: lo usan buscadores y asistentes para identificar la ficha.
     telephone: contact.whatsappPhone,
-    // Sin dirección postal inventada: el país siempre; ciudad y región solo si se cargan en Admin → Configuración → SEO.
+    // Sin dirección postal inventada: el país siempre; calle, ciudad y región solo si se cargan en Admin → Configuración → SEO.
     address: seo.country
-      ? compact({ "@type": "PostalAddress", addressLocality: seo.city, addressRegion: seo.region, addressCountry: seo.country })
+      ? compact({ "@type": "PostalAddress", streetAddress: seo.street, addressLocality: seo.city, addressRegion: seo.region, addressCountry: seo.country })
       : undefined,
     // Solo los perfiles cargados en el CMS.
     sameAs: Object.values(social).filter((profile) => /^https?:\/\//.test(profile)),

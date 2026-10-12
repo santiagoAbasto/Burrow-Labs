@@ -55,6 +55,12 @@ describe("JSON-LD", () => {
     expect(org).not.toHaveProperty("telephone");
   });
 
+  it("Organization: la calle del panel entra en la dirección postal", () => {
+    const street = "Av. Melchor Urquidi, Edificio Fidel Anze, piso 1, oficina 3";
+    const org = organizationJsonLd({ ...settings, seo: { ...settings.seo, street, city: "Cochabamba", region: "Cochabamba" } });
+    expect(org.address).toEqual({ "@type": "PostalAddress", streetAddress: street, addressLocality: "Cochabamba", addressRegion: "Cochabamba", addressCountry: "BO" });
+  });
+
   it("ProfessionalService y WebSite apuntan a la misma organización", () => {
     expect(professionalServiceJsonLd(settings)).toMatchObject({ "@type": "ProfessionalService", ...ORG, areaServed: "BO" });
     expect(webSiteJsonLd(settings)).toMatchObject({ "@id": `${SITE_URL}/#website`, publisher: ORG, inLanguage: "es-BO" });
