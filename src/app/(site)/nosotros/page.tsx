@@ -30,7 +30,7 @@ export default async function AboutPage() {
               <SmartLink href="/desarrollo-de-software-cochabamba" className="text-link underline-offset-4 hover:underline">
                 Cochabamba, Bolivia
               </SmartLink>
-              . Trabajamos presencialmente en el valle y en remoto con el resto del país.
+              . Trabajamos presencialmente en el valle y en remoto con el resto del país y del exterior.
             </p>
           </aside>
         </Container>

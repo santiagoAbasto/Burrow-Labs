@@ -57,6 +57,13 @@
       "when": 1792598547891,
       "tag": "0007_quick_microchip",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1792612035806,
+      "tag": "0008_contenido_apps_y_exterior",
+      "breakpoints": true
     }
   ]
 }

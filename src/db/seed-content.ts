@@ -308,7 +308,7 @@ const FAQS: { question: string; answer: string; category: string; home?: boolean
   },
   {
     question: "¿Trabajan solamente con empresas de Bolivia?", category: "General",
-    answer: "No. Somos de Bolivia y trabajamos con empresas de cualquier lugar. Todo el proceso se puede hacer de forma remota.",
+    answer: "No. Somos de Bolivia y trabajamos con empresas de cualquier lugar. Todo el proceso se puede hacer de forma remota, y recibimos pagos desde cualquier país.",
   },
   {
     question: "¿Cuándo conviene automatizar un proceso?", category: "Servicios",
