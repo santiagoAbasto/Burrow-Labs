@@ -321,7 +321,7 @@ Y si ya lo tenés claro, [contanos cómo funciona hoy tu proceso](/contacto). Te
       "Un mapa de empresas de software de Cochabamba, Santa Cruz y La Paz, revisado empresa por empresa: qué hace cada una, desde dónde trabaja y cómo elegir según lo que necesitás.",
     readingMinutes: 5,
     publishedAt: "2026-10-21T12:00:00.000Z",
-    seoTitle: "Empresas de desarrollo de software en Bolivia (2026)",
+    seoTitle: "Empresas de desarrollo de software en Bolivia",
     seoDescription:
       "Empresas de software en Bolivia revisadas una por una: Cochabamba, Santa Cruz y La Paz. Qué hace cada una, desde dónde trabaja y cómo elegir proveedor.",
     content: `Si buscás una empresa de software en Bolivia, los listados que aparecen primero mezclan de todo: agencias de marketing, revendedores de licencias, empresas extranjeras con nombre parecido a una local y páginas que cambian solo el nombre de la ciudad. Armamos este mapa para ordenar eso.

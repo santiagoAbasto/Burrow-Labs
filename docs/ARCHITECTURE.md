@@ -96,6 +96,7 @@ Regla para el admin: al guardar una tabla, invalidar su tag. Al editar `media` (
 | Producción | `DATABASE_URL=… pnpm db:migrate` (las variables del entorno tienen prioridad sobre `.env.local`) |
 
 - `pnpm db:seed` es idempotente: crea el admin de `ADMIN_EMAIL`/`ADMIN_PASSWORD` solo si no existe (mínimo 12 caracteres; nunca imprime la clave) y después corre `seedContent(db)`.
+- **Contenido ya sembrado.** `seedContent` nunca pisa filas: lo que se corrige en `seed-content.ts` o en `src/db/seed/` solo llega a bases nuevas. Una fila **nueva** (un servicio o un artículo con slug que no existe) sí la inserta el próximo deploy. Para cambiar un texto que ya está en producción: `pnpm exec drizzle-kit generate --custom --name <nombre>` y un `UPDATE` de solo datos **condicionado al texto anterior** (si alguien lo editó en el panel, no se toca), separando sentencias con `--> statement-breakpoint`. Ejemplos: `0008`, `0010`, `0011`. El contenedor lo aplica al arrancar. Escribir en la base de producción por SSH no es el camino. Después, avisar a IndexNow a mano: la migración no pasa por el panel.
 - `pnpm test` corre **siempre** contra la base de tests: `vitest.config.ts` reemplaza `DATABASE_URL` por `TEST_DATABASE_URL` (+ `TEST_DB_SUFFIX`). Los tests crean filas con prefijos aleatorios y las borran al terminar, así que pueden correr en paralelo sobre la misma base.
 
 ## 5. Cómo agregar una entidad

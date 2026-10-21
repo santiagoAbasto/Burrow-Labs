@@ -78,6 +78,20 @@
       "when": 1792616315486,
       "tag": "0010_servicios_bolivia_y_exterior",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1792618256414,
+      "tag": "0011_titulos_seo_bolivia",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1792618426555,
+      "tag": "0012_nosotros_contacto_bolivia",
+      "breakpoints": true
     }
   ]
 }

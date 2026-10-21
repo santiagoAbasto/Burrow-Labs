@@ -9,6 +9,7 @@ Reglas que valen para todo lo de abajo:
 - Sin cifras de negocio inventadas, sin clientes nombrados sin permiso, sin promesas de posición en buscadores.
 - Una pieza responde **una pregunta** y enlaza a la página que vende eso (servicio, caso, planes o herramienta).
 - No hay fechas ni frecuencia comprometida: se publica cuando la pieza está bien, en el orden de la lista.
+- **Excepción aprobada por el dueño (21/10/2026):** [`/lab/empresas-de-desarrollo-de-software-en-bolivia`](../src/db/seed/posts.ts), un mapa de empresas de software de Bolivia. No sale de un caso propio: responde una búsqueda que ningún sitio responde bien y cada dato se verificó en el sitio de cada empresa. Es la única excepción; no abre la puerta a listados genéricos.
 
 ## 1. Mapa de intención
 
@@ -135,12 +136,12 @@ Destino: Burrow Lab (`/lab/<slug>`). El slug es una propuesta. Cada pieza lleva 
 - **Intención:** informacional previa a la compra («cuánto cuesta»). En el buscador dominan artículos, no páginas de precios.
 - **Pregunta que responde:** ¿de qué depende el precio y cómo se llega a un número antes de empezar?
 - **Experiencia real:** los precios base publicados en `/planes` y la forma de trabajo por fases. Qué agranda un alcance: módulos, roles, integraciones, reglas de cálculo, migración de datos. Solo se citan los precios base que ya están publicados; ningún rango nuevo.
-- **URL destino:** `/lab/que-define-el-costo-de-un-sistema-a-medida`
+- **Publicada el 12/10/2026** como `/lab/cuanto-cuesta-un-sistema-a-medida-en-bolivia` (la URL usa la búsqueda real, «cuánto cuesta»).
 - **Enlaces internos:** `/planes`, `/diagnostico`, `/contacto`, FAQ «¿Cuánto cuesta desarrollar un sistema a medida?» y «¿Qué necesitan para cotizar?».
 
 ### Orden sugerido
 
-1, 3, 5 y 12 primero: son las que tienen la experiencia más concreta y la intención más cercana a contratar. Después 2, 4, 9 (IA y trazabilidad), y por último 6, 7, 8, 10, 11.
+1, 3, 5 y 12 primero (la 12 ya está publicada): son las que tienen la experiencia más concreta y la intención más cercana a contratar. Después 2, 4, 9 (IA y trazabilidad), y por último 6, 7, 8, 10, 11.
 
 ## 3. Cómo se escribe cada pieza
 
@@ -153,7 +154,7 @@ Destino: Burrow Lab (`/lab/<slug>`). El slug es una propuesta. Cada pieza lleva 
 
 ## 4. Qué NO crear
 
-- **Páginas por ciudad** («software a medida en Santa Cruz», «en La Paz», «en Cochabamba»). Son páginas doorway: mismo contenido con otro topónimo. Bolivia es parte de la marca; ninguna ciudad hasta que haya una dirección confirmada, y aun entonces una sola página.
+- **Páginas por ciudad** («software a medida en Santa Cruz», «en La Paz», «en Cochabamba»). Son páginas doorway: mismo contenido con otro topónimo. Bolivia es parte de la marca; ninguna ciudad hasta que haya una dirección confirmada, y aun entonces una sola página. Hecho: con la dirección confirmada el 12/10/2026 existe una, `/desarrollo-de-software-cochabamba`; no se crean otras.
 - **Landings por palabra clave sin contenido propio** («CRM a medida», «sistema de inventario», «ERP»). Si un tema merece página, primero tiene que tener un caso y una pieza que lo respalden.
 - **Artículos genéricos** del tipo «qué es la automatización», «10 beneficios de un CRM», «tendencias de IA». Ya los escribieron los fabricantes y no llevan experiencia propia.
 - **Comparativas o listados de herramientas de terceros** que no se usaron en un proyecto.

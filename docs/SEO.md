@@ -53,8 +53,9 @@ Solo URL públicas, canónicas, `200` e indexables: páginas fijas, servicios, p
 | `/servicios/[slug]` | + `Service` (`…#service`, `provider` → organización) |
 | `/proyectos/[slug]` | + `Article` (caso de estudio: `author` y `publisher` → organización, `about` → servicios relacionados) |
 | `/lab/[slug]` | + `Article` (`author` organización si firma el estudio, persona si no) |
+| `/desarrollo-de-software-cochabamba` | + `ItemList` de `Service` (uno por servicio, `provider` → organización, `areaServed` = ciudad dentro del país) |
 
-- **Una sola entidad** `Organization`: nombre, URL, logo absoluto (`/icon.png`, 512×512), descripción, país (`BO`) y `sameAs` únicamente con los perfiles cargados en Admin → Configuración → Redes. Email solo si está cargado. Ciudad y región solo si se cargan.
+- **Una sola entidad** `Organization`: nombre, URL, logo absoluto (`/icon.png`, 512×512), descripción, `PostalAddress` (calle, ciudad, región y país, solo lo cargado en Admin → Configuración → SEO) y `sameAs` únicamente con los perfiles cargados en Admin → Configuración → Redes. Email solo si está cargado.
 - **Nunca:** `FAQPage`, `Review`, `AggregateRating`, precios, `SoftwareApplication`, direcciones o teléfonos inventados.
 - Las fechas de `Article` son las de la base (`publishedAt`, `updatedAt`).
 
@@ -72,15 +73,23 @@ Resumen en Markdown generado desde el CMS: qué es Burrow Labs, servicios, proye
 
 - Cada servicio lista sus casos relacionados; cada caso enlaza a sus servicios (ficha «Servicios»). Ambos salen de la relación proyecto↔servicio de la base.
 - `/faq` y `/lab` suman una salida a `/servicios` en la banda final, además de `/contacto`.
+- **Bloque «Del Lab»** (`src/components/site/lab-reading.tsx`): hasta 4 artículos recientes en `/servicios`, en cada `/servicios/[slug]` y en `/desarrollo-de-software-cochabamba`; cada artículo enlaza a hasta 4 de los otros («Seguir leyendo»). Existe porque Search Console marcaba los artículos como «rastreados» o «descubiertos, sin indexar» mientras solo los enlazaba `/lab` (21/10/2026).
 
 ## Decisiones
 
 - **Sin schema `FAQPage`.** Google ya no muestra ese resultado enriquecido; las respuestas van como texto visible, que es lo que leen buscadores y asistentes.
 - **`llms.txt` no es un factor de ranking.** Google lo dice expresamente: no hacen falta «AI text files» ni marcado especial para aparecer en AI Overviews o AI Mode; alcanza con estar indexado y poder mostrar snippet. Se mantiene porque es barato y no molesta.
 - **Rastreadores de IA abiertos por defecto.** Bloquear los de entrenamiento es una decisión del dueño (abajo).
-- **`ProfessionalService` sin dirección.** Solo país. Para un perfil local completo (dirección, teléfono, horario) hacen falta datos reales del dueño.
-- **Sin páginas por ciudad ni «doorway».** Bolivia es parte de la marca; ninguna ciudad.
+- **Dirección solo real.** La calle la carga el dueño en el panel (desde el 12/10/2026, la de la oficina en Cochabamba); nunca se inventa ni se completa.
+- **Una sola página local, la de la base.** `/desarrollo-de-software-cochabamba` existe porque ahí está la oficina; ninguna otra ciudad tiene página (serían doorway). Todo el resto del sitio presenta a Burrow Labs como empresa de **Bolivia** que trabaja para todo el país y el exterior y recibe pagos desde cualquier país: ningún título ni texto lo encierra en Cochabamba.
 - **`/admin` va en `Disallow` y además responde `noindex`.** Con el `Disallow` Google no llega a leer el `noindex`; se acepta porque el admin no tiene enlaces públicos y pide sesión.
+
+## Perfiles fuera del sitio
+
+- **Google Business Profile** (cuenta `admin@burrowlabs.com.bo`, nunca la de Apple Boss): nombre, dirección, horario, descripción, servicios y redes. Es la fuente: todo cambio de ficha se hace primero acá.
+- **Bing Places**: se sincroniza con Google. Al tocar «Sincronizar», Bing reemplaza sus datos con los de Google y **borra las redes que solo estaban cargadas en Bing**.
+- **TechBehemoths** (plan gratis, verificada): el enlace de texto «Verified on TechBehemoths» en `/nosotros` (`data-techbehemoths-verification`, sin `nofollow`) mantiene la verificación. No quitarlo ni agregarle `nofollow`. Se eligió la versión de texto y no la insignia porque la insignia carga una imagen de su CDN en cada visita.
+- **GitHub**: la organización `burrow-labs-bo`, que es el `sameAs` de GitHub.
 
 ## Rastreadores de IA: cómo bloquear el entrenamiento
 
@@ -129,20 +138,17 @@ Eventos: `page_view` (solo propio), `cta_hero`, `contact_submit`, `whatsapp_clic
 
 **Del dueño**
 
-- Verificar el dominio en Google Search Console y en Bing Webmaster Tools, y enviar `/sitemap.xml` en ambos.
 - Decidir si se bloquean los rastreadores de entrenamiento.
-- Cargar más perfiles reales en Admin → Configuración → Redes (hoy solo Instagram): alimentan `sameAs`.
-- Ciudad, dirección y teléfono, si quiere presencia local (Google Business Profile).
-- Completar los textos legales: mientras tengan marcadores pendientes salen `noindex` y fuera del sitemap.
+- Hecho: Search Console y Bing Webmaster Tools verificados con sitemap; redes cargadas (Instagram, LinkedIn, Facebook, TikTok, GitHub y la ficha de Maps); dirección, teléfono y horario en Google Business y Bing Places; textos legales aprobados e indexables.
 
 **Del servidor**
 
-- Un solo `301` de `http://` y de `www.` hacia `https://burrowlabs.com.bo`.
-- `NEXT_PUBLIC_SITE_URL=https://burrowlabs.com.bo` al compilar y al correr.
+- `http://www.` hace dos saltos (308 + 301); `http://` y `www.` solos hacen uno. Para dejarlo en uno, agregar `http://www.burrowlabs.com.bo` al bloque de `www` en el próximo cambio del Caddy compartido (lo reinicia el dueño: afecta a todos los sitios del servidor).
+- Hecho: `NEXT_PUBLIC_SITE_URL=https://burrowlabs.com.bo` al compilar y al correr.
 
 **Técnico, más adelante**
 
 - `updatedAt` en `getServices` para dar `lastmod` a los servicios.
-- **IndexNow** (Bing, Yandex, Naver, Seznam…; Google no participa): **implementado**. Con `INDEXNOW_KEY` definida, cada alta, cambio, publicación o baja de un servicio, caso, artículo, plan, FAQ o ruta SEO desde el panel avisa a `api.indexnow.org` la URL y su listado (`src/lib/indexnow.ts`, un intento, sin reintentos); la clave se sirve en `/indexnow-key.txt`. Sin clave no se avisa nada y esa ruta responde 404. Falta generar la clave en producción y dar de alta el sitio en Bing Webmaster Tools.
+- **IndexNow** (Bing, Yandex, Naver, Seznam…; Google no participa): **implementado**. Con `INDEXNOW_KEY` definida, cada alta, cambio, publicación o baja de un servicio, caso, artículo, plan, FAQ o ruta SEO desde el panel avisa a `api.indexnow.org` la URL y su listado (`src/lib/indexnow.ts`, un intento, sin reintentos); la clave se sirve en `/indexnow-key.txt`. Sin clave no se avisa nada y esa ruta responde 404. Activo en producción. Lo que entra por una migración o por el seed **no** pasa por el panel: hay que avisar a mano (POST a `api.indexnow.org` con la clave pública de `/indexnow-key.txt`).
 - **Imagen Open Graph por proyecto y por artículo.** Hoy todos comparten el logo. Propuesta: cargar una portada real de 1200×630 por caso desde el admin (ya se usa sola si existe), o generarla con `opengraph-image.tsx` cuando esté la tipografía de marca como archivo local.
 - `Article` sin `image` cuando no hay portada: Google la recomienda.
