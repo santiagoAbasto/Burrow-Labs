@@ -71,6 +71,13 @@
       "when": 1792615290646,
       "tag": "0009_github_de_la_organizacion",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1792616315486,
+      "tag": "0010_servicios_bolivia_y_exterior",
+      "breakpoints": true
     }
   ]
 }

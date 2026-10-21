@@ -9,8 +9,8 @@ export type ProjectBadge = (typeof PROJECT_BADGES)[number];
 export const PROJECT_VISUALS = ["layers", "flow", "nodes", "grid", "apple-boss"] as const;
 export type ProjectVisual = (typeof PROJECT_VISUALS)[number];
 
-/** Slugs de los cuatro servicios sembrados en `seed-content.ts` (rutas públicas `/servicios/<slug>`). */
-export const SERVICE_SLUGS = ["sistemas-empresariales", "automatizacion", "inteligencia-artificial", "web-y-ecommerce"] as const;
+/** Slugs de los servicios sembrados en `seed-content.ts` (rutas públicas `/servicios/<slug>`). */
+export const SERVICE_SLUGS = ["sistemas-empresariales", "automatizacion", "inteligencia-artificial", "web-y-ecommerce", "aplicaciones-moviles"] as const;
 export type ServiceSlug = (typeof SERVICE_SLUGS)[number];
 
 export type SeedProject = {

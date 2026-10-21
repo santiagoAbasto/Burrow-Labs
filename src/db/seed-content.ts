@@ -40,7 +40,7 @@ const SETTINGS: Record<string, unknown> = {
     titleTemplate: "%s · Burrow Labs",
     // Descripción corta de la entidad: va al JSON-LD de Organization, a /llms.txt y a las páginas sin descripción propia.
     description:
-      "Burrow Labs es un software studio de Bolivia que construye sistemas a medida, automatizaciones, integraciones e IA aplicada para empresas.",
+      "Burrow Labs es un software studio de Bolivia que construye sistemas a medida, aplicaciones móviles, automatizaciones, integraciones e IA aplicada para empresas de Bolivia y del exterior.",
     ogImage: "/brand/og-logo.png",
     locale: "es_BO",
     city: "Cochabamba",
@@ -63,7 +63,7 @@ const SETTINGS: Record<string, unknown> = {
     headline: "Pequeños por diseño. Obsesionados con resolver.",
     body: `Burrow Labs nace de una idea simple: antes de sumar otra herramienta a una empresa, hay que entender qué está frenando realmente el trabajo.
 
-Conectamos sistemas, eliminamos tareas repetitivas y construimos herramientas para operar con menos trabajo manual: sistemas web, automatizaciones, integraciones e IA aplicada.
+Conectamos sistemas, eliminamos tareas repetitivas y construimos herramientas para operar con menos trabajo manual: sistemas web, aplicaciones móviles, automatizaciones, integraciones e IA aplicada.
 
 ## De dónde viene el nombre
 
@@ -92,7 +92,7 @@ No empezamos por el código. Empezamos por entender cómo trabaja tu negocio.
   legal: LEGAL,
 };
 
-// Cuatro servicios, en este orden. Los slugs son rutas públicas (hay tests y enlaces internos): no cambiarlos.
+// Los servicios, en este orden. Los slugs son rutas públicas (hay tests y enlaces internos): no cambiarlos.
 const SERVICES = [
   {
     slug: "sistemas-empresariales",
@@ -353,8 +353,8 @@ const FAQS: { question: string; answer: string; category: string; home?: boolean
 // agrega « · Burrow Labs»; si ya contiene «Burrow Labs» se usa tal cual (Home y Nosotros). Descripción: 140–160
 // caracteres, qué resuelve la página y para quién. Ningún título repetido. Mapa de intención: docs/SEO-CONTENT-ROADMAP.md
 const SEO: [path: string, title: string, description: string][] = [
-  ["/", "Burrow Labs | Software a medida en Bolivia", "Software studio en Cochabamba, Bolivia: sistemas a medida, automatizaciones, integraciones e IA aplicada para empresas que quieren operar con menos trabajo manual."],
-  ["/servicios", "Servicios de software a medida para empresas", "Cuatro servicios para empresas: sistemas empresariales, automatización e integraciones, IA aplicada y plataformas web. Primero entendemos el proceso."],
+  ["/", "Burrow Labs | Software a medida en Bolivia", "Software studio de Bolivia con base en Cochabamba: sistemas a medida, apps móviles, automatización e IA para empresas de Bolivia y del exterior."],
+  ["/servicios", "Servicios de software a medida en Bolivia", "Sistemas empresariales, automatización, IA aplicada, plataformas web y apps móviles para empresas de Bolivia y del exterior. Primero entendemos el proceso."],
   ["/proyectos", "Casos de estudio de software a medida e IA", "Casos reales de sistemas empresariales, e-commerce, CRM, trazabilidad, cotizaciones e IA aplicada: qué problema había, qué construimos y qué cambió."],
   ["/planes", "Precios de páginas web y sistemas a medida en Bolivia", "Precios base publicados: planes web desde USD 85 y planes de automatización y sistemas desde USD 450. El alcance final se confirma por escrito antes de empezar."],
   ["/nosotros", "Burrow Labs | Software studio en Cochabamba, Bolivia", "Quiénes somos y cómo trabajamos: un software studio con base en Cochabamba que entiende el proceso antes de programar. Entender, modelar, construir, probar, medir y mejorar."],

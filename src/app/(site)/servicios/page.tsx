@@ -3,29 +3,32 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ServiceIcon } from "@/components/services/service-icon";
 import { JsonLd } from "@/components/site/json-ld";
+import { LabReading } from "@/components/site/lab-reading";
 import { PageHeader } from "@/components/site/page-header";
 import { Badge } from "@/components/ui/badge";
 import { CTA } from "@/components/ui/cta";
 import { Container, Stratum } from "@/components/ui/stratum";
 import { TerrainCut } from "@/components/ui/terrain-cut";
-import { getServices } from "@/lib/content";
+import { getPosts, getServices } from "@/lib/content";
 import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 
 export const generateMetadata = (): Promise<Metadata> => buildMetadata({
     path: "/servicios",
-    title: "Servicios de software a medida, automatización e IA",
-    description: "Conectamos sistemas, eliminamos tareas repetitivas y construimos herramientas para operar con menos trabajo manual.",
+    title: "Servicios de software a medida en Bolivia",
+    description:
+      "Sistemas empresariales, automatización, IA aplicada, plataformas web y apps móviles para empresas de Bolivia y del exterior. Primero entendemos el proceso.",
   });
 
 /** «E-commerce» no se parte en el guion al cambiar de línea. */
 const noBreak = (text: string) => text.replace(/-/g, "\u2011");
 
 export default async function ServicesPage() {
-  const services = await getServices();
+  const [services, posts] = await Promise.all([getServices(), getPosts()]);
   return (
     <>
-      <PageHeader eyebrow="Servicios" title="No vendemos código. Resolvemos procesos.">
-        Conectamos sistemas, eliminamos tareas repetitivas y construimos herramientas para operar con menos trabajo manual. Cuatro servicios; la herramienta se elige después de entender el problema.
+      <PageHeader eyebrow="Servicios" title="Software a medida para empresas de Bolivia y del exterior">
+        No vendemos código: resolvemos procesos. Conectamos sistemas, eliminamos tareas repetitivas y construimos herramientas para
+        operar con menos trabajo manual. La herramienta se elige después de entender el problema.
       </PageHeader>
       <TerrainCut from="deep" to="lab" variant="ridge" />
       <Stratum tone="lab">
@@ -61,6 +64,50 @@ export default async function ServicesPage() {
             ))}
           </ol>
         </Container>
+
+        <Container className="mt-section">
+          <h2 className="type-h2 max-w-3xl">Desde Bolivia, para empresas de cualquier lugar.</h2>
+          <dl className="mt-10 grid gap-x-16 gap-y-10 border-t border-line pt-10 lg:grid-cols-3">
+            <div>
+              <dt className="type-h3">¿Trabajan con empresas de otras ciudades y de otros países?</dt>
+              <dd className="mt-3 text-muted">
+                Sí. Tenemos base en{" "}
+                <Link href="/desarrollo-de-software-cochabamba" className="text-link underline-offset-4 hover:underline">
+                  Cochabamba
+                </Link>{" "}
+                y trabajamos en remoto con empresas de toda Bolivia y del exterior. El proceso es el mismo: entender, modelar, construir por
+                bloques y medir qué cambió.
+              </dd>
+            </div>
+            <div>
+              <dt className="type-h3">¿Cómo se paga desde otro país?</dt>
+              <dd className="mt-3 text-muted">
+                Recibimos pagos desde cualquier país. Los precios base están publicados en dólares en{" "}
+                <Link href="/planes" className="text-link underline-offset-4 hover:underline">
+                  planes
+                </Link>
+                , y el alcance se confirma por escrito antes de empezar.
+              </dd>
+            </div>
+            <div>
+              <dt className="type-h3">¿Cómo se sigue un proyecto a distancia?</dt>
+              <dd className="mt-3 text-muted">
+                Con reuniones de avance cortas por videollamada y entregas por bloques funcionales que podés usar y revisar desde el
+                principio.{" "}
+                <Link href="/nosotros" className="text-link underline-offset-4 hover:underline">
+                  Cómo trabajamos, en seis pasos
+                </Link>
+                .
+              </dd>
+            </div>
+          </dl>
+        </Container>
+
+        {posts.length > 0 && (
+          <Container className="mt-section">
+            <LabReading posts={posts.slice(0, 4)} />
+          </Container>
+        )}
       </Stratum>
       <TerrainCut from="lab" to="topsoil" variant="shelf" />
       <CTA
