@@ -313,4 +313,102 @@ Si no sabés en qué tramo cae lo tuyo, el [diagnóstico express](/diagnostico) 
 
 Y si ya lo tenés claro, [contanos cómo funciona hoy tu proceso](/contacto). Te respondemos con alcance, plazo y precio por escrito.`,
   },
+  {
+    slug: "empresas-de-desarrollo-de-software-en-bolivia",
+    category: "software-empresarial",
+    title: "Empresas de desarrollo de software en Bolivia: quién hace qué",
+    excerpt:
+      "Un mapa de empresas de software de Cochabamba, Santa Cruz y La Paz, revisado empresa por empresa: qué hace cada una, desde dónde trabaja y cómo elegir según lo que necesitás.",
+    readingMinutes: 5,
+    publishedAt: "2026-10-21T12:00:00.000Z",
+    seoTitle: "Empresas de desarrollo de software en Bolivia (2026)",
+    seoDescription:
+      "Empresas de software en Bolivia revisadas una por una: Cochabamba, Santa Cruz y La Paz. Qué hace cada una, desde dónde trabaja y cómo elegir proveedor.",
+    content: `Si buscás una empresa de software en Bolivia, los listados que aparecen primero mezclan de todo: agencias de marketing, revendedores de licencias, empresas extranjeras con nombre parecido a una local y páginas que cambian solo el nombre de la ciudad. Armamos este mapa para ordenar eso.
+
+No es un ranking. No decimos quién es mejor: decimos qué hace cada empresa y desde dónde trabaja, para que sepas a quién conviene llamar según lo que necesitás.
+
+Una aclaración antes de empezar: nosotros también somos una empresa de software de Bolivia. Aparecemos al final, separados del resto.
+
+## Cómo armamos la lista
+
+- **Solo entra una empresa si su propio sitio dice qué hace y desde qué ciudad trabaja.** Lo revisamos sitio por sitio el 21 de octubre de 2026.
+- **Lo que cada empresa dice de sí misma lo citamos como tal.** No verificamos sus clientes ni sus cifras, así que cuando aparece un número, es el que publica la empresa.
+- **Quedaron afuera** los sitios que no responden, las empresas que solo existen en redes sociales, las páginas que repiten el mismo texto cambiando la ciudad y varias empresas de Estados Unidos y Europa que los directorios presentan como bolivianas.
+- **Si tu empresa falta o un dato cambió**, [escribinos](/contacto) y lo corregimos.
+
+## Empresas que trabajan para el exterior
+
+Buena parte de las empresas bolivianas que venden desarrollo de software a otros países nacieron en Cochabamba. Trabajan sobre todo con empresas de Estados Unidos, con equipos que se suman al de su cliente.
+
+- **[Jalasoft](https://www.jalasoft.com)**, Cochabamba. Equipos de desarrollo para empresas de Estados Unidos. Según su sitio, lleva 25 años.
+- **[AssureSoft](https://www.assuresoft.com)**, nacida en Cochabamba. Equipos de ingeniería de software para empresas de Estados Unidos, con oficinas en Cochabamba, Santa Cruz y La Paz, además de otras fuera del país.
+
+## Software de gestión y transformación digital
+
+Empresas con productos propios o líneas de servicio amplias, más cerca de implementar una solución que de escribir una desde cero.
+
+- **[TI Software](https://www.tisoft-srl.com)**, casa matriz en Cochabamba. Un ERP para el control administrativo y contable: inventarios, ventas, compras, facturación y estados financieros.
+- **[Intersoft](https://www.intersoft.com.bo)**, Cochabamba. Transformación digital: firma digital, robotización, inteligencia de negocios, ciberseguridad, contact center y soluciones financieras. Según su sitio, tiene más de 20 años de experiencia.
+- **[Grupo EBIM](https://grupoebim.com/bo/software-factory/)**, con oficinas en Santa Cruz y La Paz, y también en Lima y Guayaquil. Software a medida y consultoría SAP.
+
+## Desarrollo a medida: sistemas, web y apps
+
+Es el grupo más numeroso: estudios y fábricas de software que construyen sistemas, sitios y aplicaciones para la operación de cada cliente.
+
+**Cochabamba**
+
+- **[Altalos](https://altalos.com)**. Software, páginas web, tiendas en línea, aplicaciones móviles y de escritorio, además de marketing digital y soporte técnico.
+- **[SpiderLabs Systems](https://spiderlabs.netlify.app)**. Sistemas de ventas e inventario, páginas web y aplicaciones empresariales.
+- **[SYSBOL](https://sysbol.com.bo)**. Páginas web, sistemas y soluciones digitales para empresas.
+
+**Santa Cruz**
+
+- **[Orange Group](https://orangegroup.com.bo)**. Sistemas web a medida, páginas web y aplicaciones móviles, además de productos propios como un ERP y una pasarela de pago. Según su sitio, tiene más de 13 años.
+- **[IQUS](https://www.iqus.com.bo)**. Fábrica de software: sistemas web y aplicaciones móviles a medida.
+- **[La Sierra Tech](https://www.lasierratech.com/es)**. Desarrollo web, aplicaciones móviles, automatización con inteligencia artificial y consultoría.
+- **[Smart Coding](https://smartcoding.cc)**. Software a medida, sitios y aplicaciones web y móviles, y sistemas ERP, CRM y de punto de venta.
+- **[Syncra](https://syncra-team.com)**. Con sede en Santa Cruz y trabajo remoto: software a medida, integraciones por API y automatización.
+
+**La Paz**
+
+- **[ETV Consulting](https://etvholding.com)**. Constituida en La Paz en 2010, hoy se dedica por completo al desarrollo de software: aplicaciones web, plataformas por suscripción e integraciones con inteligencia artificial.
+- **[InfinitySoft Bolivia](https://infinitysoftwarebolivia.com)**. Nació en La Paz: software empresarial a medida, aplicaciones web y móviles con inteligencia artificial, para empresas medianas de todo el país.
+
+## Cómo elegir, sin importar la ciudad
+
+La ciudad pesa menos de lo que parece. Casi todas estas empresas trabajan en remoto con clientes de otras ciudades, y varias con clientes de otros países. Lo que cambia el resultado es otra cosa.
+
+### 1. Sabé qué tipo de proveedor necesitás
+
+No es lo mismo sumar programadores a tu producto, implementar un sistema que ya existe o construir uno para tu operación. Las empresas de la primera sección hacen lo primero, las de la segunda lo segundo y las de la tercera lo tercero. Pedirle a una lo que hace otra es la forma más rápida de pagar de más.
+
+### 2. Pedí ver algo funcionando
+
+Una presentación no muestra cómo trabaja un equipo. Un sistema en uso, aunque sea de otro cliente y con datos de prueba, sí.
+
+### 3. Pedí la cotización por alcance
+
+Una cotización comparable dice qué incluye, qué no, en qué plazo y con qué entregas. Escribimos una guía con los tramos reales: [cuánto cuesta un sistema a medida en Bolivia](/lab/cuanto-cuesta-un-sistema-a-medida-en-bolivia).
+
+### 4. Dejá por escrito de quién es el código
+
+Quién es dueño del código, del dominio y del servidor tiene que estar en el contrato antes de empezar, no descubrirse al final.
+
+### 5. Preguntá qué pasa después de entregar
+
+Soporte, cambios y mantenimiento. Un sistema que nadie mantiene empieza a fallar justo cuando la empresa más depende de él.
+
+## Si contratás desde otro país
+
+Bolivia usa la misma hora todo el año, UTC−4: coincide con la costa este de Estados Unidos durante su horario de verano y va una hora adelante en invierno. Para un equipo de América, eso significa trabajar en el mismo horario.
+
+Antes de empezar, preguntá en qué moneda cobra la empresa, cómo factura y qué medio de pago acepta desde tu país. Cada empresa lo resuelve distinto.
+
+## Y nosotros
+
+Burrow Labs es un software studio de Bolivia con base en Cochabamba. Construimos [sistemas empresariales](/servicios/sistemas-empresariales), [automatizaciones e integraciones](/servicios/automatizacion), [IA aplicada](/servicios/inteligencia-artificial), [plataformas web](/servicios/web-y-ecommerce) y [aplicaciones móviles](/servicios/aplicaciones-moviles) para empresas de toda Bolivia y del exterior, y recibimos pagos desde cualquier país. Nuestros [precios base](/planes) están publicados.
+
+Si después de leer esto alguna de las otras empresas encaja mejor con lo que necesitás, también está bien: elegí por el proceso, no por la lista. Y si querés que lo veamos juntos, [contanos qué querés resolver](/contacto).`,
+  },
 ];
