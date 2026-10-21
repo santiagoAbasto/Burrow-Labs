@@ -1,6 +1,7 @@
 "use client";
 
 import { Eye, EyeOff, LogIn } from "lucide-react";
+import Link from "next/link";
 import { useActionState, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { Mascot } from "@/components/brand/mascot";
@@ -84,7 +85,10 @@ export function LoginForm({ action }: { action: (prev: FormState, form: FormData
         {state.error && <Alert kind="error">{state.error}</Alert>}
         <Submit />
         <p className="type-small text-muted">
-          ¿Olvidaste la contraseña? Otro administrador puede restablecerla desde <strong>Usuarios</strong>, o en el servidor: <code className="font-mono text-[0.9em]">pnpm admin:password tu@email</code>.
+          <Link href="/admin/recuperar" className="text-link underline underline-offset-4">
+            ¿Olvidaste la contraseña?
+          </Link>{" "}
+          Te mandamos un enlace por correo.
         </p>
       </form>
     </div>

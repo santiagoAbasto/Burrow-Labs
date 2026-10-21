@@ -1,11 +1,11 @@
 import "server-only";
 import { createHash, randomBytes, scrypt, timingSafeEqual } from "node:crypto";
-import { and, eq, gt, lt } from "drizzle-orm";
+import { and, eq, gt, isNull, lt } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { cache } from "react";
 import { db } from "@/db";
-import { sessions, users } from "@/db/schema";
+import { passwordResets, sessions, users } from "@/db/schema";
 
 const IS_PROD = process.env.NODE_ENV === "production";
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -16,6 +16,8 @@ export const SESSION_COOKIE = IS_PROD ? "__Host-bl_session" : "bl_session";
 const SESSION_MS = 7 * DAY_MS;
 /** Tope absoluto: a los 30 días de creada la sesión deja de valer aunque se haya renovado por uso. */
 export const SESSION_MAX_MS = 30 * DAY_MS;
+/** Vida del enlace de recuperación. Corta a propósito: llega por correo y basta para usarlo enseguida. */
+export const RESET_MS = 60 * 60 * 1000;
 
 // scrypt con N=2^15, r=8, p=3 (equivalente recomendado por OWASP). Los parámetros viajan en el
 // hash para poder subirlos sin invalidar las contraseñas existentes.
@@ -131,4 +133,42 @@ export async function destroySession(): Promise<void> {
   const token = store.get(SESSION_COOKIE)?.value;
   if (token) await db.delete(sessions).where(eq(sessions.tokenHash, hashToken(token)));
   store.delete(SESSION_COOKIE);
+}
+
+/* ──────────────────────── recuperación de contraseña ──────────────────────── */
+
+/**
+ * Crea un enlace de recuperación y devuelve el token en claro, que solo viaja en el correo.
+ * Invalida los pedidos anteriores del mismo usuario: siempre hay un solo enlace vivo, así que
+ * pedir otro deja muerto al que ya se había enviado.
+ */
+export async function createPasswordReset(userId: string): Promise<string> {
+  const token = randomBytes(32).toString("base64url");
+  await db.delete(passwordResets).where(lt(passwordResets.expiresAt, new Date()));
+  await db.delete(passwordResets).where(eq(passwordResets.userId, userId));
+  await db.insert(passwordResets).values({ tokenHash: hashToken(token), userId, expiresAt: new Date(Date.now() + RESET_MS) });
+  return token;
+}
+
+/** Lectura sin consumir: sirve para decidir si la página muestra el formulario o «el enlace venció». */
+export async function findPasswordReset(token: string): Promise<string | null> {
+  const [row] = await db
+    .select({ userId: passwordResets.userId })
+    .from(passwordResets)
+    .where(and(eq(passwordResets.tokenHash, hashToken(token)), gt(passwordResets.expiresAt, new Date()), isNull(passwordResets.usedAt)))
+    .limit(1);
+  return row?.userId ?? null;
+}
+
+/**
+ * Marca el enlace como usado y devuelve el usuario, en un solo UPDATE condicional: dos envíos
+ * simultáneos del mismo formulario no pueden cambiar la contraseña dos veces.
+ */
+export async function claimPasswordReset(token: string): Promise<string | null> {
+  const [row] = await db
+    .update(passwordResets)
+    .set({ usedAt: new Date() })
+    .where(and(eq(passwordResets.tokenHash, hashToken(token)), gt(passwordResets.expiresAt, new Date()), isNull(passwordResets.usedAt)))
+    .returning({ userId: passwordResets.userId });
+  return row?.userId ?? null;
 }

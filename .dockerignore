@@ -8,3 +8,7 @@ playwright-report
 brand-src/*.py
 MEMORY.md
 .claude
+# Material interno: diagramas, grafo del código y entregables (presupuestos de clientes). Nunca al servidor.
+cerebro
+graphify-out
+output

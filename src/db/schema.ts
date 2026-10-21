@@ -66,6 +66,24 @@ export const sessions = pgTable(
   (t) => [index("sessions_expires_at_idx").on(t.expiresAt)],
 );
 
+// Recuperación de contraseña: el enlace que llega por correo. Mismo patrón que las sesiones —solo se
+// guarda el sha256, el token en claro vive únicamente en el correo— y se usa una sola vez: `usedAt`
+// se marca en el mismo UPDATE que lo valida, así dos envíos simultáneos no pueden cambiarla dos veces.
+export const passwordResets = pgTable(
+  "password_resets",
+  {
+    id: id(),
+    tokenHash: text().notNull().unique(),
+    userId: uuid()
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    expiresAt: ts().notNull(),
+    usedAt: ts(),
+    createdAt: ts().notNull().defaultNow(),
+  },
+  (t) => [index("password_resets_expires_at_idx").on(t.expiresAt)],
+);
+
 export const siteSettings = pgTable("site_settings", {
   key: text().primaryKey(),
   value: jsonb().notNull(),

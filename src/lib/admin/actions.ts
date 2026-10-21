@@ -7,14 +7,15 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { HOME_SECTIONS } from "@/components/home/sections";
 import { db } from "@/db";
-import { homeSections, leads, media, rateLimits, sessions, siteSettings, users } from "@/db/schema";
-import { createSession, destroySession, getSession, hashPassword, requireUser, verifyCredentials, verifyPassword } from "@/lib/auth";
+import { homeSections, leads, media, passwordResets, rateLimits, sessions, siteSettings, users } from "@/db/schema";
+import { claimPasswordReset, createPasswordReset, createSession, destroySession, getSession, hashPassword, requireUser, RESET_MS, verifyCredentials, verifyPassword } from "@/lib/auth";
 import { logActivity } from "./activity";
-import { revalidateContent, settingsSchema, TAGS } from "@/lib/content";
+import { getSettings, revalidateContent, settingsSchema, TAGS } from "@/lib/content";
 import { notifyIndexNow } from "@/lib/indexnow";
 import { accountKey, clientIp, clientKey, rateLimit } from "@/lib/rate-limit";
 import { isInternalPath } from "@/lib/analytics-events";
-import { emailConfigured, renderReplyEmail, sendEmail } from "@/lib/email";
+import { env } from "@/lib/env";
+import { emailConfigured, renderBrandEmail, renderReplyEmail, sendEmail } from "@/lib/email";
 import { MAX_UPLOAD_FILES, newMediaKey, processImageUpload, storage, UploadError } from "@/lib/storage";
 import { slugify, slugSchema } from "@/lib/validation";
 import { parseJsonForm, type JsonShape } from "./json-form";
@@ -65,6 +66,76 @@ export async function login(_prev: FormState, form: FormData): Promise<FormState
   await db.delete(rateLimits).where(inArray(rateLimits.key, keys.map(({ key }) => key))); // un ingreso correcto no consume intentos
   await createSession(user.id);
   await logActivity(user, "login", "sesión", null);
+  redirect("/admin");
+}
+
+/**
+ * Pide el enlace de recuperación. Responde siempre igual —exista o no la cuenta— para no delatar qué
+ * direcciones son administradores, y el correo sale por el mismo relay de Google Workspace que el resto.
+ */
+export async function requestPasswordReset(_prev: FormState, form: FormData): Promise<FormState> {
+  const email = text(form, "email").toLowerCase();
+  // Mismos dos límites que el ingreso: por IP y por cuenta. Sin esto, el formulario sería una forma
+  // cómoda de inundar de correos la casilla de un administrador.
+  const requestHeaders = await headers();
+  const keys = [clientIp(requestHeaders) ? { key: clientKey(requestHeaders, "reset"), limit: 5 } : null, { key: accountKey("reset-user", email), limit: 5 }].filter((entry) => entry !== null);
+  for (const { key, limit } of keys) {
+    const result = await rateLimit(key, { limit, windowSec: 900 });
+    if (!result.ok) return { error: `Demasiados pedidos. Probá de nuevo en ${Math.ceil(result.retryAfterSec / 60)} minutos.` };
+  }
+  if (!z.email().max(254).safeParse(email).success) return { ok: true }; // misma respuesta que un email válido sin cuenta
+
+  const [user] = await db.select({ id: users.id, name: users.name }).from(users).where(eq(users.email, email)).limit(1);
+  if (user) {
+    const token = await createPasswordReset(user.id);
+    const url = `${env.NEXT_PUBLIC_SITE_URL}/admin/recuperar/${token}`;
+    const minutos = Math.round(RESET_MS / 60000);
+    const subject = "Cambiá tu contraseña de Burrow Labs";
+    const body = [
+      `Hola${user.name ? ` ${user.name}` : ""},`,
+      "",
+      "Pediste cambiar la contraseña del panel de Burrow Labs. El botón de abajo te lleva a elegir una nueva.",
+      "",
+      `El enlace vale **${minutos} minutos** y se usa una sola vez. Si pedís otro, este deja de servir.`,
+      "",
+      "**Si no fuiste vos, ignorá este correo**: tu contraseña no cambia hasta que alguien abra ese enlace y escriba una nueva.",
+    ].join("\n");
+    let social: Awaited<ReturnType<typeof getSettings>>["social"] | undefined;
+    try {
+      social = (await getSettings()).social;
+    } catch {
+      // sin redes antes que sin correo
+    }
+    const { html, text: plain } = renderBrandEmail({ subject, bodyMarkdown: body, preheader: `El enlace vale ${minutos} minutos y se usa una sola vez.`, cta: { label: "Elegir una contraseña nueva", href: url }, social });
+    const result = await sendEmail({ to: email, subject, html, text: plain });
+    // Nunca se registra el token ni se delata el resultado en pantalla: solo queda en el log del servidor.
+    if (!result.ok) console.error(`[recuperación] no se pudo enviar el correo: ${result.error}`);
+  }
+  return { ok: true };
+}
+
+/** Cambia la contraseña con el token del correo, cierra todas las sesiones de esa cuenta y entra. */
+export async function completePasswordReset(token: string, _prev: FormState, form: FormData): Promise<FormState> {
+  if (typeof token !== "string" || !/^[A-Za-z0-9_-]{16,128}$/.test(token)) return { error: "El enlace no es válido. Pedí uno nuevo." };
+  const requestHeaders = await headers();
+  if (clientIp(requestHeaders)) {
+    const result = await rateLimit(clientKey(requestHeaders, "reset-set"), { limit: 10, windowSec: 900 });
+    if (!result.ok) return { error: `Demasiados intentos. Probá de nuevo en ${Math.ceil(result.retryAfterSec / 60)} minutos.` };
+  }
+  const parsed = passwordSchema.safeParse(String(form.get("password") ?? ""));
+  if (!parsed.success) return { error: "Revisá los campos marcados.", errors: { password: parsed.error.issues[0]?.message ?? "Inválida." } };
+  if (String(form.get("password")) !== String(form.get("confirm"))) return { error: "Las contraseñas no coinciden.", errors: { confirm: "No coincide." } };
+
+  // Se valida y se marca usado en el mismo UPDATE: sin ventana entre comprobar y consumir.
+  const userId = await claimPasswordReset(token);
+  if (!userId) return { error: "El enlace venció o ya se usó. Pedí uno nuevo." };
+  const [row] = await db.update(users).set({ passwordHash: await hashPassword(parsed.data) }).where(eq(users.id, userId)).returning({ id: users.id, email: users.email, name: users.name });
+  if (!row) return { error: "El enlace venció o ya se usó. Pedí uno nuevo." };
+  // Cambiar la contraseña echa a quien estuviera dentro con la vieja, en cualquier dispositivo.
+  await db.delete(sessions).where(eq(sessions.userId, userId));
+  await db.delete(passwordResets).where(eq(passwordResets.userId, userId));
+  await createSession(userId);
+  await logActivity(row, "update", "sesión", null, "contraseña recuperada por correo");
   redirect("/admin");
 }
 

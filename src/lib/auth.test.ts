@@ -18,13 +18,17 @@ vi.mock("next/navigation", () => ({
 }));
 
 import { client, db } from "@/db";
-import { sessions, users } from "@/db/schema";
+import { passwordResets, sessions, users } from "@/db/schema";
 import {
+  claimPasswordReset,
+  createPasswordReset,
   createSession,
   destroySession,
   getSession,
   hashPassword,
+  findPasswordReset,
   requireUser,
+  RESET_MS,
   SESSION_COOKIE,
   SESSION_MAX_MS,
   verifyCredentials,
@@ -166,5 +170,47 @@ describe("cookie de sesión", () => {
       vi.unstubAllEnvs();
       vi.resetModules();
     }
+  });
+});
+
+describe("recuperación de contraseña", () => {
+  it("el token sirve una sola vez", async () => {
+    const token = await createPasswordReset(userId);
+    expect(await findPasswordReset(token)).toBe(userId); // leer no lo consume
+    expect(await findPasswordReset(token)).toBe(userId);
+    expect(await claimPasswordReset(token)).toBe(userId); // el primer uso sí
+    expect(await claimPasswordReset(token)).toBeNull();
+    expect(await findPasswordReset(token)).toBeNull();
+  });
+
+  it("pedir otro enlace deja muerto al anterior", async () => {
+    const viejo = await createPasswordReset(userId);
+    const nuevo = await createPasswordReset(userId);
+    expect(await findPasswordReset(viejo)).toBeNull();
+    expect(await claimPasswordReset(viejo)).toBeNull();
+    expect(await claimPasswordReset(nuevo)).toBe(userId);
+  });
+
+  it("vencido no se encuentra ni se consume", async () => {
+    const token = await createPasswordReset(userId);
+    await db
+      .update(passwordResets)
+      .set({ expiresAt: new Date(Date.now() - 1000) })
+      .where(eq(passwordResets.userId, userId));
+    expect(await findPasswordReset(token)).toBeNull();
+    expect(await claimPasswordReset(token)).toBeNull();
+  });
+
+  it("un token inventado no abre nada y el enlace vale una hora", async () => {
+    expect(await findPasswordReset("no-existe")).toBeNull();
+    expect(await claimPasswordReset("no-existe")).toBeNull();
+    expect(RESET_MS).toBe(60 * 60 * 1000);
+  });
+
+  it("solo guarda el hash: el token en claro no queda en la base", async () => {
+    const token = await createPasswordReset(userId);
+    const [row] = await db.select({ tokenHash: passwordResets.tokenHash }).from(passwordResets).where(eq(passwordResets.userId, userId)).limit(1);
+    expect(row.tokenHash).not.toBe(token);
+    expect(row.tokenHash).toBe(createHash("sha256").update(token).digest("hex"));
   });
 });
