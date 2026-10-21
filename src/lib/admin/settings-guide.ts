@@ -60,7 +60,7 @@ export const SETTINGS_GUIDE: SettingsGuide[] = [
     fields: {
       instagram: { label: "Instagram", placeholder: "https://www.instagram.com/burrowlabsbo/" },
       linkedin: { label: "LinkedIn", placeholder: "https://www.linkedin.com/company/burrow-labs/" },
-      github: { label: "GitHub", placeholder: "https://github.com/burrowlabs" },
+      github: { label: "GitHub", placeholder: "https://github.com/burrow-labs-bo" },
       facebook: { label: "Facebook", placeholder: "https://www.facebook.com/burrowlabs" },
       tiktok: { label: "TikTok", placeholder: "https://www.tiktok.com/@burrowlabs" },
       x: { label: "X (Twitter)", placeholder: "https://x.com/burrowlabs" },
