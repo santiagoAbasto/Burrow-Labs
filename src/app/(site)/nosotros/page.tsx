@@ -32,6 +32,19 @@ export default async function AboutPage() {
               </SmartLink>
               . Trabajamos presencialmente en el valle y en remoto con el resto del país y del exterior.
             </p>
+            {/* Verificación de TechBehemoths: enlace de texto, sin su imagen (no carga nada de terceros). Su robot busca
+                este atributo y exige que el enlace no sea nofollow. */}
+            <p className="mt-3 type-small">
+              <a
+                href="https://techbehemoths.com/company/burrow-labs"
+                target="_blank"
+                rel="noopener"
+                data-techbehemoths-verification=""
+                className="text-link underline-offset-4 hover:underline"
+              >
+                Verified on TechBehemoths
+              </a>
+            </p>
           </aside>
         </Container>
       </Stratum>
