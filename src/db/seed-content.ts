@@ -183,6 +183,32 @@ Administrás el contenido con tu propio panel, sin depender de nadie, y la estru
     seoTitle: "Desarrollo web, e-commerce y catálogos B2B",
     seoDescription:
       "Sitios administrables, e-commerce, catálogos B2B y portales de clientes conectados con stock, pedidos, pagos o el sistema interno que ya usa tu empresa.",
+  },  {
+    slug: "aplicaciones-moviles",
+    name: "Aplicaciones móviles",
+    icon: "smartphone",
+    tagline: "Apps para Android y iPhone, conectadas con cómo trabaja tu empresa.",
+    problem: `Hay trabajo que no pasa frente a una computadora: el vendedor que toma pedidos en la calle, el técnico que cierra una orden en la obra, el chofer que confirma una entrega, el cliente que quiere pedir desde el celular. Hoy eso vuelve a la oficina por WhatsApp, en fotos de papeles o en una planilla que alguien completa a la noche.
+
+Y cuando la app ya existe, muchas veces vive aislada: tiene sus propios datos, no se entera de lo que pasa en el sistema de la empresa y obliga a cargar todo dos veces.`,
+    solution: `Desarrollamos aplicaciones móviles para Android y iPhone desde Cochabamba, para empresas de Bolivia y del exterior. La app se conecta con el sistema que ya usás, o con el que construimos, para que lo que se carga en la calle aparezca en la oficina sin que nadie lo copie.
+
+Antes de programar definimos quién la va a usar, qué tiene que hacer y con qué datos. Recién entonces elegimos la tecnología: una sola base de código para los dos sistemas, una app nativa para cada uno o una app web que se instala en el celular cuando no hace falta pasar por las tiendas.
+
+Nos encargamos de publicarla en Google Play y App Store a nombre de tu empresa, o de distribuirla solo entre tu equipo si es de uso interno.`,
+    examples: [
+      "Pedidos y ventas en ruta",
+      "Órdenes de trabajo para técnicos",
+      "Apps de clientes: pedidos, reservas y seguimiento",
+      "Apps internas para el equipo",
+      "Conexión con tu sistema por API",
+      "Publicación en Google Play y App Store",
+    ],
+    technologies: ["React Native", "Expo", "Flutter", "Kotlin", "Swift", "PWA"],
+    ctaLabel: "Quiero una app para mi empresa",
+    seoTitle: "Desarrollo de aplicaciones móviles en Cochabamba",
+    seoDescription:
+      "Desarrollamos apps para Android y iPhone desde Cochabamba, conectadas con el sistema de tu empresa. Publicación en Google Play y App Store. Bolivia y exterior.",
   },
 ];
 
@@ -338,7 +364,7 @@ const SEO: [path: string, title: string, description: string][] = [
   ["/diagnostico", "Diagnóstico express: ¿qué necesita tu negocio?", "Respondé cinco preguntas en dos minutos y te decimos por dónde conviene empezar: una web, una automatización, un sistema a medida, una integración o IA."],
   ["/calculadora", "Calculadora de costo de procesos manuales", "Calculá cuántas horas y cuánto dinero por año le cuesta a tu empresa una tarea que se hace a mano todas las semanas, y qué parte de ese tiempo es repetitiva."],
   ["/faq", "Preguntas frecuentes sobre software a medida", "Respuestas directas sobre costos, plazos, automatización, integraciones, IA, CRM a medida, propiedad del código y cómo abordamos un proyecto de software."],
-  ["/desarrollo-de-software-cochabamba", "Desarrollo de software a medida en Cochabamba", "Software studio en Cochabamba, Bolivia: sistemas a medida, automatización de procesos, integraciones e IA aplicada para empresas de Cochabamba y de todo el país."],
+  ["/desarrollo-de-software-cochabamba", "Desarrollo de software a medida en Cochabamba", "Software studio en Cochabamba, Bolivia: sistemas a medida, apps móviles, automatización, integraciones e IA para empresas de Bolivia y del exterior."],
   ["/privacidad", "Política de privacidad", "Qué datos recopila el sitio de Burrow Labs en sus formularios y estadísticas, para qué se usan, cuánto tiempo se conservan y cómo pedir acceso o eliminación."],
   ["/terminos", "Términos y condiciones", "Condiciones de uso del sitio de Burrow Labs: información y precios base, herramientas de estimación, propiedad intelectual, contratos y ley aplicable."],
   ["/cookies", "Política de cookies", "Qué cookies y almacenamiento local usa el sitio de Burrow Labs, cómo cambiar tu elección y cómo medimos el uso del sitio sin cookies, con un identificador seudónimo diario."],

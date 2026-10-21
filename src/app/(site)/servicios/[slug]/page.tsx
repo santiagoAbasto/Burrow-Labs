@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProjectRow } from "@/components/projects/project-row";
 import { JsonLd } from "@/components/site/json-ld";
+import { LabReading } from "@/components/site/lab-reading";
 import { PageHeader } from "@/components/site/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -10,7 +11,7 @@ import { CTA } from "@/components/ui/cta";
 import { Markdown } from "@/components/ui/markdown";
 import { Container, Stratum } from "@/components/ui/stratum";
 import { TerrainCut } from "@/components/ui/terrain-cut";
-import { getProjectsByService, getServices, getSettings } from "@/lib/content";
+import { getPosts, getProjectsByService, getServices, getSettings } from "@/lib/content";
 import { breadcrumbJsonLd, buildMetadata, findBySlug, serviceJsonLd } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -35,7 +36,7 @@ export default async function ServicePage({ params }: Props) {
   const all = await getServices();
   const service = findBySlug(all, (await params).slug);
   if (!service) notFound();
-  const [settings, projects] = await Promise.all([getSettings(), getProjectsByService(service.slug)]);
+  const [settings, projects, posts] = await Promise.all([getSettings(), getProjectsByService(service.slug), getPosts()]);
   const others = all.filter((other) => other.slug !== service.slug);
 
   return (
@@ -115,6 +116,12 @@ export default async function ServicePage({ params }: Props) {
                 <ProjectRow key={project.id} project={project} index={i} />
               ))}
             </ol>
+          </Container>
+        )}
+
+        {posts.length > 0 && (
+          <Container className="mt-section">
+            <LabReading posts={posts.slice(0, 4)} />
           </Container>
         )}
 

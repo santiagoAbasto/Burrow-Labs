@@ -1,4 +1,4 @@
-import { Building2, Code2, Globe, Plug, Sparkles, Workflow, type LucideIcon } from "lucide-react";
+import { Building2, Code2, Globe, Plug, Smartphone, Sparkles, Workflow, type LucideIcon } from "lucide-react";
 
 const ICONS: Record<string, LucideIcon> = {
   code: Code2,
@@ -7,6 +7,7 @@ const ICONS: Record<string, LucideIcon> = {
   plug: Plug,
   globe: Globe,
   building: Building2,
+  smartphone: Smartphone,
 };
 export const SERVICE_ICON_KEYS = Object.keys(ICONS);
 

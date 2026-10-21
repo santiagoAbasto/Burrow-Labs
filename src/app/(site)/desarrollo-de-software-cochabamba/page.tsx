@@ -3,12 +3,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ServiceIcon } from "@/components/services/service-icon";
 import { JsonLd } from "@/components/site/json-ld";
+import { LabReading } from "@/components/site/lab-reading";
 import { PageHeader } from "@/components/site/page-header";
 import { CTA } from "@/components/ui/cta";
 import { BrandPhrase } from "@/components/ui/section-heading";
 import { Container, Stratum } from "@/components/ui/stratum";
 import { TerrainCut } from "@/components/ui/terrain-cut";
-import { getPlans, getProjects, getServices, getSettings } from "@/lib/content";
+import { getPlans, getPosts, getProjects, getServices, getSettings } from "@/lib/content";
 import { breadcrumbJsonLd, buildMetadata, localServiceJsonLd } from "@/lib/seo";
 
 /**
@@ -22,7 +23,7 @@ export const generateMetadata = (): Promise<Metadata> =>
     path: "/desarrollo-de-software-cochabamba",
     title: "Desarrollo de software a medida en Cochabamba",
     description:
-      "Somos un software studio en Cochabamba, Bolivia. Sistemas a medida, automatización de procesos, integraciones e IA aplicada para empresas de Cochabamba y de todo el país.",
+      "Software studio en Cochabamba, Bolivia: sistemas a medida, apps móviles, automatización, integraciones e IA para empresas de Bolivia y del exterior.",
   });
 
 /** El precio base más bajo de cada categoría, tomado de los planes publicados. Si no hay, no se afirma nada. */
@@ -34,7 +35,7 @@ function lowestPrice(plans: { category: "web" | "systems"; priceAmount: number |
 }
 
 export default async function CochabambaPage() {
-  const [services, projects, plans, settings] = await Promise.all([getServices(), getProjects(), getPlans(), getSettings()]);
+  const [services, projects, plans, settings, posts] = await Promise.all([getServices(), getProjects(), getPlans(), getSettings(), getPosts()]);
   const cases = projects.filter((project) => !project.isDemo).slice(0, 3);
   const webFrom = lowestPrice(plans, "web");
   const systemsFrom = lowestPrice(plans, "systems");
@@ -42,8 +43,9 @@ export default async function CochabambaPage() {
   return (
     <>
       <PageHeader eyebrow="Cochabamba, Bolivia" title="Desarrollo de software a medida en Cochabamba">
-        Burrow Labs es un software studio con base en Cochabamba. Construimos sistemas a medida, automatizaciones, integraciones e
-        inteligencia artificial aplicada para empresas que ya funcionan y necesitan ordenar su operación.
+        Burrow Labs es un software studio con base en Cochabamba. Construimos sistemas a medida, aplicaciones móviles,
+        automatizaciones, integraciones e inteligencia artificial aplicada para empresas que ya funcionan y necesitan ordenar su
+        operación.
       </PageHeader>
       <TerrainCut from="deep" to="chalk" variant="ridge" />
 
@@ -106,7 +108,7 @@ export default async function CochabambaPage() {
               <dt className="type-h3">¿Trabajan con empresas fuera de Cochabamba?</dt>
               <dd className="mt-3 text-muted">
                 Sí, en todo el país y también fuera de Bolivia. El proceso es el mismo: entender, modelar, construir por bloques y medir qué
-                cambió en la operación.
+                cambió en la operación. Recibimos pagos desde cualquier país.
               </dd>
             </div>
             <div>
@@ -133,6 +135,11 @@ export default async function CochabambaPage() {
             </div>
           </dl>
           <BrandPhrase className="mt-section">No empezamos por el código. Empezamos por entender cómo trabaja tu negocio.</BrandPhrase>
+          {posts.length > 0 && (
+            <div className="mt-section">
+              <LabReading posts={posts.slice(0, 4)} />
+            </div>
+          )}
         </Container>
       </Stratum>
 

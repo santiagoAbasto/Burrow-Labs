@@ -1,4 +1,5 @@
 import "server-only";
+import { SERVICE_ICON_KEYS } from "@/components/services/service-icon";
 import type { PgColumn, PgTable } from "drizzle-orm/pg-core";
 import {
   clients,
@@ -98,7 +99,7 @@ export const RESOURCES = {
         name: "icon",
         label: "Icono",
         type: "select",
-        options: ["code", "workflow", "sparkles", "plug", "globe", "building"].map((value) => ({ value, label: value })),
+        options: SERVICE_ICON_KEYS.map((value) => ({ value, label: value })),
       },
       { name: "problem", label: "El problema", type: "markdown" },
       { name: "solution", label: "Cómo lo resolvemos", type: "markdown" },
