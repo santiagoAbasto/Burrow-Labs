@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 const PAGES: [path: string, heading: RegExp][] = [
-  ["/servicios", /No vendemos código/i],
+  ["/servicios", /Software a medida para empresas de Bolivia y del exterior/i],
   ["/servicios/automatizacion", /Automatización/i],
   ["/proyectos", /Problema, trabajo, resultado/i],
   ["/planes", /De procesos manuales/i],
@@ -54,6 +54,26 @@ test.describe("navegación", () => {
     await drawer.getByRole("link", { name: "Planes" }).click();
     await expect(page).toHaveURL("/planes");
     await expect(drawer).toBeHidden();
+  });
+
+  test("el header vuelve al color de la superficie al subir rápido", async ({ page }) => {
+    // El hero cambia su estrato con el descenso 3D, que llega con retraso al scroll: el header lo tiene que seguir
+    // aunque ya no haya otro evento de scroll (antes quedaba en «deep», con el menú blanco sobre papel).
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/");
+    test.skip(!(await page.evaluate(() => !!document.createElement("canvas").getContext("webgl2"))), "sin WebGL no hay descenso 3D");
+    const hero = page.locator("#inicio");
+    const header = page.locator(".site-header");
+    await page.mouse.move(700, 450); // la escena se monta con la primera interacción
+    await expect(hero).toHaveAttribute("data-live", "true", { timeout: 20_000 });
+    await page.evaluate(() => {
+      const el = document.getElementById("inicio")!;
+      scrollTo({ top: el.offsetTop + (el.offsetHeight - innerHeight) * 0.65, behavior: "instant" });
+    });
+    await expect(hero).toHaveAttribute("data-stratum", "deep");
+    await page.evaluate(() => scrollTo({ top: 0, behavior: "instant" }));
+    await expect(hero).toHaveAttribute("data-stratum", "surface");
+    await expect(header).toHaveAttribute("data-stratum", "surface");
   });
 
   test("una ruta inexistente muestra el 404 con el juego", async ({ page }) => {

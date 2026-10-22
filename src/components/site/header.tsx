@@ -40,8 +40,15 @@ export function Header() {
     const onScroll = () => (frame ||= requestAnimationFrame(update));
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
+    // Un estrato también cambia sin scroll: el hero del inicio lo mueve con el descenso 3D, que llega con retraso.
+    // Sin esto, al subir rápido el último scroll leía todavía «deep» y el menú quedaba blanco sobre papel.
+    // El header está fuera de <main>, así que sus propios cambios de estrato no vuelven a disparar esto.
+    const strata = new MutationObserver(onScroll);
+    const main = document.querySelector("main");
+    if (main) strata.observe(main, { subtree: true, attributes: true, attributeFilter: ["data-stratum"] });
     return () => {
       window.removeEventListener("scroll", onScroll);
+      strata.disconnect();
       cancelAnimationFrame(frame);
     };
   }, [pathname]);
