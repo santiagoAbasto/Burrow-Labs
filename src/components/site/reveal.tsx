@@ -3,6 +3,8 @@
 import { useEffect } from "react";
 import { REDUCED_MOTION_QUERY } from "@/lib/motion";
 
+const PENDING = "[data-reveal]:not([data-revealed])";
+
 /**
  * Revela lo marcado con `data-reveal` cuando entra en pantalla (sube y aparece). Se monta por página
  * (va en el template), así cada navegación vuelve a observar. Sin JavaScript nada queda oculto:
@@ -10,12 +12,8 @@ import { REDUCED_MOTION_QUERY } from "@/lib/motion";
  */
 export function Reveal() {
   useEffect(() => {
-    const targets = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]:not([data-revealed])"));
-    if (matchMedia(REDUCED_MOTION_QUERY).matches) {
-      targets.forEach((el) => (el.dataset.revealed = "true"));
-      return;
-    }
-    document.body.dataset.revealReady = "true";
+    const reduced = matchMedia(REDUCED_MOTION_QUERY).matches;
+    if (!reduced) document.body.dataset.revealReady = "true";
     const observer = new IntersectionObserver(
       (entries) => {
         // lo que entra junto se revela en cascada (120 ms entre uno y otro, hasta 6), no de golpe
@@ -30,8 +28,22 @@ export function Reveal() {
       },
       { threshold: 0.12, rootMargin: "0px 0px -6% 0px" },
     );
-    targets.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+    const watch = (root: Element | Document) => {
+      const found = root instanceof Element && root.matches(PENDING) ? [root as HTMLElement] : [];
+      found.push(...root.querySelectorAll<HTMLElement>(PENDING));
+      found.forEach((el) => (reduced ? (el.dataset.revealed = "true") : observer.observe(el)));
+    };
+    watch(document);
+    // Al navegar, parte de la página puede llegar después de montar el template (streaming). Sin esto,
+    // lo que llegaba tarde quedaba transparente para siempre y había que entrar dos veces.
+    const late = new MutationObserver((records) =>
+      records.forEach((record) => record.addedNodes.forEach((node) => node instanceof Element && watch(node))),
+    );
+    late.observe(document.body, { childList: true, subtree: true });
+    return () => {
+      observer.disconnect();
+      late.disconnect();
+    };
   }, []);
   return null;
 }
