@@ -47,7 +47,27 @@ export function HeroDescent({ surfaceItems, depthItems, children }: { surfaceIte
     // Si el contenido del primer panel no entra en la pantalla, no se fija la escena.
     const intro = el.querySelector<HTMLElement>(".hero-intro");
     if (intro && intro.scrollHeight > window.innerHeight + 4) return;
-    setCapable(true);
+
+    // three.js pesa ~240 KiB y armar la escena ocupa el hilo principal unos segundos: montarla junto con la carga
+    // trababa el primer clic (TBT de 360 ms en PageSpeed, escritorio). Se monta con la primera interacción
+    // (mouse, scroll, toque o teclado) o, si no hay ninguna, cuando el navegador queda libre pasados 8 s.
+    // Mientras tanto se ve la composición estática, la misma de los teléfonos.
+    // ponytail: el disparo es fijo — si hiciera falta, precargar el chunk en reposo antes de la interacción.
+    const WAKE = ["pointermove", "pointerdown", "wheel", "touchstart", "keydown", "scroll"] as const;
+    let woken = false;
+    const idle = (cb: () => void) => (window.requestIdleCallback ? window.requestIdleCallback(cb, { timeout: 2000 }) : window.setTimeout(cb, 0));
+    function sleep() {
+      window.clearTimeout(fallback);
+      WAKE.forEach((type) => window.removeEventListener(type, wake));
+    }
+    function wake() {
+      if (woken) return;
+      woken = true;
+      sleep();
+      setCapable(true);
+    }
+    const fallback = window.setTimeout(() => idle(wake), 8000);
+    WAKE.forEach((type) => window.addEventListener(type, wake, { passive: true }));
 
     const onScroll = () => {
       const range = el.offsetHeight - window.innerHeight;
@@ -58,6 +78,7 @@ export function HeroDescent({ surfaceItems, depthItems, children }: { surfaceIte
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     return () => {
+      sleep();
       observer.disconnect();
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);

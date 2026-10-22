@@ -27,6 +27,8 @@ Cada sección tiene un único gesto propio. No hay una animación de entrada gen
 
 **Qué pasa al bajar:** la cámara desciende por un corte del terreno. Las seis tarjetas de la superficie (Excel, mensajes, papeles…) caen por el túnel, se dan vuelta y llegan al laboratorio como datos, APIs, automatizaciones, dashboards, software e IA, conectadas por cables amarillos a la laptop del burro.
 
+**Cuándo se monta:** no con la carga, sino con la primera interacción (mouse, scroll, toque o teclado) o, si no hay ninguna, cuando el navegador queda libre pasados 8 s (`descent.tsx`). Montarla junto con la carga ocupaba el hilo principal y llevaba el TBT de escritorio a 360 ms en PageSpeed (21/10/2026). Hasta entonces se ve la composición estática.
+
 **Rendimiento:** materiales sin luz (colores exactos del logo), texturas dibujadas en canvas, partículas instanciadas, sin sombras ni postprocesado, DPR máx. 1,75, se pausa fuera de pantalla. No se descarga ningún modelo, HDRI ni fuente remota (la CSP tampoco lo permitiría).
 
 **La mascota** en la escena es el asset original como textura plana. No está modelada.

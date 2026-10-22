@@ -40,7 +40,7 @@ Un solo grupo: Googlebot, Bingbot y los rastreadores de búsqueda con IA (OAI-Se
 Solo URL públicas, canónicas, `200` e indexables: páginas fijas, servicios, proyectos publicados (nunca demo) y artículos. Quedan afuera admin, API, `/dev`, bajas, URL con parámetros, rutas marcadas `noindex` en Admin → SEO y textos legales en borrador.
 
 - **Sin `changefreq` ni `priority`:** Google los ignora.
-- **`lastmod` solo con fecha real:** `updatedAt` de proyectos y artículos. Páginas fijas y servicios van sin fecha (el getter de servicios todavía no expone `updatedAt`).
+- **`lastmod` solo con fecha real:** `updatedAt` de servicios, proyectos y artículos. Las páginas fijas van sin fecha.
 - Se regenera solo: caché de 300 s e invalidación al guardar en el admin.
 
 ### Datos estructurados (JSON-LD, en el HTML del servidor)
@@ -148,7 +148,6 @@ Eventos: `page_view` (solo propio), `cta_hero`, `contact_submit`, `whatsapp_clic
 
 **Técnico, más adelante**
 
-- `updatedAt` en `getServices` para dar `lastmod` a los servicios.
 - **IndexNow** (Bing, Yandex, Naver, Seznam…; Google no participa): **implementado**. Con `INDEXNOW_KEY` definida, cada alta, cambio, publicación o baja de un servicio, caso, artículo, plan, FAQ o ruta SEO desde el panel avisa a `api.indexnow.org` la URL y su listado (`src/lib/indexnow.ts`, un intento, sin reintentos); la clave se sirve en `/indexnow-key.txt`. Sin clave no se avisa nada y esa ruta responde 404. Activo en producción. Lo que entra por una migración o por el seed **no** pasa por el panel: hay que avisar a mano (POST a `api.indexnow.org` con la clave pública de `/indexnow-key.txt`).
 - **Imagen Open Graph por proyecto y por artículo.** Hoy todos comparten el logo. Propuesta: cargar una portada real de 1200×630 por caso desde el admin (ya se usa sola si existe), o generarla con `opengraph-image.tsx` cuando esté la tipografía de marca como archivo local.
 - `Article` sin `image` cuando no hay portada: Google la recomienda.
