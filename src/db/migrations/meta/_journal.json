@@ -92,6 +92,13 @@
       "when": 1792618426555,
       "tag": "0012_nosotros_contacto_bolivia",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1792638038116,
+      "tag": "0013_portadas_del_lab",
+      "breakpoints": true
     }
   ]
 }

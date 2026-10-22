@@ -72,11 +72,14 @@ describe("JSON-LD", () => {
   });
 
   it("Article del Lab: autor organización si firma el estudio, persona si no", () => {
-    const post = { slug: "nota", title: "Nota", excerpt: "Resumen.", authorName: "Burrow Labs", publishedAt: "2026-09-16T12:00:00.000Z", updatedAt: "2026-10-02T14:44:07.795Z", cover: null, seoDescription: null };
+    const post = { slug: "nota", title: "Nota", excerpt: "Resumen.", authorName: "Burrow Labs", publishedAt: "2026-09-16T12:00:00.000Z", updatedAt: "2026-10-02T14:44:07.795Z", cover: null, seoDescription: null, ogImage: null };
     const article = articleJsonLd(post, settings);
     expect(article).toMatchObject({ "@type": "Article", author: ORG, publisher: ORG, datePublished: post.publishedAt, dateModified: post.updatedAt });
     expect(article).not.toHaveProperty("image");
     expect(articleJsonLd({ ...post, authorName: "Ana Pérez" }, settings).author).toEqual({ "@type": "Person", name: "Ana Pérez" });
+    // Sin portada subida, la imagen para compartir del artículo; la subida manda.
+    expect(articleJsonLd({ ...post, ogImage: "/lab/covers/nota.png" }, settings).image).toBe(`${SITE_URL}/lab/covers/nota.png`);
+    expect(articleJsonLd({ ...post, ogImage: "/lab/covers/nota.png", cover: { url: "/media/a.webp", alt: "", width: 1, height: 1 } }, settings).image).toBe(`${SITE_URL}/media/a.webp`);
   });
 
   it("caso de estudio: Article sobre los servicios relacionados, sin reviews, ratings ni precios", () => {

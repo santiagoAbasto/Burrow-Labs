@@ -12,6 +12,7 @@ export const POST_CATEGORIES = [
 export const POSTS = [
   {
     slug: "que-proceso-automatizar-primero",
+    ogImage: "/lab/covers/que-proceso-automatizar-primero.png",
     category: "automatizacion",
     title: "Qué proceso automatizar primero (y cuál dejar tranquilo)",
     excerpt:
@@ -80,6 +81,7 @@ La pregunta no es «¿qué podemos automatizar?», porque la respuesta es «casi
   },
   {
     slug: "cuando-tu-excel-ya-es-un-sistema",
+    ogImage: "/lab/covers/cuando-tu-excel-ya-es-un-sistema.png",
     category: "software-empresarial",
     title: "Señales de que tu Excel ya es un sistema (y te está pidiendo una base de datos)",
     excerpt:
@@ -145,6 +147,7 @@ Si reconociste tres o más señales, no es urgente, pero ya es momento de planif
   },
   {
     slug: "ia-en-procesos-reales",
+    ogImage: "/lab/covers/ia-en-procesos-reales.png",
     category: "ia-aplicada",
     title: "IA en procesos reales: dónde sí, dónde no y dónde todavía no",
     excerpt:
@@ -210,6 +213,7 @@ Las tres son buenas respuestas. La mala es implementar IA porque todos lo están
   },
   {
     slug: "cuanto-cuesta-un-sistema-a-medida-en-bolivia",
+    ogImage: "/lab/covers/cuanto-cuesta-un-sistema-a-medida-en-bolivia.png",
     category: "software-empresarial",
     title: "Cuánto cuesta un sistema a medida en Bolivia",
     excerpt:
@@ -315,6 +319,7 @@ Y si ya lo tenés claro, [contanos cómo funciona hoy tu proceso](/contacto). Te
   },
   {
     slug: "empresas-de-desarrollo-de-software-en-bolivia",
+    ogImage: "/lab/covers/empresas-de-desarrollo-de-software-en-bolivia.png",
     category: "software-empresarial",
     title: "Empresas de desarrollo de software en Bolivia: quién hace qué",
     excerpt:

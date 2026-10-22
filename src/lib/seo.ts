@@ -262,7 +262,7 @@ export function plansJsonLd(plans: Pick<Plan, "slug" | "name" | "tagline" | "pri
 }
 
 export function articleJsonLd(
-  post: Pick<Post, "slug" | "title" | "excerpt" | "authorName" | "publishedAt" | "updatedAt" | "cover" | "seoDescription">,
+  post: Pick<Post, "slug" | "title" | "excerpt" | "authorName" | "publishedAt" | "updatedAt" | "cover" | "seoDescription" | "ogImage">,
   settings: Settings,
 ): JsonLd {
   const url = absoluteUrl(`/lab/${post.slug}`);
@@ -274,7 +274,9 @@ export function articleJsonLd(
       headline: post.title,
       description: post.seoDescription || post.excerpt,
       url,
-      image: post.cover ? absoluteUrl(post.cover.url) : undefined,
+      // La portada subida o, si no hay, la imagen para compartir (las portadas de public/lab/covers/, que en la página
+      // no se muestran porque repiten el título del encabezado). Nunca el logo: Google pide que sea del artículo.
+      image: post.cover ? absoluteUrl(post.cover.url) : post.ogImage ? absoluteUrl(post.ogImage) : undefined,
       datePublished: post.publishedAt,
       dateModified: post.updatedAt,
       inLanguage: language(settings),

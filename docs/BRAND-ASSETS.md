@@ -69,3 +69,16 @@ Los tokens de `src/app/globals.css` son los valores exactos del vector: `#1671B1
 Derivados (no están en el logo): `blue-600`, `blue-400`, `blue-200`, `navy-800` y `night-950`. Existen por contraste o por profundidad; ver [DESIGN.md](DESIGN.md).
 
 El juego, la escena 3D y los accesorios dibujados (vagoneta, escenas de los planes) repiten estos valores como constantes, porque canvas y WebGL no leen variables CSS: si cambia un token, hay que cambiarlo también ahí.
+
+## Portadas del Lab
+
+Cada artículo tiene una portada de 1200×630 en `public/lab/covers/<slug>.png` (al doble de resolución): estrato «lab», categoría y minutos de lectura, el título, el wordmark y la insignia oficial, sin redibujar nada. Es la imagen para compartir del artículo (Open Graph) y, si no tiene una portada subida en el panel, la imagen de su `Article`. En la página no se muestra, porque repetiría el título del encabezado.
+
+Para un artículo nuevo, con el sitio en desarrollo:
+
+```bash
+node scripts/shot.mjs /dev/cover/<slug> public/lab/covers/<slug>.png 1200 630 --dpr=2
+```
+
+Después se carga `/lab/covers/<slug>.png` en «SEO: imagen para compartir» del artículo (o en `ogImage` de `src/db/seed/posts.ts` si el artículo entra por el seed). `/dev/cover/<slug>` responde 404 en producción.
+
