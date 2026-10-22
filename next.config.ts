@@ -62,6 +62,7 @@ const nextConfig: NextConfig = {
     localPatterns: [
       { pathname: "/media/**", search: "" },
       { pathname: "/brand/**", search: "" },
+      { pathname: "/lab/covers/**", search: "" },
     ],
     remotePatterns: s3PublicUrl ? [new URL(`${s3PublicUrl.href.replace(/\/+$/, "")}/**`)] : [],
   },

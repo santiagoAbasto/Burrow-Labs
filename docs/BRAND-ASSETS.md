@@ -72,7 +72,7 @@ El juego, la escena 3D y los accesorios dibujados (vagoneta, escenas de los plan
 
 ## Portadas del Lab
 
-Cada artículo tiene una portada de 1200×630 en `public/lab/covers/<slug>.png` (al doble de resolución): estrato «lab», categoría y minutos de lectura, el título, el wordmark y la insignia oficial, sin redibujar nada. Es la imagen para compartir del artículo (Open Graph) y, si no tiene una portada subida en el panel, la imagen de su `Article`. En la página no se muestra, porque repetiría el título del encabezado.
+Cada artículo tiene una portada de 1200×630 en `public/lab/covers/<slug>.png` (al doble de resolución): estrato «lab», categoría y minutos de lectura, el título, el wordmark y la insignia oficial, sin redibujar nada. Es la imagen para compartir del artículo (Open Graph) y, si no tiene una portada subida en el panel, su portada en la página (arriba del texto) y la imagen de su `Article`.
 
 Para un artículo nuevo, con el sitio en desarrollo:
 

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 /**
  * Portada de un artículo del Lab, 1200×630 (la proporción de Open Graph). Solo en desarrollo: se captura a PNG con
  *   node scripts/shot.mjs /dev/cover/<slug> public/lab/covers/<slug>.png 1200 630 --dpr=2
- * y esa ruta va en «SEO: imagen para compartir» del artículo (Open Graph e imagen del Article; en la página no se muestra).
+ * y esa ruta va en «SEO: imagen para compartir» del artículo: es su Open Graph y, sin portada subida, su portada e imagen del Article.
  * Insignia y wordmark son los oficiales, sin redibujar (docs/BRAND-ASSETS.md).
  */
 export default async function CoverPage({ params }: { params: Promise<{ slug: string }> }) {

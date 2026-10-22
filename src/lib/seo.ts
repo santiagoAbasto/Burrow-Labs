@@ -274,8 +274,8 @@ export function articleJsonLd(
       headline: post.title,
       description: post.seoDescription || post.excerpt,
       url,
-      // La portada subida o, si no hay, la imagen para compartir (las portadas de public/lab/covers/, que en la página
-      // no se muestran porque repiten el título del encabezado). Nunca el logo: Google pide que sea del artículo.
+      // La portada subida o, si no hay, la imagen para compartir (las portadas de public/lab/covers/).
+      // Nunca el logo: Google pide que la imagen de un Article sea del artículo.
       image: post.cover ? absoluteUrl(post.cover.url) : post.ogImage ? absoluteUrl(post.ogImage) : undefined,
       datePublished: post.publishedAt,
       dateModified: post.updatedAt,

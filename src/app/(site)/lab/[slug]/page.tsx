@@ -42,6 +42,8 @@ export default async function PostPage({ params }: Props) {
   const [{ post, all }, settings] = await Promise.all([findPost((await params).slug), getSettings()]);
   if (!post) notFound();
   const more = all.filter((other) => other.slug !== post.slug).slice(0, 4);
+  // Sin portada subida, la imagen para compartir si es del sitio (public/lab/covers/). Repite el título: alt vacío.
+  const cover = post.cover ?? (post.ogImage?.startsWith("/") ? { url: post.ogImage, alt: "" } : null);
 
   return (
     <>
@@ -61,9 +63,9 @@ export default async function PostPage({ params }: Props) {
       </Stratum>
       <Stratum as="article" tone="chalk">
         <Container className="max-w-3xl">
-          {post.cover && (
+          {cover && (
             <div className="relative mb-12 aspect-[16/9] overflow-hidden rounded-lg border border-line">
-              <Image src={post.cover.url} alt={post.cover.alt} fill preload fetchPriority="high" sizes="(min-width: 768px) 720px, 100vw" className="object-cover" />
+              <Image src={cover.url} alt={cover.alt} fill preload fetchPriority="high" sizes="(min-width: 768px) 720px, 100vw" className="object-cover" />
             </div>
           )}
           <Markdown>{post.content}</Markdown>
