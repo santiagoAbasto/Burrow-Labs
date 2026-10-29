@@ -37,7 +37,8 @@ function Detail({ service }: { service: Service }) {
         </ul>
       )}
       <Button href={`/servicios/${service.slug}`} variant="link" icon={<ArrowRight />} className="mt-8">
-        Ver {service.name.toLowerCase()}
+        {/* «Ver sistemas empresariales», pero «Ver IA aplicada»: solo la inicial baja, y no en una sigla. */}
+        Ver {service.name.replace(/^\p{Lu}(?!\p{Lu})/u, (initial) => initial.toLowerCase())}
       </Button>
     </>
   );

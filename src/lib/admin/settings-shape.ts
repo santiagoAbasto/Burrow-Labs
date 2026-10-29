@@ -5,7 +5,7 @@ import type { JsonShape } from "./json-form";
 // está en settings-guide.ts.
 export const SETTINGS_SHAPE = {
   contact: { email: "", whatsappPhone: "", whatsappEnabled: true, whatsappTooltip: "", whatsappGreeting: "", whatsappDefaultMessage: "" },
-  social: { instagram: "", linkedin: "", github: "", facebook: "", tiktok: "", x: "", googleMaps: "" },
+  social: { instagram: "", linkedin: "", github: "", facebook: "", tiktok: "", x: "", googleMaps: "", techbehemoths: "" },
   seo: { siteName: "", titleTemplate: "", description: "", ogImage: "", locale: "", street: "", city: "", region: "", country: "" },
   sectors: [""],
   brandPhrases: [""],

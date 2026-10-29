@@ -23,7 +23,7 @@ export const generateMetadata = (): Promise<Metadata> =>
     path: "/desarrollo-de-software-cochabamba",
     title: "Desarrollo de software a medida en Cochabamba",
     description:
-      "Software studio en Cochabamba, Bolivia: sistemas a medida, apps móviles, automatización, integraciones e IA para empresas de Bolivia y del exterior.",
+      "Desarrollo de software y desarrollo web en Cochabamba: sistemas a medida, páginas web, apps, automatización e IA para empresas de Bolivia y del exterior.",
   });
 
 /** El precio base más bajo de cada categoría, tomado de los planes publicados. Si no hay, no se afirma nada. */

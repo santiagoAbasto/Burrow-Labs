@@ -126,6 +126,8 @@ export const settingsSchema = z.object({
     x: profileUrl(),
     // La ficha verificada de Google: es la fuente local que más peso tiene para buscadores y asistentes.
     googleMaps: profileUrl(),
+    // El perfil en el directorio TechBehemoths: entra al sameAs para que buscadores y asistentes crucen la entidad.
+    techbehemoths: profileUrl(),
   }),
   seo: group({
     siteName: text("Burrow Labs"),

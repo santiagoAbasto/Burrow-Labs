@@ -3,6 +3,12 @@
    original; pezuñas, patas y accesorios son piezas aparte. Las animaciones corren solo con la escena
    en pantalla (data-live) y se apagan con prefers-reduced-motion.
    Sin capa a propósito: estos estados deben ganarle a las utilidades. */
+/* Tilde de las características: el mismo trazo que el Check de lucide (trazo 3, puntas redondas), en el color del texto. */
+.plan-check {
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+}
 .plan-scene {
   position: relative;
   container-type: inline-size;

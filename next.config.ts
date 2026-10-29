@@ -77,6 +77,9 @@ const nextConfig: NextConfig = {
       { source: "/:path*", has: [{ type: "query", key: "_rsc" }], headers: noindex },
       // Los assets de marca no llevan hash en el nombre: un día de caché y revalidación en segundo plano.
       { source: "/brand/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }] },
+      // Las portadas para compartir tampoco llevan hash: la misma regla que la marca.
+      { source: "/lab/covers/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }] },
+      { source: "/og/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }] },
     ];
   },
 };

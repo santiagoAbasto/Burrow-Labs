@@ -83,12 +83,19 @@ describe("JSON-LD", () => {
   });
 
   it("caso de estudio: Article sobre los servicios relacionados, sin reviews, ratings ni precios", () => {
-    const project = { slug: "crm", title: "CRM", summary: "Resumen.", seoDescription: null, cover: null, publishedAt: null, updatedAt: "2026-10-02T14:44:07.795Z", services: [{ slug: "automatizacion", name: "Automatización" }] };
+    const project = { slug: "crm", title: "CRM", summary: "Resumen.", seoDescription: null, cover: null, ogImage: null, publishedAt: null, updatedAt: "2026-10-02T14:44:07.795Z", services: [{ slug: "automatizacion", name: "Automatización" }] };
     const json = caseStudyJsonLd(project, settings);
     expect(json).toMatchObject({ "@type": "Article", author: ORG, publisher: ORG, url: `${SITE_URL}/proyectos/crm` });
     expect(json.about).toEqual([{ "@type": "Service", "@id": `${SITE_URL}/servicios/automatizacion#service`, name: "Automatización", url: `${SITE_URL}/servicios/automatizacion` }]);
     expect(json).not.toHaveProperty("datePublished");
     expect(JSON.stringify(json)).not.toMatch(/Review|Rating|price|SoftwareApplication/i);
+  });
+
+  it("caso de estudio: la imagen es la portada o la imagen para compartir, nunca el logo", () => {
+    const project = { slug: "crm", title: "CRM", summary: "Resumen.", seoDescription: null, cover: null, ogImage: null, publishedAt: null, updatedAt: "2026-10-02T14:44:07.795Z", services: [] };
+    expect(caseStudyJsonLd(project, settings)).not.toHaveProperty("image");
+    expect(caseStudyJsonLd({ ...project, ogImage: "/og/proyectos/crm.png" }, settings).image).toBe(`${SITE_URL}/og/proyectos/crm.png`);
+    expect(caseStudyJsonLd({ ...project, ogImage: "/og/proyectos/crm.png", cover: { url: "/media/c.webp", alt: "", width: 1, height: 1 } }, settings).image).toBe(`${SITE_URL}/media/c.webp`);
   });
 
   it("BreadcrumbList numera desde 1 con URL absolutas", () => {

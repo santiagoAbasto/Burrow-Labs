@@ -603,9 +603,11 @@ html[data-burro-dev] main [data-stratum-label]::before {
 .page-enter {
   animation: page-enter 0.9s var(--ease-out) both;
 }
+/* 0.01 y no 0: Chrome no cuenta como LCP lo que se pinta con opacidad 0, y así el H1 de cada página
+   queda como el elemento más grande en vez del wordmark o el aviso de cookies. A la vista es igual. */
 @keyframes page-enter {
   from {
-    opacity: 0;
+    opacity: 0.01;
   }
 }
 /* la cabecera entra pieza por pieza, con aire entre una y otra: nada cae de golpe */
@@ -629,7 +631,7 @@ html[data-burro-dev] main [data-stratum-label]::before {
 }
 @keyframes rise-in {
   from {
-    opacity: 0;
+    opacity: 0.01;
     transform: translateY(1.5rem);
   }
 }

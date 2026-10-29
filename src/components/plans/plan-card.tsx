@@ -1,4 +1,4 @@
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { TrackClick } from "@/components/site/track";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -41,7 +41,8 @@ function Body({ plan }: { plan: Plan }) {
       <ul className="mt-6 grid gap-2.5 border-t border-line pt-6">
         {plan.features.map((feature) => (
           <li key={feature} className="flex gap-3 type-small">
-            <Check aria-hidden="true" className="mt-0.5 size-4 shrink-0" strokeWidth={3} />
+            {/* El tilde va por CSS (plans.css): como SVG eran 44 copias en el Home, en el HTML y en el payload RSC. */}
+            <span aria-hidden="true" className="plan-check mt-0.5 size-4 shrink-0" />
             {feature}
           </li>
         ))}

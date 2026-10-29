@@ -82,3 +82,12 @@ node scripts/shot.mjs /dev/cover/<slug> public/lab/covers/<slug>.png 1200 630 --
 
 Después se carga `/lab/covers/<slug>.png` en «SEO: imagen para compartir» del artículo (o en `ogImage` de `src/db/seed/posts.ts` si el artículo entra por el seed). `/dev/cover/<slug>` responde 404 en producción.
 
+Servicios y casos usan la misma plantilla, con el tono de la cabecera de su página («deep» los servicios, «lab» los casos) y el texto de la base (el título SEO del servicio, el título y la categoría del caso):
+
+```bash
+node scripts/shot.mjs "/dev/cover/<slug>?tipo=servicio" public/og/servicios/<slug>.png 1200 630 --dpr=2
+node scripts/shot.mjs "/dev/cover/<slug>?tipo=proyecto" public/og/proyectos/<slug>.png 1200 630 --dpr=2
+```
+
+Y se carga `/og/servicios/<slug>.png` o `/og/proyectos/<slug>.png` en «SEO: imagen para compartir». Si cambia el título, se vuelve a capturar.
+

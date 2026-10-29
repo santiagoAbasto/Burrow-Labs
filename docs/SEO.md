@@ -55,7 +55,7 @@ Solo URL públicas, canónicas, `200` e indexables: páginas fijas, servicios, p
 | `/lab/[slug]` | + `Article` (`author` organización si firma el estudio, persona si no) |
 | `/desarrollo-de-software-cochabamba` | + `ItemList` de `Service` (uno por servicio, `provider` → organización, `areaServed` = ciudad dentro del país) |
 
-- **Una sola entidad** `Organization`: nombre, URL, logo absoluto (`/icon.png`, 512×512), descripción, `PostalAddress` (calle, ciudad, región y país, solo lo cargado en Admin → Configuración → SEO) y `sameAs` únicamente con los perfiles cargados en Admin → Configuración → Redes. Email solo si está cargado.
+- **Una sola entidad** `Organization`: nombre, URL, logo absoluto (`/icon.png`, 512×512), descripción, `PostalAddress` (calle, ciudad, región y país, solo lo cargado en Admin → Configuración → SEO) y `sameAs` únicamente con los perfiles cargados en Admin → Configuración → Redes (incluido el de TechBehemoths desde el 28/10/2026). Email solo si está cargado. La calle, la ciudad y el teléfono también se ven en el pie de todas las páginas: el marcado no publica nada que no esté a la vista.
 - **Nunca:** `FAQPage`, `Review`, `AggregateRating`, precios, `SoftwareApplication`, direcciones o teléfonos inventados.
 - Las fechas de `Article` son las de la base (`publishedAt`, `updatedAt`).
 
@@ -143,10 +143,10 @@ Eventos: `page_view` (solo propio), `cta_hero`, `contact_submit`, `whatsapp_clic
 
 **Del servidor**
 
-- `http://www.` hace dos saltos (308 + 301); `http://` y `www.` solos hacen uno. Para dejarlo en uno, agregar `http://www.burrowlabs.com.bo` al bloque de `www` en el próximo cambio del Caddy compartido (lo reinicia el dueño: afecta a todos los sitios del servidor).
+- Hecho (comprobado el 28/10/2026): `http://`, `www.` y `http://www.` llegan al dominio raíz con un solo salto.
 - Hecho: `NEXT_PUBLIC_SITE_URL=https://burrowlabs.com.bo` al compilar y al correr.
 
 **Técnico, más adelante**
 
 - **IndexNow** (Bing, Yandex, Naver, Seznam…; Google no participa): **implementado**. Con `INDEXNOW_KEY` definida, cada alta, cambio, publicación o baja de un servicio, caso, artículo, plan, FAQ o ruta SEO desde el panel avisa a `api.indexnow.org` la URL y su listado (`src/lib/indexnow.ts`, un intento, sin reintentos); la clave se sirve en `/indexnow-key.txt`. Sin clave no se avisa nada y esa ruta responde 404. Activo en producción. Lo que entra por una migración o por el seed **no** pasa por el panel: hay que avisar a mano (POST a `api.indexnow.org` con la clave pública de `/indexnow-key.txt`).
-- **Imagen Open Graph por proyecto.** Hoy los casos comparten el logo. Propuesta: cargar una portada real de 1200×630 por caso desde el admin (ya se usa sola si existe). **Artículos: hecho (21/10/2026)**: cada artículo tiene su portada en `public/lab/covers/<slug>.png`, cargada como «imagen para compartir»; es su Open Graph y, sin portada subida, la portada de la página y la imagen del `Article` (ver [BRAND-ASSETS.md](BRAND-ASSETS.md)).
+- **Imagen Open Graph por servicio y por caso: hecho (28/10/2026).** Cada servicio y cada caso tiene su portada en `public/og/servicios/<slug>.png` y `public/og/proyectos/<slug>.png` (misma plantilla que el Lab, ver [BRAND-ASSETS.md](BRAND-ASSETS.md)), cargada como «imagen para compartir» por la migración `0014`. Es su Open Graph y, en los casos, la imagen del `Article`. Una portada real subida desde el panel la reemplaza. **Artículos: hecho (21/10/2026)**: cada artículo tiene su portada en `public/lab/covers/<slug>.png`, cargada como «imagen para compartir»; es su Open Graph y, sin portada subida, la portada de la página y la imagen del `Article` (ver [BRAND-ASSETS.md](BRAND-ASSETS.md)).

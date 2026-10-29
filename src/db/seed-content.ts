@@ -33,14 +33,14 @@ const SETTINGS: Record<string, unknown> = {
     whatsappGreeting: "Hola 👋 ¿Qué problema querés dejar de hacer a mano?",
     whatsappDefaultMessage: "Hola Burrow Labs, quiero conversar sobre un proyecto.",
   },
-  social: { instagram: "https://www.instagram.com/burrowlabsbo/", linkedin: "", github: "", facebook: "", tiktok: "", x: "", googleMaps: "" },
+  social: { instagram: "https://www.instagram.com/burrowlabsbo/", linkedin: "", github: "", facebook: "", tiktok: "", x: "", googleMaps: "", techbehemoths: "https://techbehemoths.com/company/burrow-labs" },
   seo: {
     siteName: "Burrow Labs",
     // Contrato con src/lib/seo.ts: la plantilla se aplica salvo que el título ya contenga «Burrow Labs».
     titleTemplate: "%s · Burrow Labs",
     // Descripción corta de la entidad: va al JSON-LD de Organization, a /llms.txt y a las páginas sin descripción propia.
     description:
-      "Burrow Labs es un software studio de Bolivia que construye sistemas a medida, aplicaciones móviles, automatizaciones, integraciones e IA aplicada para empresas de Bolivia y del exterior.",
+      "Burrow Labs es una empresa de desarrollo de software de Bolivia, con base en Cochabamba, que construye sistemas a medida, aplicaciones móviles, automatizaciones, integraciones e IA aplicada para empresas de Bolivia y del exterior.",
     ogImage: "/brand/og-logo.png",
     locale: "es_BO",
     city: "Cochabamba",
@@ -63,7 +63,7 @@ const SETTINGS: Record<string, unknown> = {
     headline: "Pequeños por diseño. Obsesionados con resolver.",
     body: `Burrow Labs nace de una idea simple: antes de sumar otra herramienta a una empresa, hay que entender qué está frenando realmente el trabajo.
 
-Conectamos sistemas, eliminamos tareas repetitivas y construimos herramientas para operar con menos trabajo manual: sistemas web, aplicaciones móviles, automatizaciones, integraciones e IA aplicada.
+Somos una empresa de desarrollo de software de Bolivia, con base en Cochabamba. Conectamos sistemas, eliminamos tareas repetitivas y construimos herramientas para operar con menos trabajo manual: [sistemas web, aplicaciones móviles, automatizaciones, integraciones e IA aplicada](/servicios). Dos ejemplos: [Apple Boss](/proyectos/apple-boss) y [Commerce Intelligence](/proyectos/commerce-intelligence).
 
 ## De dónde viene el nombre
 
@@ -149,7 +149,7 @@ Empezamos por un proceso concreto: lo mapeamos, lo automatizamos de punta a punt
 La IA sirve cuando está dentro de un proceso real, conectada a la información de la empresa y con límites claros sobre qué puede decidir y qué no.`,
     solution: `Integramos modelos de IA dentro de procesos reales: asistentes, interpretación de información, clasificación, análisis de documentos e imágenes y ejecución controlada de acciones mediante herramientas.
 
-Definimos qué interpreta el modelo, qué queda en manos de reglas del sistema y cuándo interviene una persona. Y si el problema se resuelve mejor sin IA, te lo decimos.
+Definimos qué interpreta el modelo, qué queda en manos de reglas del sistema y cuándo interviene una persona. Y si el problema se resuelve mejor sin IA, te lo decimos: en el Lab explicamos [dónde sí conviene usar IA y dónde no](/lab/ia-en-procesos-reales).
 
 > La IA interpreta. Las reglas críticas del negocio siguen siendo controladas y testeables.`,
     examples: [
@@ -170,11 +170,11 @@ Definimos qué interpreta el modelo, qué queda en manos de reglas del sistema y
     slug: "web-y-ecommerce",
     name: "Plataformas web",
     icon: "globe",
-    tagline: "Una web conectada con cómo trabaja la empresa.",
+    tagline: "Páginas web y plataformas conectadas con cómo trabaja la empresa.",
     problem: `Un sitio que no se puede administrar sin llamar a alguien termina desactualizado. Una tienda online desconectada del stock vende lo que no hay y obliga a corregir pedidos a mano. Un catálogo que vive en un PDF se reenvía por mensaje y nadie sabe cuál es la versión vigente.
 
 Cuando la web no está conectada con cómo trabaja la empresa, se convierte en una tarea más en vez de una herramienta.`,
-    solution: `Construimos plataformas públicas y privadas, sitios administrables, e-commerce, catálogos B2B y portales conectados con la operación interna.
+    solution: `Construimos plataformas públicas y privadas, sitios administrables, e-commerce, catálogos B2B y portales conectados con la operación interna. Hacemos desarrollo web y páginas web desde Cochabamba, para empresas de toda Bolivia y del exterior, y los [planes web](/planes) tienen precio base publicado.
 
 Administrás el contenido con tu propio panel, sin depender de nadie, y la estructura técnica queda bien armada para buscadores desde el primer día. Cuando hace falta, la plataforma se conecta con stock, pedidos, pagos o el sistema interno que ya usás.`,
     examples: ["E-commerce conectado al stock", "Catálogos B2B", "Portales de clientes", "Sitios corporativos administrables", "CMS a medida"],
@@ -332,7 +332,7 @@ const FAQS: { question: string; answer: string; category: string; home?: boolean
   },
   {
     question: "¿Cuánto cuesta desarrollar un sistema a medida?", category: "Precios",
-    answer: "Depende del alcance: cuántos módulos, usuarios, integraciones y reglas tiene el proceso. Como referencia publicamos precios base en [Planes](/planes): los planes web empiezan desde USD 85, los de automatización y sistemas desde USD 450, y una aplicación web a medida para un área de la operación (plan Sistema) desde USD 900. El valor final se confirma por escrito antes de comenzar, después de entender qué necesitás.",
+    answer: "Depende del alcance: cuántos módulos, usuarios, integraciones y reglas tiene el proceso. Como referencia publicamos precios base en [Planes](/planes): los planes web empiezan desde USD 85, los de automatización y sistemas desde USD 450, y una aplicación web a medida para un área de la operación (plan Sistema) desde USD 900. El valor final se confirma por escrito antes de comenzar, después de entender qué necesitás. Qué mueve el precio, explicado por tramos: [cuánto cuesta un sistema a medida en Bolivia](/lab/cuanto-cuesta-un-sistema-a-medida-en-bolivia).",
   },
   {
     question: "¿Qué necesitan para cotizar?", category: "Precios",
@@ -353,18 +353,18 @@ const FAQS: { question: string; answer: string; category: string; home?: boolean
 // agrega « · Burrow Labs»; si ya contiene «Burrow Labs» se usa tal cual (Home y Nosotros). Descripción: 140–160
 // caracteres, qué resuelve la página y para quién. Ningún título repetido. Mapa de intención: docs/SEO-CONTENT-ROADMAP.md
 const SEO: [path: string, title: string, description: string][] = [
-  ["/", "Burrow Labs | Software a medida en Bolivia", "Software studio de Bolivia con base en Cochabamba: sistemas a medida, apps móviles, automatización e IA para empresas de Bolivia y del exterior."],
+  ["/", "Burrow Labs | Empresa de desarrollo de software en Bolivia", "Empresa de desarrollo de software de Bolivia, con oficina en Cochabamba: sistemas a medida, apps móviles, automatización e IA, con precios base publicados."],
   ["/servicios", "Servicios de software a medida en Bolivia", "Sistemas empresariales, automatización, IA aplicada, plataformas web y apps móviles para empresas de Bolivia y del exterior. Primero entendemos el proceso."],
   ["/proyectos", "Casos de estudio de software a medida e IA", "Casos reales de sistemas empresariales, e-commerce, CRM, trazabilidad, cotizaciones e IA aplicada: qué problema había, qué construimos y qué cambió."],
-  ["/planes", "Precios de páginas web y sistemas a medida en Bolivia", "Precios base publicados: planes web desde USD 85 y planes de automatización y sistemas desde USD 450. El alcance final se confirma por escrito antes de empezar."],
-  ["/nosotros", "Burrow Labs | Software studio en Cochabamba, Bolivia", "Quiénes somos y cómo trabajamos: un software studio de Bolivia, con base en Cochabamba, que entiende el proceso antes de programar. Para Bolivia y el exterior."],
+  ["/planes", "Precios de páginas web y sistemas en Bolivia", "Precios base publicados: planes web desde USD 85 y planes de automatización y sistemas desde USD 450. El alcance final se confirma por escrito antes de empezar."],
+  ["/nosotros", "Burrow Labs: empresa de software en Cochabamba, Bolivia", "Quiénes somos y cómo trabajamos: una empresa de desarrollo de software de Bolivia, con base en Cochabamba, que entiende el proceso antes de programar."],
   ["/clientes", "Clientes y sectores con los que trabajamos", "Sectores para los que construimos software, automatizaciones e integraciones: industria, comercio, inmobiliarias, servicios, retail, manufactura y tecnología."],
   ["/lab", "Lab: notas de automatización, software e IA", "Notas y experimentos de Burrow Labs sobre automatización de procesos, software empresarial e IA aplicada: qué conviene hacer, qué no y por dónde empezar."],
-  ["/contacto", "Contacto: cotizá tu sistema o automatización", "Software studio de Bolivia con base en Cochabamba. Contanos cómo funciona hoy tu proceso y te proponemos qué automatizar, integrar o convertir en sistema."],
+  ["/contacto", "Contacto: cotizá tu sistema o automatización", "Empresa de desarrollo de software de Bolivia, con base en Cochabamba. Contanos cómo funciona hoy tu proceso y te proponemos qué automatizar o integrar."],
   ["/diagnostico", "Diagnóstico express: ¿qué necesita tu negocio?", "Respondé cinco preguntas en dos minutos y te decimos por dónde conviene empezar: una web, una automatización, un sistema a medida, una integración o IA."],
   ["/calculadora", "Calculadora de costo de procesos manuales", "Calculá cuántas horas y cuánto dinero por año le cuesta a tu empresa una tarea que se hace a mano todas las semanas, y qué parte de ese tiempo es repetitiva."],
   ["/faq", "Preguntas frecuentes sobre software a medida", "Respuestas directas sobre costos, plazos, automatización, integraciones, IA, CRM a medida, propiedad del código y cómo abordamos un proyecto de software."],
-  ["/desarrollo-de-software-cochabamba", "Desarrollo de software a medida en Cochabamba", "Software studio en Cochabamba, Bolivia: sistemas a medida, apps móviles, automatización, integraciones e IA para empresas de Bolivia y del exterior."],
+  ["/desarrollo-de-software-cochabamba", "Desarrollo de software a medida en Cochabamba", "Desarrollo de software y desarrollo web en Cochabamba: sistemas a medida, páginas web, apps, automatización e IA para empresas de Bolivia y del exterior."],
   ["/privacidad", "Política de privacidad", "Qué datos recopila el sitio de Burrow Labs en sus formularios y estadísticas, para qué se usan, cuánto tiempo se conservan y cómo pedir acceso o eliminación."],
   ["/terminos", "Términos y condiciones", "Condiciones de uso del sitio de Burrow Labs: información y precios base, herramientas de estimación, propiedad intelectual, contratos y ley aplicable."],
   ["/cookies", "Política de cookies", "Qué cookies y almacenamiento local usa el sitio de Burrow Labs, cómo cambiar tu elección y cómo medimos el uso del sitio sin cookies, con un identificador seudónimo diario."],

@@ -10,6 +10,8 @@ export const SITE_URL = env.NEXT_PUBLIC_SITE_URL;
 const DEFAULT_OG_IMAGE = "/brand/og-logo.png";
 /** Logo de la organización para buscadores: el badge oficial de 512×512 que Next sirve desde src/app/icon.png. */
 const LOGO = { path: "/icon.png", size: 512 };
+/** Portadas para compartir que genera scripts/shot.mjs (1200×630 a 2×): se conocen sus dimensiones sin descargarlas. */
+const GENERATED_OG = /^\/(lab\/covers|og)\/[^/]+(\/[^/]+)?\.png$/;
 
 /** URL absoluta a partir de una ruta (`/servicios`) o de una URL ya absoluta. */
 export function absoluteUrl(pathOrUrl: string): string {
@@ -57,7 +59,9 @@ export async function buildMetadata(input: BuildMetadataInput): Promise<Metadata
   const images = [
     image === DEFAULT_OG_IMAGE
       ? { url: absoluteUrl(image), width: 1200, height: 630, type: "image/png", alt: `Logo de ${seo.siteName}` }
-      : { url: absoluteUrl(image), alt: title || seo.siteName },
+      : GENERATED_OG.test(image)
+        ? { url: absoluteUrl(image), width: 2400, height: 1260, type: "image/png", alt: title || seo.siteName }
+        : { url: absoluteUrl(image), alt: title || seo.siteName },
   ];
 
   return {
@@ -250,7 +254,7 @@ export function plansJsonLd(plans: Pick<Plan, "slug" | "name" | "tagline" | "pri
                 price: plan.priceMode === "fixed" ? plan.priceAmount : undefined,
                 priceSpecification:
                   plan.priceMode === "from"
-                    ? { "@type": "PriceSpecification", minPrice: plan.priceAmount, priceCurrency: plan.currency, valueAddedTaxIncluded: false }
+                    ? { "@type": "PriceSpecification", minPrice: plan.priceAmount, priceCurrency: plan.currency }
                     : undefined,
                 availability: "https://schema.org/InStock",
                 url: absoluteUrl("/planes"),
@@ -291,7 +295,7 @@ export function articleJsonLd(
 
 /** Caso de estudio: un artículo del estudio sobre un trabajo propio. Nunca SoftwareApplication, reviews, ratings ni precios. */
 export function caseStudyJsonLd(
-  project: Pick<Project, "slug" | "title" | "summary" | "seoDescription" | "cover" | "publishedAt" | "updatedAt" | "services">,
+  project: Pick<Project, "slug" | "title" | "summary" | "seoDescription" | "cover" | "ogImage" | "publishedAt" | "updatedAt" | "services">,
   settings: Settings,
 ): JsonLd {
   const url = absoluteUrl(`/proyectos/${project.slug}`);
@@ -303,7 +307,8 @@ export function caseStudyJsonLd(
       headline: project.title,
       description: project.seoDescription || project.summary,
       url,
-      image: project.cover ? absoluteUrl(project.cover.url) : undefined,
+      // Igual que en los artículos: la portada subida o la imagen para compartir del caso, nunca el logo.
+      image: project.cover ? absoluteUrl(project.cover.url) : project.ogImage ? absoluteUrl(project.ogImage) : undefined,
       datePublished: project.publishedAt,
       dateModified: project.updatedAt,
       inLanguage: language(settings),

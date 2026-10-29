@@ -71,7 +71,7 @@ export const HOME_SECTIONS = {
     defaults: {
       eyebrow: "Servicios",
       title: "Primero entendemos el proceso. Después escribimos código.",
-      body: "Sistemas empresariales, automatización e integraciones, IA aplicada y plataformas web. Elegimos la herramienta después de entender el problema.",
+      body: "Desarrollo de software a medida en Bolivia: sistemas empresariales, automatización e integraciones, IA aplicada, plataformas web y aplicaciones móviles. Elegimos la herramienta después de entender el problema.",
       cta: "Ver todos los servicios",
       phrase: "Antes de automatizar algo, entendemos por qué existe.",
     },

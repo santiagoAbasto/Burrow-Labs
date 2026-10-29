@@ -56,7 +56,7 @@ export function Header() {
   return (
     <header ref={ref} data-stratum="surface" className="site-header fixed inset-x-0 top-0 z-40">
       <Container className="flex h-16 items-center justify-between gap-4 lg:h-[4.5rem]">
-        <Logo priority />
+        <Logo />
         <nav aria-label="Principal" className="hidden min-[1025px]:block">
           <ul className="flex items-center gap-6">
             {NAV.map((item) => (

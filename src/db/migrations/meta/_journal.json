@@ -99,6 +99,13 @@
       "when": 1792638038116,
       "tag": "0013_portadas_del_lab",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1793239897265,
+      "tag": "0014_seo_empresa_de_software",
+      "breakpoints": true
     }
   ]
 }

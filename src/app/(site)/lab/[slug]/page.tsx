@@ -7,6 +7,7 @@ import { LabReading } from "@/components/site/lab-reading";
 import { Button } from "@/components/ui/button";
 import { CTA } from "@/components/ui/cta";
 import { Markdown } from "@/components/ui/markdown";
+import { SmartLink } from "@/components/ui/smart-link";
 import { Container, Stratum } from "@/components/ui/stratum";
 import { TerrainCut } from "@/components/ui/terrain-cut";
 import { getPost, getPosts, getSettings } from "@/lib/content";
@@ -69,7 +70,18 @@ export default async function PostPage({ params }: Props) {
             </div>
           )}
           <Markdown>{post.content}</Markdown>
-          <p className="mt-12 border-t border-line pt-6 type-small text-muted">Escrito por {post.authorName}.</p>
+          <p className="mt-12 border-t border-line pt-6 type-small text-muted">
+            Escrito por{" "}
+            {/* Firmado por el estudio: el nombre lleva a la página que lo presenta. */}
+            {post.authorName === settings.seo.siteName ? (
+              <SmartLink href="/nosotros" className="inline-flex min-h-11 items-center text-link underline underline-offset-4">
+                {post.authorName}
+              </SmartLink>
+            ) : (
+              post.authorName
+            )}
+            .
+          </p>
         </Container>
       </Stratum>
       {more.length > 0 && (

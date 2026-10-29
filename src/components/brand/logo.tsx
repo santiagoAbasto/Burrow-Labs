@@ -13,6 +13,8 @@ export function Logo({ className, priority = false }: { className?: string; prio
   return (
     <Link
       href="/"
+      // En el inicio el clic solo sube arriba: precargar la misma página son ~30 KB que nunca se usan.
+      prefetch={pathname === "/" ? false : undefined}
       aria-label="Burrow Labs, ir al inicio"
       className={cn("inline-flex items-center gap-2.5", className)}
       onClick={(event) => {
@@ -23,7 +25,7 @@ export function Logo({ className, priority = false }: { className?: string; prio
       }}
     >
       <Mascot variant="badge" sizes="48px" track={false} priority={priority} className="w-11" />
-      {/* En el header es la imagen que Chrome suele tomar como LCP: se precarga y se pide con prioridad alta. */}
+      {/* Con priority se precarga con prioridad alta. El header ya no la pide: el LCP de cada página es su H1. */}
       <Image src="/brand/wordmark.svg" alt="" width={654} height={119} preload={priority} fetchPriority={priority ? "high" : undefined} className="h-7 w-auto" />
     </Link>
   );

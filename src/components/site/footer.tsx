@@ -16,6 +16,7 @@ const SOCIAL_LABELS: Record<keyof Settings["social"], string> = {
   tiktok: "TikTok",
   x: "X",
   googleMaps: "Google Maps",
+  techbehemoths: "TechBehemoths",
 };
 
 function Column({ title, links }: { title: string; links: readonly { label: string; href: string }[] }) {
@@ -39,6 +40,10 @@ export function Footer({ settings }: { settings: Settings }) {
   const social = (Object.keys(SOCIAL_LABELS) as (keyof Settings["social"])[])
     .filter((key) => settings.social[key])
     .map((key) => ({ label: SOCIAL_LABELS[key], href: settings.social[key] }));
+  const { street, city } = settings.seo;
+  const address = [street, city].filter(Boolean).join(", ");
+  // +59164309353 → +591 64309353: el formato con el que se lee en la ficha y en los contratos.
+  const phone = settings.contact.whatsappPhone.replace(/^\+591\s*(\d)/, "+591 $1");
   const contact = [
     ...(settings.contact.email ? [{ label: settings.contact.email, href: `mailto:${settings.contact.email}` }] : []),
     { label: "Formulario de contacto", href: "/contacto" },
@@ -70,10 +75,28 @@ export function Footer({ settings }: { settings: Settings }) {
           <div>
             <p className="type-small text-muted">
               <SmartLink href="/desarrollo-de-software-cochabamba" className="hover:text-fg">
-                Software studio en Cochabamba, Bolivia
+                Desarrollo de software en Cochabamba, Bolivia
               </SmartLink>
               {" "}· Trabajamos con empresas de cualquier lugar.
             </p>
+            {/* La dirección y el teléfono del JSON-LD, también a la vista: tienen que decir lo mismo que la ficha de Google. */}
+            {(address || phone) && (
+              <address className="mt-1 flex flex-wrap gap-x-5 type-small not-italic text-muted">
+                {address &&
+                  (settings.social.googleMaps ? (
+                    <SmartLink href={settings.social.googleMaps} className="inline-flex min-h-11 items-center hover:text-fg">
+                      {address}
+                    </SmartLink>
+                  ) : (
+                    <span className="inline-flex min-h-11 items-center">{address}</span>
+                  ))}
+                {phone && (
+                  <a href={`tel:${phone.replace(/\s/g, "")}`} className="inline-flex min-h-11 items-center hover:text-fg">
+                    {phone}
+                  </a>
+                )}
+              </address>
+            )}
             <ul className="mt-2 flex flex-wrap gap-x-5">
               {LEGAL_LINKS.map((link) => (
                 <li key={link.href}>

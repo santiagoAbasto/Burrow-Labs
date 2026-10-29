@@ -12,8 +12,8 @@ import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 
 export const generateMetadata = (): Promise<Metadata> => buildMetadata({
     path: "/lab",
-    title: "Lab: experimentos, prototipos y notas",
-    description: "Experimentos, prototipos y notas: lo que probamos con software, automatización e IA antes de proponérselo a un cliente.",
+    title: "Lab: notas de automatización, software e IA",
+    description: "Notas y experimentos de Burrow Labs sobre automatización de procesos, software empresarial e IA aplicada: qué conviene hacer, qué no y por dónde empezar.",
   });
 
 export const formatDate = (iso: string | null) =>

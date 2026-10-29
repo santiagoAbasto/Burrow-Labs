@@ -65,6 +65,7 @@ export const SETTINGS_GUIDE: SettingsGuide[] = [
       tiktok: { label: "TikTok", placeholder: "https://www.tiktok.com/@burrowlabs" },
       x: { label: "X (Twitter)", placeholder: "https://x.com/burrowlabs" },
       googleMaps: { label: "Ficha de Google (Maps)", hint: "La dirección de tu ficha verificada. Abrí la ficha en Google Maps, tocá «Compartir» y copiá el enlace.", placeholder: "https://maps.app.goo.gl/..." },
+      techbehemoths: { label: "TechBehemoths", hint: "El perfil público del estudio en el directorio. El enlace de verificación de Nosotros no depende de este campo.", placeholder: "https://techbehemoths.com/company/burrow-labs" },
     },
     status: ({ social }) => {
       const count = Object.values(social).filter(filled).length;

@@ -222,7 +222,7 @@ Las tres son buenas respuestas. La mala es implementar IA porque todos lo están
     publishedAt: "2026-10-12T06:00:00.000Z",
     seoTitle: "Cuánto cuesta un sistema a medida en Bolivia",
     seoDescription:
-      "Qué define el precio de un software a medida en Bolivia: módulos, usuarios, integraciones y reglas. Tramos reales, precios base publicados y cómo pedir una cotización comparable.",
+      "Qué define el precio de un software a medida en Bolivia: módulos, usuarios, integraciones y reglas. Tramos, precios base y cómo pedir una cotización.",
     content: `Si pediste cotizaciones para un sistema a medida, ya conocés la escena: tres proveedores, tres números muy distintos y ninguna forma clara de compararlos. Uno cotiza por hora, otro da un total cerrado y el tercero pide una reunión más antes de decir nada.
 
 El problema no es que oculten el precio. Es que «un sistema a medida» no es un producto: es un rango enorme que va desde una planilla ordenada con un formulario hasta una plataforma que sostiene toda la operación de una empresa. Sin acotar el alcance, cualquier número es inventado.
@@ -333,7 +333,7 @@ Y si ya lo tenés claro, [contanos cómo funciona hoy tu proceso](/contacto). Te
 
 No es un ranking. No decimos quién es mejor: decimos qué hace cada empresa y desde dónde trabaja, para que sepas a quién conviene llamar según lo que necesitás.
 
-Una aclaración antes de empezar: nosotros también somos una empresa de software de Bolivia. Aparecemos al final, separados del resto.
+Una aclaración antes de empezar: nosotros también somos [una empresa de software de Bolivia](/). Aparecemos al final, separados del resto.
 
 ## Cómo armamos la lista
 
@@ -412,7 +412,7 @@ Antes de empezar, preguntá en qué moneda cobra la empresa, cómo factura y qu�
 
 ## Y nosotros
 
-Burrow Labs es un software studio de Bolivia con base en Cochabamba. Construimos [sistemas empresariales](/servicios/sistemas-empresariales), [automatizaciones e integraciones](/servicios/automatizacion), [IA aplicada](/servicios/inteligencia-artificial), [plataformas web](/servicios/web-y-ecommerce) y [aplicaciones móviles](/servicios/aplicaciones-moviles) para empresas de toda Bolivia y del exterior, y recibimos pagos desde cualquier país. Nuestros [precios base](/planes) están publicados.
+Burrow Labs es una [empresa de desarrollo de software de Bolivia](/) con base en [Cochabamba](/desarrollo-de-software-cochabamba). Construimos [sistemas empresariales](/servicios/sistemas-empresariales), [automatizaciones e integraciones](/servicios/automatizacion), [IA aplicada](/servicios/inteligencia-artificial), [plataformas web](/servicios/web-y-ecommerce) y [aplicaciones móviles](/servicios/aplicaciones-moviles) para empresas de toda Bolivia y del exterior, y recibimos pagos desde cualquier país. Nuestros [precios base](/planes) están publicados.
 
 Si después de leer esto alguna de las otras empresas encaja mejor con lo que necesitás, también está bien: elegí por el proceso, no por la lista. Y si querés que lo veamos juntos, [contanos qué querés resolver](/contacto).`,
   },

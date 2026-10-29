@@ -9,7 +9,7 @@ import { buildMetadata, professionalServiceJsonLd } from "@/lib/seo";
 
 export function generateMetadata(): Promise<Metadata> {
   // Respaldo si la ruta no tiene fila en Admin → SEO. Ya nombra al sitio: no se le aplica la plantilla.
-  return buildMetadata({ path: "/", title: "Burrow Labs | Software a medida, automatización e IA" });
+  return buildMetadata({ path: "/", title: "Burrow Labs | Empresa de desarrollo de software en Bolivia" });
 }
 
 const CUTS = ["ridge", "shelf", "fault"] as const;

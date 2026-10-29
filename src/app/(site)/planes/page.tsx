@@ -11,7 +11,7 @@ import { TerrainCut } from "@/components/ui/terrain-cut";
 import { getFaqs, getPlans, getSettings } from "@/lib/content";
 import { breadcrumbJsonLd, buildMetadata, plansJsonLd } from "@/lib/seo";
 
-export const generateMetadata = (): Promise<Metadata> => buildMetadata({ path: "/planes", title: "Planes y precios base" });
+export const generateMetadata = (): Promise<Metadata> => buildMetadata({ path: "/planes", title: "Precios de páginas web y sistemas en Bolivia" });
 
 const GROUPS = [
   { category: "web", id: "web", title: "Planes web", lead: "Desde una landing que recibe contactos hasta una web conectada con tu catálogo o tu CRM." },

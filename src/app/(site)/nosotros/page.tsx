@@ -11,7 +11,7 @@ import { TerrainCut } from "@/components/ui/terrain-cut";
 import { getSettings } from "@/lib/content";
 import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 
-export const generateMetadata = (): Promise<Metadata> => buildMetadata({ path: "/nosotros", title: "Sobre Burrow Labs, software studio en Cochabamba" });
+export const generateMetadata = (): Promise<Metadata> => buildMetadata({ path: "/nosotros", title: "Burrow Labs: empresa de software en Cochabamba, Bolivia" });
 
 export default async function AboutPage() {
   const { about } = await getSettings();
