@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { hasPendingMarkers } from "@/db/seed/legal";
 import { getPost, getPosts, getProject, getProjects, getSeo, getServices, getSettings } from "@/lib/content";
-import { absoluteUrl } from "@/lib/seo";
+import { absoluteUrl, SITE_URL } from "@/lib/seo";
 
 const STATIC = ["/", "/servicios", "/proyectos", "/planes", "/nosotros", "/clientes", "/lab", "/contacto", "/diagnostico", "/calculadora", "/faq", "/desarrollo-de-software-cochabamba"];
 
@@ -33,5 +33,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
   // Una ruta marcada «noindex» en Admin → SEO no se anuncia.
   const overrides = await Promise.all(entries.map((entry) => getSeo(entry.path)));
-  return entries.filter((_, i) => !overrides[i]?.noindex).map(({ path, lastModified }) => ({ url: absoluteUrl(path), lastModified }));
+  // La raíz va sin barra final, igual que su canonical y su og:url (Next los normaliza así); el resto no la lleva.
+  return entries.filter((_, i) => !overrides[i]?.noindex).map(({ path, lastModified }) => ({ url: path === "/" ? SITE_URL : absoluteUrl(path), lastModified }));
 }
