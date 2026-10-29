@@ -8,13 +8,15 @@ import { SmartLink } from "@/components/ui/smart-link";
 import { BrandPhrase } from "@/components/ui/section-heading";
 import { Container, Stratum } from "@/components/ui/stratum";
 import { TerrainCut } from "@/components/ui/terrain-cut";
-import { getSettings } from "@/lib/content";
+import { getProjects, getServices, getSettings } from "@/lib/content";
 import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 
 export const generateMetadata = (): Promise<Metadata> => buildMetadata({ path: "/nosotros", title: "Burrow Labs: empresa de software en Cochabamba, Bolivia" });
 
 export default async function AboutPage() {
-  const { about } = await getSettings();
+  const [{ about }, services, projects] = await Promise.all([getSettings(), getServices(), getProjects()]);
+  // Todos los casos publicados (los demo nunca salen en produccion) y los servicios, enlazados desde la base.
+  const cases = projects.filter((project) => !project.isDemo);
   return (
     <>
       <PageHeader eyebrow="Nosotros" title={about.headline} />
@@ -47,6 +49,48 @@ export default async function AboutPage() {
             </p>
           </aside>
         </Container>
+        {(services.length > 0 || cases.length > 0) && (
+          <Container className="mt-section border-t border-line pt-section">
+            <h2 className="type-h2">Lo que ya construimos</h2>
+            {services.length > 0 && (
+              <section className="mt-10" aria-labelledby="nosotros-servicios">
+                <h3 id="nosotros-servicios" className="type-mono text-muted">
+                  Servicios
+                </h3>
+                <ul className="mt-6 grid gap-8 border-t border-line pt-8 sm:grid-cols-2">
+                  {services.map((service) => (
+                    <li key={service.slug}>
+                      <SmartLink href={`/servicios/${service.slug}`} className="group block">
+                        <span className="type-h3 group-hover:text-accent">{service.name}</span>
+                        <span className="mt-2 block text-muted">{service.tagline}</span>
+                      </SmartLink>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+            {cases.length > 0 && (
+              <section className="mt-section" aria-labelledby="nosotros-casos">
+                <h3 id="nosotros-casos" className="type-mono text-muted">
+                  Casos de estudio
+                </h3>
+                <ul className="mt-6 border-t border-line">
+                  {cases.map((project) => (
+                    <li key={project.slug} className="border-b border-line">
+                      <SmartLink href={`/proyectos/${project.slug}`} className="group grid gap-1 py-6 sm:grid-cols-[1fr_1.6fr] sm:gap-8">
+                        <span className="type-h3 group-hover:text-accent">{project.title}</span>
+                        <span className="text-muted">
+                          {project.summary}
+                          {project.category && <span className="mt-1 block type-mono">{project.category.name}</span>}
+                        </span>
+                      </SmartLink>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+          </Container>
+        )}
       </Stratum>
       {about.values.length > 0 && (
         <Stratum tone="lab" aria-labelledby="valores-title">
