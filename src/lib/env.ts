@@ -40,6 +40,8 @@ const schema = z
       .string()
       .regex(/^[a-zA-Z0-9-]{8,128}$/, "8 a 128 caracteres: letras, números o guiones")
       .optional(),
+    // Token que comparte con Burrow Prospect para leer consultas y fichas (/api/prospect/sync). Sin token, la ruta no existe.
+    PROSPECT_API_TOKEN: z.string().min(32, "mínimo 32 caracteres (openssl rand -hex 32)").optional(),
   })
   .superRefine((v, ctx) => {
     const missing = (path: string, message: string) => ctx.addIssue({ code: "custom", path: [path], message });
