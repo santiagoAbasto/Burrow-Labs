@@ -151,12 +151,19 @@ export default async function ProjectPage({ params }: Props) {
           )}
           {!hero && project.visual && <ProjectVisual kind={project.visual} labels={project.features} title={project.title} className="mt-12 aspect-[4/3] sm:aspect-[16/9]" />}
           {shots.length > 0 && (
-            <ul aria-label="Más capturas del sitio" className="mt-8 grid gap-6 sm:grid-cols-3">
+            // Cuatro capturas van en 2×2 (en tres columnas la cuarta quedaría sola); el resto, en filas de tres.
+            <ul aria-label="Más capturas del sitio" className={`mt-8 grid gap-6 ${shots.length === 4 ? "sm:grid-cols-2" : "sm:grid-cols-3"}`}>
               {shots.map((image) => (
                 <li key={image.url}>
                   <figure>
                     <div className="relative aspect-[16/10] overflow-hidden rounded-lg border border-line">
-                      <Image src={image.url} alt={image.alt} fill sizes="(min-width: 1280px) 400px, (min-width: 640px) 33vw, 100vw" className="object-cover object-top" />
+                      <Image
+                        src={image.url}
+                        alt={image.alt}
+                        fill
+                        sizes={shots.length === 4 ? "(min-width: 1280px) 600px, (min-width: 640px) 50vw, 100vw" : "(min-width: 1280px) 400px, (min-width: 640px) 33vw, 100vw"}
+                        className="object-cover object-top"
+                      />
                     </div>
                     {image.caption && <figcaption className="mt-3 type-small text-muted">{image.caption}</figcaption>}
                   </figure>

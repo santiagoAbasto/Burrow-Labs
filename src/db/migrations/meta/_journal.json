@@ -134,6 +134,13 @@
       "when": 1793948325890,
       "tag": "0018_capturas_como_portada",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1793975141475,
+      "tag": "0019_caso_burrow_prospect",
+      "breakpoints": true
     }
   ]
 }

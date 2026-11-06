@@ -11,28 +11,49 @@ type Tone = "dashed" | "solid" | "accent";
 
 const FONT = "var(--font-jetbrains), ui-monospace, monospace";
 
-/** Hasta dos líneas de ~16 caracteres; lo que no entra se corta con «…». */
-function lines(label: string, max = 16): string[] {
-  const text = label.toUpperCase();
-  if (text.length <= max) return [text];
-  const words = text.split(" ");
-  const first: string[] = [];
-  while (words.length && [...first, words[0]].join(" ").length <= max) first.push(words.shift()!);
-  if (!first.length) return [text.slice(0, max - 1) + "…"];
-  const rest = words.join(" ");
-  return [first.join(" "), rest.length > max ? rest.slice(0, max - 1) + "…" : rest];
+// Palabras que no pueden cerrar un rótulo cortado («BÚSQUEDA EN GOOGLE PLACES POR» → «… GOOGLE PLACES»).
+const DANGLING = new Set(["DE", "DEL", "EN", "POR", "Y", "E", "O", "U", "CON", "A", "AL", "LA", "EL", "LOS", "LAS", "PARA", "QUE", "SU", "SUS", "UN", "UNA", "SIN", "SEGÚN", "ENTRE", "SOLO"]);
+const PAUSE = /[,:;]$/;
+
+const wrap = (words: string[], max: number) =>
+  words.reduce<string[]>((rows, word) => {
+    const last = rows.at(-1);
+    if (last !== undefined && `${last} ${word}`.length <= max) rows[rows.length - 1] = `${last} ${word}`;
+    else rows.push(word.slice(0, max));
+    return rows;
+  }, []);
+
+/**
+ * Parte el rótulo en líneas de `max` caracteres, hasta `maxLines`, sin cortar palabras ni poner «…». Si la frase no entra
+ * entera, termina en la última pausa que entre («Ficha con auditoría web, datos…» → «Ficha con auditoría web») o, sin
+ * pausa, en la última palabra que cierra la frase.
+ */
+export function lines(label: string, max = 16, maxLines = 2): string[] {
+  const words = label.toUpperCase().split(/\s+/).filter(Boolean);
+  let fit = words.length;
+  while (fit > 1 && wrap(words.slice(0, fit), max).length > maxLines) fit--;
+  if (fit < words.length) {
+    const pause = words.slice(0, fit).findLastIndex((w, i) => i > 0 && PAUSE.test(w));
+    if (pause > 0) fit = pause + 1;
+    while (fit > 1 && DANGLING.has(words[fit - 1].replace(PAUSE, ""))) fit--;
+  }
+  const kept = words.slice(0, fit);
+  if (fit < words.length) kept[fit - 1] = kept[fit - 1].replace(PAUSE, "");
+  return wrap(kept, max);
 }
 
 function Box({ x, y, w, h, label, tone = "solid", size = 11 }: { x: number; y: number; w: number; h: number; label: string; tone?: Tone; size?: number }) {
-  const rows = lines(label, Math.floor(w / (size * 0.66)));
+  // Monoespaciada a 0,6 em más 0,08 em de interletra, con 8 de margen a cada lado; tantas líneas como entren en el alto.
+  const lineHeight = size * 1.25;
+  const rows = lines(label, Math.floor((w - 16) / (size * 0.68)), Math.max(1, Math.floor((h - 8 - size) / lineHeight) + 1));
   const fill = tone === "accent" ? "var(--accent)" : "var(--panel)";
   const color = tone === "accent" ? "var(--accent-fg)" : "var(--fg)";
   return (
     <g>
       <rect x={x} y={y} width={w} height={h} rx={8} fill={fill} stroke={tone === "accent" ? "var(--accent)" : "var(--line-strong)"} strokeWidth={1.5} strokeDasharray={tone === "dashed" ? "5 4" : undefined} />
-      <text x={x + w / 2} y={y + h / 2 + (rows.length === 2 ? -size * 0.65 : 0)} textAnchor="middle" dominantBaseline="central" fontFamily={FONT} fontSize={size} fontWeight={700} letterSpacing="0.08em" fill={color}>
+      <text x={x + w / 2} y={y + h / 2 - ((rows.length - 1) * lineHeight) / 2} textAnchor="middle" dominantBaseline="central" fontFamily={FONT} fontSize={size} fontWeight={700} letterSpacing="0.08em" fill={color}>
         {rows.map((row, i) => (
-          <tspan key={i} x={x + w / 2} dy={i ? size * 1.3 : 0}>
+          <tspan key={i} x={x + w / 2} dy={i ? lineHeight : 0}>
             {row}
           </tspan>
         ))}
@@ -141,7 +162,7 @@ function Grid({ labels }: { labels: string[] }) {
           <Line d={`M156 ${291 + i * 18} H440`} />
           {rows[i] && (
             <text x={156} y={287 + i * 18} fontFamily={FONT} fontSize={9} letterSpacing="0.08em" fill="var(--muted)">
-              {lines(rows[i], 36)[0]}
+              {lines(rows[i], 36, 1)[0]}
             </text>
           )}
         </g>
