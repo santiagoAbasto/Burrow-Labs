@@ -83,6 +83,7 @@ Resumen en Markdown generado desde el CMS: qué es Burrow Labs, servicios, proye
 
 ## Decisiones
 
+- **`/clientes` indexable desde el 06/11/2026** (migración `0017`): muestra los clientes autorizados, cada uno con su caso y su sitio, y siempre los sectores. Mientras no hubo ningún cliente autorizado estuvo en `noindex` (`0014`), para no indexar una página vacía.
 - **Sin schema `FAQPage`.** Google ya no muestra ese resultado enriquecido; las respuestas van como texto visible, que es lo que leen buscadores y asistentes.
 - **`llms.txt` no es un factor de ranking.** Google lo dice expresamente: no hacen falta «AI text files» ni marcado especial para aparecer en AI Overviews o AI Mode; alcanza con estar indexado y poder mostrar snippet. Se mantiene porque es barato y no molesta.
 - **Rastreadores de IA abiertos por defecto.** Bloquear los de entrenamiento es una decisión del dueño (abajo).

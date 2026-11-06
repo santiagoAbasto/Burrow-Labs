@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { JsonLd } from "@/components/site/json-ld";
 import { PageHeader } from "@/components/site/page-header";
 import { CTA } from "@/components/ui/cta";
@@ -7,14 +8,14 @@ import { LogoCloud } from "@/components/ui/logo-cloud";
 import { SmartLink } from "@/components/ui/smart-link";
 import { Container, Stratum } from "@/components/ui/stratum";
 import { TerrainCut } from "@/components/ui/terrain-cut";
-import { getClients, getSettings, getTestimonials } from "@/lib/content";
+import { getClients, getProjects, getSettings, getTestimonials } from "@/lib/content";
 import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 
 export const generateMetadata = (): Promise<Metadata> => buildMetadata({ path: "/clientes", title: "Clientes y sectores con los que trabajamos" });
 
-/** Solo clientes y testimonios autorizados. Sin ellos se muestran sectores: nunca nombres inventados. */
+/** Solo clientes y testimonios autorizados, cada uno con su caso si está publicado; los sectores siempre: nunca nombres inventados. */
 export default async function ClientsPage() {
-  const [clients, testimonials, settings] = await Promise.all([getClients(), getTestimonials(), getSettings()]);
+  const [clients, testimonials, settings, projects] = await Promise.all([getClients(), getTestimonials(), getSettings(), getProjects()]);
   return (
     <>
       <PageHeader eyebrow="Clientes" title="Tecnología construida para negocios reales." tone="lab">
@@ -22,7 +23,7 @@ export default async function ClientsPage() {
       </PageHeader>
       <Stratum tone="lab" flush className="pb-section">
         <Container>
-          {clients.length > 0 ? (
+          {clients.length > 0 && (
             <ul className="grid border-t border-line sm:grid-cols-2 lg:grid-cols-3">
               {clients.map((client) => (
                 <li key={client.id} className="border-b border-line py-8 sm:px-6 sm:[&:nth-child(2n+1)]:pl-0 lg:[&:nth-child(2n+1)]:pl-6 lg:[&:nth-child(3n+1)]:pl-0">
@@ -33,22 +34,33 @@ export default async function ClientsPage() {
                   )}
                   {client.logo && <p className="mt-4 font-semibold">{client.name}</p>}
                   {client.sector && <p className="type-mono text-muted">{client.sector}</p>}
-                  {client.website && (
-                    <SmartLink href={client.website} className="mt-2 inline-flex min-h-9 items-center text-link underline underline-offset-4">
-                      Visitar sitio
-                    </SmartLink>
-                  )}
+                  <p className="mt-2 flex flex-wrap gap-x-5">
+                    {/* El caso solo trae el nombre del cliente si este lo autorizó: es el mismo cliente. */}
+                    {projects
+                      .filter((project) => project.clientName === client.name)
+                      .map((project) => (
+                        <Link key={project.slug} href={`/proyectos/${project.slug}`} className="inline-flex min-h-11 items-center text-link underline underline-offset-4">
+                          Ver el caso
+                        </Link>
+                      ))}
+                    {client.website && (
+                      <SmartLink href={client.website} className="inline-flex min-h-11 items-center text-link underline underline-offset-4">
+                        Visitar sitio
+                      </SmartLink>
+                    )}
+                  </p>
                 </li>
               ))}
             </ul>
-          ) : (
-            <div>
-              <p className="max-w-2xl type-lead">
-                Todavía no publicamos nombres. Trabajamos con negocios de estos sectores:
-              </p>
-              <LogoCloud className="mt-8" label="Sectores para los que construimos" items={settings.sectors.map((name) => ({ name }))} />
-            </div>
           )}
+          <div className={clients.length > 0 ? "mt-section" : undefined}>
+            <p className="max-w-2xl type-lead">
+              {clients.length > 0
+                ? "También trabajamos con negocios de estos sectores. Sus nombres no se publican sin su autorización:"
+                : "Todavía no publicamos nombres. Trabajamos con negocios de estos sectores:"}
+            </p>
+            <LogoCloud className="mt-8" label="Sectores para los que construimos" items={settings.sectors.map((name) => ({ name }))} />
+          </div>
 
           {testimonials.length > 0 && (
             <ul className="mt-section grid gap-10 lg:grid-cols-2">

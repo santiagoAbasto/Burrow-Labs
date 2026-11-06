@@ -120,6 +120,13 @@
       "when": 1793945982861,
       "tag": "0016_casos_ninth_y_apple_boss_con_sitio",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1793948131698,
+      "tag": "0017_clientes_indexable",
+      "breakpoints": true
     }
   ]
 }
