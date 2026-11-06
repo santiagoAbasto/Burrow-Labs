@@ -52,6 +52,6 @@ export type SeedProject = {
   website?: string;
   /** Cliente que autorizó aparecer con su nombre: sin esto el caso va anónimo. */
   client?: { slug: string; name: string; sector: string; website: string };
-  /** Capturas reales del sitio en public/capturas/<slug>/ (WebP de 1600×1000, output/capturas-casos/). */
+  /** Capturas reales del sitio en public/capturas/<slug>/ (WebP de 1600×1000, output/capturas-casos/). La primera es la portada. */
   gallery?: { key: string; alt: string; caption: string; size: number; width: number; height: number }[];
 };

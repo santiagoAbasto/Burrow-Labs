@@ -85,12 +85,31 @@ export default async function ProjectPage({ params }: Props) {
     project.year && { label: "Año", value: String(project.year) },
   ].filter((fact): fact is { label: string; value: string } => Boolean(fact));
 
+  // Evidencia arriba: la portada (o la primera captura) va en la cabecera y las demás capturas justo debajo, no al final.
+  const hero = project.cover ?? project.gallery[0] ?? null;
+  const heroCaption = project.gallery.find((image) => image.url === hero?.url)?.caption;
+  const shots = project.gallery.filter((image) => image.url !== hero?.url);
+
   const eyebrow = project.isDemo ? "Caso de estudio · demo, no público" : project.badge ? `Caso de estudio · ${project.badge}` : "Caso de estudio";
 
   return (
     <>
       <TrackView event="project_view" meta={{ project: project.slug }} />
-      <PageHeader eyebrow={eyebrow} title={project.title} tone="lab">
+      <PageHeader
+        eyebrow={eyebrow}
+        title={project.title}
+        tone="lab"
+        media={
+          hero && (
+            <figure>
+              <div className="relative aspect-[16/10] overflow-hidden rounded-lg border border-line">
+                <Image src={hero.url} alt={hero.alt} fill preload fetchPriority="high" sizes="(min-width: 1280px) 660px, (min-width: 1024px) 52vw, 100vw" className="object-cover object-top" />
+              </div>
+              {heroCaption && <figcaption className="mt-3 type-small text-muted">{heroCaption}</figcaption>}
+            </figure>
+          )
+        }
+      >
         {project.summary}
       </PageHeader>
 
@@ -130,12 +149,20 @@ export default async function ProjectPage({ params }: Props) {
               )}
             </dl>
           )}
-          {project.cover ? (
-            <div className="relative mt-12 aspect-[16/9] overflow-hidden rounded-lg border border-line">
-              <Image src={project.cover.url} alt={project.cover.alt} fill preload fetchPriority="high" sizes="(min-width: 1280px) 1232px, 100vw" className="object-cover" />
-            </div>
-          ) : (
-            project.visual && <ProjectVisual kind={project.visual} labels={project.features} title={project.title} className="mt-12 aspect-[4/3] sm:aspect-[16/9]" />
+          {!hero && project.visual && <ProjectVisual kind={project.visual} labels={project.features} title={project.title} className="mt-12 aspect-[4/3] sm:aspect-[16/9]" />}
+          {shots.length > 0 && (
+            <ul aria-label="Más capturas del sitio" className="mt-8 grid gap-6 sm:grid-cols-3">
+              {shots.map((image) => (
+                <li key={image.url}>
+                  <figure>
+                    <div className="relative aspect-[16/10] overflow-hidden rounded-lg border border-line">
+                      <Image src={image.url} alt={image.alt} fill sizes="(min-width: 1280px) 400px, (min-width: 640px) 33vw, 100vw" className="object-cover object-top" />
+                    </div>
+                    {image.caption && <figcaption className="mt-3 type-small text-muted">{image.caption}</figcaption>}
+                  </figure>
+                </li>
+              ))}
+            </ul>
           )}
         </Container>
       </Stratum>
@@ -163,6 +190,10 @@ export default async function ProjectPage({ params }: Props) {
                 <div className="mt-6">
                   <Markdown>{chapter.body}</Markdown>
                 </div>
+                {/* Con capturas arriba, el esquema del sistema acompaña a la arquitectura. */}
+                {chapter.id === "arquitectura" && hero && project.visual && (
+                  <ProjectVisual kind={project.visual} labels={project.features} title={project.title} className="mt-8 aspect-[4/3] sm:aspect-[16/9]" />
+                )}
               </section>
             ))}
             {project.features.length > 0 && (
@@ -224,38 +255,6 @@ export default async function ProjectPage({ params }: Props) {
                 <p className="text-muted">Permisos, cálculos e integraciones se verifican solos antes de cada cambio. Las cifras están en la ficha técnica.</p>
               </div>
             )}
-          </Container>
-        </Stratum>
-      )}
-
-      {project.gallery.length > 0 && (
-        <Stratum tone="lab" aria-labelledby="galeria-title">
-          <Container>
-            <h2 id="galeria-title" className="type-h2">
-              Galería
-            </h2>
-            {project.website && (
-              <p className="mt-4 text-muted">
-                Capturas de{" "}
-                <SmartLink href={project.website} className="text-link underline underline-offset-4">
-                  {siteHost(project.website)}
-                  <span className="sr-only"> (se abre en una pestaña nueva)</span>
-                </SmartLink>
-                , el sitio en producción.
-              </p>
-            )}
-            <ul className="mt-10 grid gap-6 sm:grid-cols-2">
-              {project.gallery.map((image) => (
-                <li key={image.url}>
-                  <figure>
-                    <div className="relative aspect-[16/10] overflow-hidden rounded-lg border border-line">
-                      <Image src={image.url} alt={image.alt} fill sizes="(min-width: 640px) 50vw, 100vw" className="object-cover" />
-                    </div>
-                    {image.caption && <figcaption className="mt-3 type-small text-muted">{image.caption}</figcaption>}
-                  </figure>
-                </li>
-              ))}
-            </ul>
           </Container>
         </Stratum>
       )}

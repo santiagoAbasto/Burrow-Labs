@@ -457,6 +457,12 @@ export async function seedContent(db: Db): Promise<void> {
       return mediaId ? [{ projectId, mediaId, caption: shot.caption, sort }] : [];
     });
     if (gallery.length) await db.insert(projectMedia).values(gallery).onConflictDoNothing();
+    // La primera captura es la portada: el caso muestra evidencia arriba y en el listado.
+    for (const { id: projectId, slug } of createdProjects) {
+      const first = PROJECTS.find((p) => p.slug === slug)?.gallery?.[0];
+      const coverMediaId = first && mediaIds.get(first.key);
+      if (coverMediaId) await db.update(projects).set({ coverMediaId }).where(eq(projects.id, projectId));
+    }
   }
 
   for (const [i, { price, delivery, features, featured, ...plan }] of PLANS.entries()) {

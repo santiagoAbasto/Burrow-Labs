@@ -73,7 +73,7 @@ Resumen en Markdown generado desde el CMS: qué es Burrow Labs, servicios, proye
 
 - Desde el 06/11/2026 los casos con sitio en producción lo enlazan: Apple Boss → `appleboss.com.bo` y Ninth Group → `ninthgroup.bo` (este último nombrado con autorización del dueño). El enlace va en la ficha («Sitio en producción») y en la galería, es seguido (`noopener noreferrer`, sin `nofollow`), el `Article` lo menciona y `/llms.txt` lo lista.
 - Los dos sitios enlazan de vuelta con «Desarrollado por Burrow Labs» (enlace seguido, comprobado el 06/11/2026): el ida y vuelta, el nombre del cliente y las capturas reales atan las dos marcas para buscadores y asistentes.
-- La galería de cada caso son capturas reales del sitio (WebP 1600×1000 en `public/capturas/<caso>/`) con texto alternativo y pie que dicen qué muestra cada pantalla. Si el sitio cambia mucho, se vuelven a capturar.
+- La galería de cada caso son capturas reales del sitio (WebP 1600×1000 en `public/capturas/<caso>/`) con texto alternativo y pie que dicen qué muestra cada pantalla. La primera es la portada (migración `0018`): va en la cabecera del caso, al lado del título, y en la tarjeta del listado; las demás, justo debajo de la ficha. Si el sitio cambia mucho, se vuelven a capturar.
 
 ### Enlazado interno
 

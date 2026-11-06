@@ -127,6 +127,13 @@
       "when": 1793948131698,
       "tag": "0017_clientes_indexable",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1793948325890,
+      "tag": "0018_capturas_como_portada",
+      "breakpoints": true
     }
   ]
 }

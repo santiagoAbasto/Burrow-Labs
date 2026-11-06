@@ -613,6 +613,7 @@ html[data-burro-dev] main [data-stratum-label]::before {
 /* la cabecera entra pieza por pieza, con aire entre una y otra: nada cae de golpe */
 .page-header .section-heading > *,
 .page-header .page-actions,
+.page-header .page-media,
 .page-header .scroll-cue {
   animation: rise-in 1s var(--ease-out) both;
   animation-delay: 120ms;
@@ -625,6 +626,9 @@ html[data-burro-dev] main [data-stratum-label]::before {
 }
 .page-header .page-actions {
   animation-delay: 620ms;
+}
+.page-header .page-media {
+  animation-delay: 360ms;
 }
 .page-header .scroll-cue {
   animation-delay: 860ms;
@@ -658,6 +662,7 @@ body[data-reveal-ready] .page-header [data-reveal]:not([data-revealed]) {
   .page-enter,
   .page-header .section-heading > *,
   .page-header .page-actions,
+  .page-header .page-media,
   .page-header .scroll-cue {
     animation: none;
   }

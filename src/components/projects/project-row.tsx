@@ -44,8 +44,9 @@ export function ProjectRow({ project, index, heading: Heading = "h3" }: { projec
         </div>
         <div className="lg:col-span-5">
           {project.cover ? (
-            <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-line">
-              <Image src={project.cover.url} alt={project.cover.alt} fill sizes="(min-width: 1024px) 480px, 100vw" className="object-cover" />
+            // 16:10, la proporción de las capturas de los sitios: así no se cortan sus costados.
+            <div className="relative aspect-[16/10] overflow-hidden rounded-lg border border-line">
+              <Image src={project.cover.url} alt={project.cover.alt} fill sizes="(min-width: 1024px) 480px, 100vw" className="object-cover object-top" />
             </div>
           ) : project.visual ? (
             <ProjectVisual kind={project.visual} labels={project.features} title={project.title} className="aspect-[4/3]" />
