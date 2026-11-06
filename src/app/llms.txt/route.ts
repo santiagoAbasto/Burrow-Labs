@@ -30,7 +30,7 @@ export async function GET() {
     "",
     "## Servicios",
     ...services.map((service) => link(service.name, `/servicios/${service.slug}`, service.tagline)),
-    ...(cases.length ? ["", "## Proyectos y casos de estudio", ...cases.map((project) => link(project.title, `/proyectos/${project.slug}`, project.summary))] : []),
+    ...(cases.length ? ["", "## Proyectos y casos de estudio", ...cases.map((project) => link(project.title, `/proyectos/${project.slug}`, project.website ? `${project.summary} Sitio en producción: ${project.website}` : project.summary))] : []),
     "",
     "## Páginas principales",
     link("Inicio", "/"),

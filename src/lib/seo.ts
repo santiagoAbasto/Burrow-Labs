@@ -293,9 +293,14 @@ export function articleJsonLd(
   };
 }
 
+/** «https://www.appleboss.com.bo/» → «appleboss.com.bo»: cómo se muestra un sitio enlazado. */
+export function siteHost(url: string): string {
+  return URL.canParse(url) ? new URL(url).hostname.replace(/^www\./, "") : url;
+}
+
 /** Caso de estudio: un artículo del estudio sobre un trabajo propio. Nunca SoftwareApplication, reviews, ratings ni precios. */
 export function caseStudyJsonLd(
-  project: Pick<Project, "slug" | "title" | "summary" | "seoDescription" | "cover" | "ogImage" | "publishedAt" | "updatedAt" | "services">,
+  project: Pick<Project, "slug" | "title" | "summary" | "seoDescription" | "cover" | "ogImage" | "publishedAt" | "updatedAt" | "services" | "website" | "clientName">,
   settings: Settings,
 ): JsonLd {
   const url = absoluteUrl(`/proyectos/${project.slug}`);
@@ -319,6 +324,8 @@ export function caseStudyJsonLd(
         name: service.name,
         url: absoluteUrl(`/servicios/${service.slug}`),
       })),
+      // El sitio en producción del caso: une la marca del cliente con el caso (y él enlaza de vuelta a Burrow Labs).
+      mentions: project.website ? { "@type": "WebSite", name: project.clientName || siteHost(project.website), url: project.website } : undefined,
     }),
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
     isPartOf: { "@id": WEBSITE_ID },

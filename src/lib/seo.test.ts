@@ -83,7 +83,7 @@ describe("JSON-LD", () => {
   });
 
   it("caso de estudio: Article sobre los servicios relacionados, sin reviews, ratings ni precios", () => {
-    const project = { slug: "crm", title: "CRM", summary: "Resumen.", seoDescription: null, cover: null, ogImage: null, publishedAt: null, updatedAt: "2026-10-02T14:44:07.795Z", services: [{ slug: "automatizacion", name: "Automatización" }] };
+    const project = { slug: "crm", title: "CRM", summary: "Resumen.", seoDescription: null, cover: null, ogImage: null, publishedAt: null, updatedAt: "2026-10-02T14:44:07.795Z", services: [{ slug: "automatizacion", name: "Automatización" }], website: null, clientName: null };
     const json = caseStudyJsonLd(project, settings);
     expect(json).toMatchObject({ "@type": "Article", author: ORG, publisher: ORG, url: `${SITE_URL}/proyectos/crm` });
     expect(json.about).toEqual([{ "@type": "Service", "@id": `${SITE_URL}/servicios/automatizacion#service`, name: "Automatización", url: `${SITE_URL}/servicios/automatizacion` }]);
@@ -91,8 +91,16 @@ describe("JSON-LD", () => {
     expect(JSON.stringify(json)).not.toMatch(/Review|Rating|price|SoftwareApplication/i);
   });
 
+  it("caso de estudio con sitio en producción: lo menciona con el nombre del cliente, o el dominio si no se nombra", () => {
+    const project = { slug: "crm", title: "CRM", summary: "Resumen.", seoDescription: null, cover: null, ogImage: null, publishedAt: null, updatedAt: "2026-10-02T14:44:07.795Z", services: [], website: null, clientName: null };
+    expect(caseStudyJsonLd(project, settings)).not.toHaveProperty("mentions");
+    expect(caseStudyJsonLd({ ...project, website: "" }, settings)).not.toHaveProperty("mentions");
+    expect(caseStudyJsonLd({ ...project, website: "https://ninthgroup.bo", clientName: "Ninth Group" }, settings).mentions).toEqual({ "@type": "WebSite", name: "Ninth Group", url: "https://ninthgroup.bo" });
+    expect(caseStudyJsonLd({ ...project, website: "https://www.appleboss.com.bo/" }, settings).mentions).toMatchObject({ name: "appleboss.com.bo" });
+  });
+
   it("caso de estudio: la imagen es la portada o la imagen para compartir, nunca el logo", () => {
-    const project = { slug: "crm", title: "CRM", summary: "Resumen.", seoDescription: null, cover: null, ogImage: null, publishedAt: null, updatedAt: "2026-10-02T14:44:07.795Z", services: [] };
+    const project = { slug: "crm", title: "CRM", summary: "Resumen.", seoDescription: null, cover: null, ogImage: null, publishedAt: null, updatedAt: "2026-10-02T14:44:07.795Z", services: [], website: null, clientName: null };
     expect(caseStudyJsonLd(project, settings)).not.toHaveProperty("image");
     expect(caseStudyJsonLd({ ...project, ogImage: "/og/proyectos/crm.png" }, settings).image).toBe(`${SITE_URL}/og/proyectos/crm.png`);
     expect(caseStudyJsonLd({ ...project, ogImage: "/og/proyectos/crm.png", cover: { url: "/media/c.webp", alt: "", width: 1, height: 1 } }, settings).image).toBe(`${SITE_URL}/media/c.webp`);

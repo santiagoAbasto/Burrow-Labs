@@ -106,6 +106,20 @@
       "when": 1793239897265,
       "tag": "0014_seo_empresa_de_software",
       "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1793945974610,
+      "tag": "0015_proyectos_sitio_web",
+      "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1793945982861,
+      "tag": "0016_casos_ninth_y_apple_boss_con_sitio",
+      "breakpoints": true
     }
   ]
 }

@@ -258,6 +258,8 @@ export type ProjectSummary = {
   category: { slug: string; name: string } | null;
   /** Null cuando el caso es anónimo o el cliente no autorizó aparecer. */
   clientName: string | null;
+  /** Sitio en producción del caso; vacío o null = sin enlace. */
+  website: string | null;
   cover: MediaRef | null;
   year: number | null;
   featured: boolean;
@@ -318,6 +320,7 @@ function toSummary({ project: p, categorySlug, categoryName, clientName }: Proje
     summary: p.summary,
     category: categorySlug && categoryName ? { slug: categorySlug, name: categoryName } : null,
     clientName,
+    website: p.website || null,
     cover: (p.coverMediaId && covers.get(p.coverMediaId)) || null,
     year: p.year,
     featured: p.featured,

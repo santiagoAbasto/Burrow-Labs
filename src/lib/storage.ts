@@ -67,7 +67,17 @@ function s3(): Storage {
   };
 }
 
-export const storage: Storage = env.STORAGE_DRIVER === "s3" ? s3() : local;
+const driver: Storage = env.STORAGE_DRIVER === "s3" ? s3() : local;
+
+/** Una clave que empieza con «/» es un archivo del propio sitio (public/, p. ej. las capturas de los casos): viaja con el
+ * release, se sirve tal cual y borrar su fila en el panel nunca borra el archivo. */
+export const isSitePath = (key: string) => key.startsWith("/");
+
+export const storage: Storage = {
+  put: (buffer, opts) => driver.put(buffer, opts),
+  remove: async (key) => (isSitePath(key) ? undefined : driver.remove(key)),
+  publicUrl: (key) => (isSitePath(key) ? key : driver.publicUrl(key)),
+};
 
 /** Clave nueva con nombre aleatorio (nunca el nombre original del archivo). */
 export function newMediaKey(ext = "webp"): string {

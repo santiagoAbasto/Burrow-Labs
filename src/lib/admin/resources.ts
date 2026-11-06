@@ -132,6 +132,7 @@ export const RESOURCES = {
       { name: "categoryId", label: "Categoría", type: "relation", to: "projectCategories" },
       { name: "clientId", label: "Cliente", type: "relation", to: "clients" },
       { name: "clientPublic", label: "Mostrar el nombre del cliente (requiere su autorización)", type: "boolean" },
+      { name: "website", label: "Sitio en producción", type: "text", hint: "Dirección completa con https://. El caso la enlaza: solo si el sitio está publicado y, si es de un cliente, él lo autorizó." },
       { name: "year", label: "Año", type: "number" },
       { name: "featured", label: "Destacado en el Home", type: "boolean" },
       { name: "isDemo", label: "Es contenido demo (nunca se publica)", type: "boolean" },

@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,10 +10,11 @@ import { TrackView } from "@/components/site/track";
 import { Badge } from "@/components/ui/badge";
 import { CTA } from "@/components/ui/cta";
 import { Markdown } from "@/components/ui/markdown";
+import { SmartLink } from "@/components/ui/smart-link";
 import { Container, Stratum } from "@/components/ui/stratum";
 import { TerrainCut } from "@/components/ui/terrain-cut";
 import { getProject, getProjects, getSettings } from "@/lib/content";
-import { breadcrumbJsonLd, buildMetadata, caseStudyJsonLd, findBySlug } from "@/lib/seo";
+import { breadcrumbJsonLd, buildMetadata, caseStudyJsonLd, findBySlug, siteHost } from "@/lib/seo";
 import { slugify } from "@/lib/validation";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -95,7 +96,7 @@ export default async function ProjectPage({ params }: Props) {
 
       <Stratum tone="lab" flush className="pb-section">
         <Container>
-          {(facts.length > 0 || project.services.length > 0) && (
+          {(facts.length > 0 || project.services.length > 0 || project.website) && (
             <dl className="grid gap-6 border-y border-line py-8 sm:grid-cols-2 lg:grid-cols-4">
               {facts.map((fact) => (
                 <div key={fact.label}>
@@ -112,6 +113,18 @@ export default async function ProjectPage({ params }: Props) {
                         {service.name}
                       </Link>
                     ))}
+                  </dd>
+                </div>
+              )}
+              {project.website && (
+                <div>
+                  <dt className="type-mono text-muted">Sitio en producción</dt>
+                  <dd className="mt-1 font-semibold">
+                    <SmartLink href={project.website} className="-my-2.5 inline-flex items-center gap-1 py-2.5 text-link underline underline-offset-4">
+                      {siteHost(project.website)}
+                      <ArrowUpRight aria-hidden className="size-4" />
+                      <span className="sr-only">(se abre en una pestaña nueva)</span>
+                    </SmartLink>
                   </dd>
                 </div>
               )}
@@ -221,6 +234,16 @@ export default async function ProjectPage({ params }: Props) {
             <h2 id="galeria-title" className="type-h2">
               Galería
             </h2>
+            {project.website && (
+              <p className="mt-4 text-muted">
+                Capturas de{" "}
+                <SmartLink href={project.website} className="text-link underline underline-offset-4">
+                  {siteHost(project.website)}
+                  <span className="sr-only"> (se abre en una pestaña nueva)</span>
+                </SmartLink>
+                , el sitio en producción.
+              </p>
+            )}
             <ul className="mt-10 grid gap-6 sm:grid-cols-2">
               {project.gallery.map((image) => (
                 <li key={image.url}>

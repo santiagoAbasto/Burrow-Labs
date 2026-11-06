@@ -156,6 +156,8 @@ export const projects = pgTable(
     summary: text().notNull().default(""),
     clientId: uuid().references(() => clients.id, { onDelete: "set null" }),
     clientPublic: boolean().notNull().default(false), // false = caso anonimizado
+    // Sitio en producción del caso (https://…): la página del caso lo enlaza. Vacío = sin enlace.
+    website: text(),
     categoryId: uuid().references(() => projectCategories.id, { onDelete: "set null" }),
     problem: text().notNull().default(""), // md (igual que los cinco siguientes)
     context: text().notNull().default(""),

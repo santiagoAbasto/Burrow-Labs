@@ -1,10 +1,10 @@
 import { randomUUID } from "node:crypto";
-import { rmdir } from "node:fs/promises";
+import { access, rmdir } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 import { afterAll, describe, expect, it } from "vitest";
 import { GET } from "@/app/media/[...key]/route";
-import { LOCAL_UPLOAD_DIR, newMediaKey, processImageUpload, resolveLocalPath, storage, UploadError } from "./storage";
+import { isSitePath, LOCAL_UPLOAD_DIR, newMediaKey, processImageUpload, resolveLocalPath, storage, UploadError } from "./storage";
 
 const png = () =>
   sharp({ create: { width: 40, height: 20, channels: 3, background: "#1070B2" } })
@@ -107,5 +107,16 @@ describe("GET /media/[...key]", () => {
   it("el storage se niega a escribir fuera del directorio", async () => {
     await expect(storage.put(Buffer.from("x"), { key: "../fuera.webp", contentType: "image/webp" })).rejects.toThrow();
     await expect(storage.remove("../../package.json")).rejects.toThrow();
+  });
+});
+
+describe("archivos del propio sitio (la clave es su ruta en public/)", () => {
+  it("se sirven tal cual y borrar su fila en el panel nunca borra el archivo", async () => {
+    const key = "/capturas/apple-boss/inicio.webp";
+    expect(isSitePath(key)).toBe(true);
+    expect(isSitePath(newMediaKey())).toBe(false);
+    expect(storage.publicUrl(key)).toBe(key);
+    await storage.remove(key);
+    await expect(access(path.resolve(`public${key}`))).resolves.toBeUndefined();
   });
 });

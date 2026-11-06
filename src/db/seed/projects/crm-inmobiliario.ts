@@ -1,16 +1,17 @@
-// Caso confidencial: inmobiliaria anonimizada. Sin cifras, sin nombres, sin datos de clientes.
+// Ninth Group (ninthgroup.bo), nombrado desde el 06/11/2026 a pedido del dueño: su sitio ya dice «Desarrollado por Burrow Labs».
+// Sin cifras ni datos de sus clientes.
 import type { SeedProject } from "./types";
 
 export const project: SeedProject = {
   slug: "crm-inmobiliario",
-  title: "CRM inmobiliario + experiencia pública",
+  title: "Ninth Group: CRM inmobiliario + experiencia pública",
   category: "sistemas-empresariales",
   services: ["sistemas-empresariales", "web-y-ecommerce"],
-  badge: "Caso confidencial",
+  badge: "",
   sector: "Sector inmobiliario",
   visual: "grid",
   summary:
-    "CRM y sitio público de una inmobiliaria sobre una misma base: propiedades, captaciones, leads, pipeline, agenda, equipo y contenidos. Construido con Laravel, React y MySQL.",
+    "CRM y sitio público de Ninth Group, red inmobiliaria de Cochabamba, sobre una misma base: propiedades, captaciones, leads, pipeline, agenda y contenidos. Laravel, React y MySQL.",
   problem: `La información comercial de la inmobiliaria estaba repartida en herramientas que no se hablaban entre sí. Las propiedades se cargaban en un lugar, las captaciones en otro, los leads se seguían aparte y las visitas quedaban en la agenda de cada quien. Ninguna de esas fuentes era la definitiva.
 
 El sitio público agravaba el problema: no se alimentaba de la misma base, así que cada propiedad nueva y cada cambio de precio o de estado había que cargarlo dos veces. Entre una carga y la otra, la web mostraba una cosa y el equipo comercial manejaba otra. Si alguna vez tuviste que avisarle a alguien que bajara de la web una propiedad ya vendida, sabés de qué hablamos.`,
@@ -58,9 +59,17 @@ Las decisiones que más pesaron:
   resultsMetrics: [],
   ctaTitle: "",
   ctaLead: "",
-  seoTitle: "CRM inmobiliario a medida con sitio conectado",
+  seoTitle: "CRM inmobiliario a medida para Ninth Group",
   seoDescription:
-    "Caso de estudio: una inmobiliaria unificó propiedades, captaciones, leads, agenda y sitio público en una sola plataforma construida con Laravel, React y MySQL.",
+    "Caso de estudio: Ninth Group, red inmobiliaria de Cochabamba, unificó propiedades, captaciones, leads, agenda y su sitio público en una sola plataforma.",
   year: null,
   featured: false,
+  website: "https://ninthgroup.bo",
+  client: { slug: "ninth-group", name: "Ninth Group", sector: "Inmobiliario", website: "https://ninthgroup.bo" },
+  gallery: [
+    { key: "/capturas/crm-inmobiliario/inicio.webp", alt: "Página de inicio de ninthgroup.bo, el sitio público de Ninth Group", caption: "El sitio público de Ninth Group, en ninthgroup.bo.", size: 50248, width: 1600, height: 1000 },
+    { key: "/capturas/crm-inmobiliario/propiedades.webp", alt: "Catálogo de propiedades en Cochabamba en ninthgroup.bo, con filtros por operación, tipo, ciudad y zona", caption: "Propiedades: el catálogo público sale de la misma base donde el equipo carga cada inmueble.", size: 64206, width: 1600, height: 1000 },
+    { key: "/capturas/crm-inmobiliario/proyecto-en-preventa.webp", alt: "Ficha de un proyecto en preventa en ninthgroup.bo, con avance de obra y plan de pago", caption: "Proyecto en preventa: avance de obra, plan de pago y galería en la misma ficha.", size: 78914, width: 1600, height: 1000 },
+    { key: "/capturas/crm-inmobiliario/vender-mi-propiedad.webp", alt: "Página «Vender mi propiedad» de ninthgroup.bo para pedir una valoración", caption: "Vender mi propiedad: el pedido de valoración llega al CRM como solicitud y lo toma un asesor de la oficina.", size: 45044, width: 1600, height: 1000 },
+  ],
 };

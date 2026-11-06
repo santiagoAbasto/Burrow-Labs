@@ -1,12 +1,13 @@
 // Capturas para QA visual. Uso:
 //   node scripts/shot.mjs <ruta> <salida.png> [ancho=1440] [alto=900] [--full] [--scroll=px|fracción] [--reduced] [--wait=ms] [--dpr=n]
+// Sin el Chromium de Playwright instalado: PW_CHANNEL=chrome usa el Chrome de la máquina.
 import { chromium } from "@playwright/test";
 
 const [path = "/", out = "shot.png", width = "1440", height = "900", ...flags] = process.argv.slice(2);
 const flag = (name) => flags.find((f) => f.startsWith(`--${name}`))?.split("=")[1];
 const base = process.env.BASE_URL ?? "http://localhost:3000";
 
-const browser = await chromium.launch({ args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist"] });
+const browser = await chromium.launch({ channel: process.env.PW_CHANNEL, args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist"] });
 const page = await browser.newPage({
   viewport: { width: Number(width), height: Number(height) },
   deviceScaleFactor: Number(flag("dpr") ?? 1),

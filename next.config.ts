@@ -63,6 +63,7 @@ const nextConfig: NextConfig = {
       { pathname: "/media/**", search: "" },
       { pathname: "/brand/**", search: "" },
       { pathname: "/lab/covers/**", search: "" },
+      { pathname: "/capturas/**", search: "" },
     ],
     remotePatterns: s3PublicUrl ? [new URL(`${s3PublicUrl.href.replace(/\/+$/, "")}/**`)] : [],
   },
@@ -80,6 +81,7 @@ const nextConfig: NextConfig = {
       // Las portadas para compartir tampoco llevan hash: la misma regla que la marca.
       { source: "/lab/covers/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }] },
       { source: "/og/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }] },
+      { source: "/capturas/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }] },
     ];
   },
 };

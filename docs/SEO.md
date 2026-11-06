@@ -51,7 +51,7 @@ Solo URL públicas, canónicas, `200` e indexables: páginas fijas, servicios, p
 | Home | + `ProfessionalService` (misma entidad, mismo `@id`) |
 | Interiores | + `BreadcrumbList` |
 | `/servicios/[slug]` | + `Service` (`…#service`, `provider` → organización) |
-| `/proyectos/[slug]` | + `Article` (caso de estudio: `author` y `publisher` → organización, `about` → servicios relacionados) |
+| `/proyectos/[slug]` | + `Article` (caso de estudio: `author` y `publisher` → organización, `about` → servicios relacionados, `mentions` → `WebSite` del sitio en producción si el caso lo tiene) |
 | `/lab/[slug]` | + `Article` (`author` organización si firma el estudio, persona si no) |
 | `/desarrollo-de-software-cochabamba` | + `ItemList` de `Service` (uno por servicio, `provider` → organización, `areaServed` = ciudad dentro del país) |
 
@@ -68,6 +68,12 @@ Resumen en Markdown generado desde el CMS: qué es Burrow Labs, servicios, proye
 - **`/manifest.webmanifest`:** nombre y descripción del CMS, `lang es-BO`, colores `paper` (`#ededed`, igual que el `themeColor` del layout) e iconos de 192, 512 y 512 «maskable».
 - **Iconos:** `favicon.ico` (16/32/48), `icon.png` (512), `icon1.png` (192, reducción de `icon.png`), `apple-icon.png` (180) y `/icon-maskable.png` (el badge oficial al 72 % sobre papel; lo compone `src/app/icon-maskable.png/route.ts` al compilar). Ninguno redibuja la marca: todos salen del badge oficial.
 - **Imagen para compartir:** `public/brand/og-logo.png`, 1200×630, opaca, sobre papel. Se usa cuando la página no tiene portada u imagen propia.
+
+### Enlaces a los sitios de los casos
+
+- Desde el 06/11/2026 los casos con sitio en producción lo enlazan: Apple Boss → `appleboss.com.bo` y Ninth Group → `ninthgroup.bo` (este último nombrado con autorización del dueño). El enlace va en la ficha («Sitio en producción») y en la galería, es seguido (`noopener noreferrer`, sin `nofollow`), el `Article` lo menciona y `/llms.txt` lo lista.
+- Los dos sitios enlazan de vuelta con «Desarrollado por Burrow Labs» (enlace seguido, comprobado el 06/11/2026): el ida y vuelta, el nombre del cliente y las capturas reales atan las dos marcas para buscadores y asistentes.
+- La galería de cada caso son capturas reales del sitio (WebP 1600×1000 en `public/capturas/<caso>/`) con texto alternativo y pie que dicen qué muestra cada pantalla. Si el sitio cambia mucho, se vuelven a capturar.
 
 ### Enlazado interno
 

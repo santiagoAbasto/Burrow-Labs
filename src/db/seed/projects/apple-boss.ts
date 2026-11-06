@@ -178,4 +178,11 @@ La regla es una sola: lo que dice el documento es lo que dice la base en ese mom
     "Caso de estudio: tienda online, inventario por unidad, ventas, reservas, servicio técnico y pagos de un comercio de tecnología en una sola plataforma.",
   year: null,
   featured: true,
+  website: "https://appleboss.com.bo",
+  gallery: [
+    { key: "/capturas/apple-boss/inicio.webp", alt: "Página de inicio de appleboss.com.bo, con el buscador, el menú de categorías y la portada de iPhone", caption: "La tienda que ve el cliente: buscador, categorías y catálogo en appleboss.com.bo.", size: 47250, width: 1600, height: 1000 },
+    { key: "/capturas/apple-boss/iphone.webp", alt: "Catálogo de iPhone en appleboss.com.bo, con modelos nuevos y seminuevos", caption: "Catálogo de iPhone: nuevos y seminuevos, con la condición explícita en cada publicación.", size: 65346, width: 1600, height: 1000 },
+    { key: "/capturas/apple-boss/seminuevos.webp", alt: "Sección de seminuevos de appleboss.com.bo, con cada equipo publicado por unidad", caption: "Seminuevos publicados por unidad: condición, estado de batería y garantía en cada equipo.", size: 51420, width: 1600, height: 1000 },
+    { key: "/capturas/apple-boss/servicio-tecnico.webp", alt: "Página de servicio técnico de iPhone y Mac en appleboss.com.bo", caption: "Servicio técnico: el pedido de revisión entra a la misma operación que la tienda.", size: 52660, width: 1600, height: 1000 },
+  ],
 };

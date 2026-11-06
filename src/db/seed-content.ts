@@ -1,14 +1,17 @@
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 import { HOME_SECTIONS, HOME_SECTION_KEYS } from "../components/home/sections";
 import type { Db } from "./index";
 import {
+  clients,
   faqs,
   homeSections,
+  media,
   planFeatures,
   plans,
   postCategories,
   posts,
   projectCategories,
+  projectMedia,
   projectServices,
   projects,
   seoMetadata,
@@ -392,14 +395,24 @@ export async function seedContent(db: Db): Promise<void> {
     .values(PROJECT_CATEGORIES.map(([slug, name], i) => ({ slug, name, sort: (i + 1) * 10 })))
     .onConflictDoNothing();
   const categories = new Map((await db.select().from(projectCategories)).map((c) => [c.slug, c.id]));
+  // Clientes que autorizaron aparecer con su nombre: los declara su caso.
+  const seedClients = PROJECTS.flatMap((p) => (p.client ? [p.client] : []));
+  if (seedClients.length) {
+    await db
+      .insert(clients)
+      .values(seedClients.map((c, i) => ({ ...c, authorized: true, sort: (i + 1) * 10, ...published })))
+      .onConflictDoNothing();
+  }
+  const clientIds = new Map((await db.select({ id: clients.id, slug: clients.slug }).from(clients)).map((c) => [c.slug, c.id]));
   const createdProjects = await db
     .insert(projects)
     .values(
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars -- `services` no es columna de projects: va a project_services, más abajo
-      PROJECTS.map(({ category, services: _services, ...p }, i) => ({
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars -- `services` y `gallery` no son columnas de projects: van a project_services y project_media, más abajo
+      PROJECTS.map(({ category, services: _services, gallery: _gallery, client, ...p }, i) => ({
         ...p,
         categoryId: categories.get(category),
-        clientPublic: false,
+        clientId: client ? clientIds.get(client.slug) : undefined,
+        clientPublic: Boolean(client),
         sort: (i + 1) * 10,
         ...published,
       })),
@@ -417,6 +430,34 @@ export async function seedContent(db: Db): Promise<void> {
     }),
   );
   if (links.length) await db.insert(projectServices).values(links).onConflictDoNothing();
+
+  // Capturas: archivos del propio sitio (la clave es su ruta en public/), también solo para los casos creados ahora.
+  const shots = createdProjects.flatMap(({ id: projectId, slug }) =>
+    (PROJECTS.find((p) => p.slug === slug)?.gallery ?? []).map((shot, j) => ({ projectId, shot, sort: (j + 1) * 10 })),
+  );
+  if (shots.length) {
+    await db
+      .insert(media)
+      .values(
+        shots.map(({ shot }) => ({
+          key: shot.key,
+          filename: shot.key.split("/").pop() ?? shot.key,
+          mime: "image/webp",
+          size: shot.size,
+          width: shot.width,
+          height: shot.height,
+          alt: shot.alt,
+        })),
+      )
+      .onConflictDoNothing();
+    const keys = shots.map(({ shot }) => shot.key);
+    const mediaIds = new Map((await db.select({ id: media.id, key: media.key }).from(media).where(inArray(media.key, keys))).map((m) => [m.key, m.id]));
+    const gallery = shots.flatMap(({ projectId, shot, sort }) => {
+      const mediaId = mediaIds.get(shot.key);
+      return mediaId ? [{ projectId, mediaId, caption: shot.caption, sort }] : [];
+    });
+    if (gallery.length) await db.insert(projectMedia).values(gallery).onConflictDoNothing();
+  }
 
   for (const [i, { price, delivery, features, featured, ...plan }] of PLANS.entries()) {
     const [created] = await db

@@ -51,7 +51,7 @@ Los módulos de servidor empiezan con `import "server-only"`: importarlos desde 
 
 **Leads.** Formulario → server action → `rateLimit(clientKey(headers, "contact"))` → `contactLeadSchema` / `diagnosticLeadSchema` → insert en `leads` (solo con `consent = true`). Los leads no se cachean ni se escriben en logs.
 
-**Media.** `processImageUpload(file)` → `storage.put(buffer, { key: newMediaKey(), contentType })` → fila en `media`. Lectura: `storage.publicUrl(key)` → `/media/<key>` (local) o `S3_PUBLIC_URL/<key>` (S3/R2/MinIO). `content.ts` ya entrega las imágenes como `MediaRef { url, width, height, alt }`.
+**Media.** `processImageUpload(file)` → `storage.put(buffer, { key: newMediaKey(), contentType })` → fila en `media`. Lectura: `storage.publicUrl(key)` → `/media/<key>` (local) o `S3_PUBLIC_URL/<key>` (S3/R2/MinIO). `content.ts` ya entrega las imágenes como `MediaRef { url, width, height, alt }`. Una clave que empieza con `/` es un archivo de `public/` (las capturas de los casos, `public/capturas/<caso>/`): `publicUrl` la devuelve tal cual y `remove` no hace nada.
 
 **Eventos.** `track(name, meta)` en el cliente → `POST /api/events` → validación contra la lista cerrada → `analytics_events`. Si GA4 está cargado, el mismo evento va también a `window.gtag`.
 
