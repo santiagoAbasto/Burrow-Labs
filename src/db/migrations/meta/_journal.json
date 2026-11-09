@@ -141,6 +141,13 @@
       "when": 1793975141475,
       "tag": "0019_caso_burrow_prospect",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1794203334955,
+      "tag": "0020_caso_summers_style",
+      "breakpoints": true
     }
   ]
 }

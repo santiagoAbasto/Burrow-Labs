@@ -6,7 +6,7 @@ export const PROJECT_BADGES = ["Producto propio", "Caso confidencial", "MVP func
 export type ProjectBadge = (typeof PROJECT_BADGES)[number];
 
 /** Esquemas disponibles para ilustrar un caso sin portada (src/components/projects/project-visual.tsx). */
-export const PROJECT_VISUALS = ["layers", "flow", "nodes", "grid", "apple-boss"] as const;
+export const PROJECT_VISUALS = ["layers", "flow", "nodes", "grid", "apple-boss", "summers"] as const;
 export type ProjectVisual = (typeof PROJECT_VISUALS)[number];
 
 /** Slugs de los servicios sembrados en `seed-content.ts` (rutas públicas `/servicios/<slug>`). */

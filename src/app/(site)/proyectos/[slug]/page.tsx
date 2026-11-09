@@ -255,11 +255,26 @@ export default async function ProjectPage({ params }: Props) {
                 <Markdown>{project.result}</Markdown>
               </div>
             </div>
-            {project.resultsMetrics.length > 0 && (
-              <div className="grid content-start gap-4 rounded-lg border border-line bg-panel p-6 lg:mt-14">
-                <p className="type-mono text-muted">QA automatizado</p>
-                <p className="type-h3">Suite de pruebas para proteger los flujos críticos.</p>
-                <p className="text-muted">Permisos, cálculos e integraciones se verifican solos antes de cada cambio. Las cifras están en la ficha técnica.</p>
+            {(project.resultsMetrics.length > 0 || project.gallery.length > 0) && (
+              // Columna derecha: QA arriba y las capturas del caso debajo, que crecen hasta el alto del texto: sin hueco vacío.
+              <div className="flex flex-col gap-4 lg:mt-14">
+                {project.resultsMetrics.length > 0 && (
+                  <div className="grid gap-4 rounded-lg border border-line bg-panel p-6">
+                    <p className="type-mono text-muted">QA automatizado</p>
+                    <p className="type-h3">Suite de pruebas para proteger los flujos críticos.</p>
+                    <p className="text-muted">Permisos, cálculos e integraciones se verifican solos antes de cada cambio. Las cifras están en la ficha técnica.</p>
+                  </div>
+                )}
+                {project.gallery.length > 0 && (
+                  // Con la tarjeta de QA, cuatro capturas en 2×2; sin ella, dos grandes: así cada celda queda cerca de 16:10.
+                  <ul aria-label="Capturas del resultado" className={`grid flex-1 auto-rows-fr gap-4 ${project.resultsMetrics.length > 0 ? "grid-cols-2" : ""}`}>
+                    {project.gallery.slice(0, project.resultsMetrics.length > 0 ? 4 : 2).map((image) => (
+                      <li key={image.url} className="relative aspect-[16/10] overflow-hidden rounded-lg border border-line last:odd:col-span-2 lg:aspect-auto lg:min-h-32">
+                        <Image src={image.url} alt={image.alt} fill sizes="(min-width: 1280px) 290px, (min-width: 1024px) 24vw, 50vw" className="object-cover object-top" />
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             )}
           </Container>

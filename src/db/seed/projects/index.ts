@@ -1,6 +1,7 @@
-// Casos de estudio en el orden en que se publican. Primero los productos propios (Apple Boss y Burrow Prospect).
+// Casos de estudio en el orden en que se publican. Primero los productos propios (Apple Boss y Burrow Prospect) y el cliente más reciente (Summer’s Style).
 import { project as appleBoss } from "./apple-boss";
 import { project as burrowProspect } from "./burrow-prospect";
+import { project as summersStyle } from "./summers-style";
 import { project as asistenteVentasIa } from "./asistente-de-ventas-con-ia";
 import { project as commerceIntelligence } from "./commerce-intelligence";
 import { project as controlOperaciones } from "./control-de-operaciones-y-produccion";
@@ -13,6 +14,7 @@ import type { SeedProject } from "./types";
 export const PROJECTS: SeedProject[] = [
   appleBoss,
   burrowProspect,
+  summersStyle,
   trazabilidadIndustrial,
   asistenteVentasIa,
   plataformaB2b,

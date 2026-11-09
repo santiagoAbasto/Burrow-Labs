@@ -2,7 +2,7 @@ import { useId } from "react";
 import { cn } from "@/lib/cn";
 
 /**
- * Esquema que ilustra un caso cuando no hay portada: capas, flujo, nodos, grilla o el árbol de Apple Boss.
+ * Esquema que ilustra un caso cuando no hay portada: capas, flujo, nodos, grilla o el árbol de Apple Boss o de Summer’s Style.
  * Se dibuja con las funcionalidades del caso (nunca una captura inventada) en el lenguaje gráfico del sitio:
  * trazo de tinta, cajas de taller, un solo acento. SVG servido desde el servidor, sin JavaScript.
  */
@@ -191,6 +191,28 @@ function AppleBoss({ marker }: { marker: string }) {
   );
 }
 
+/** Summer’s Style: la web y el panel entran al mismo monolito → agenda / clientes / caja → una base → reportes y contenido. */
+function Summers({ marker }: { marker: string }) {
+  return (
+    <>
+      <Line d="M135 64 V76 M345 64 V76 M135 76 H345" />
+      <Line d="M240 76 V92" marker={marker} />
+      <Line d="M240 140 V150 M100 150 H380 M100 150 V162 M240 150 V162 M380 150 V162" />
+      <Line d="M100 206 V222 M240 206 V222 M380 206 V222 M100 222 H380 M240 222 V236" marker={marker} />
+      <Line d="M240 280 V294 M150 294 H330 M150 294 V306 M330 294 V306" />
+      <Box x={50} y={20} w={170} h={44} label="Web y reservas" tone="dashed" />
+      <Box x={260} y={20} w={170} h={44} label="Panel del equipo" tone="dashed" />
+      <Box x={165} y={92} w={150} h={48} label="Laravel + React" tone="accent" />
+      <Box x={40} y={162} w={120} h={44} label="Agenda" />
+      <Box x={180} y={162} w={120} h={44} label="Clientes" />
+      <Box x={320} y={162} w={120} h={44} label="Caja" />
+      <Box x={165} y={236} w={150} h={44} label="Una sola base" />
+      <Box x={80} y={306} w={140} h={40} label="Reportes" size={10} />
+      <Box x={260} y={306} w={140} h={40} label="Contenido y SEO" size={10} />
+    </>
+  );
+}
+
 type ProjectVisualProps = {
   /** Clave de PROJECT_VISUALS; cualquier otra cosa dibuja «layers». */
   kind: string;
@@ -204,7 +226,7 @@ type ProjectVisualProps = {
 export function ProjectVisual({ kind, labels, title, className }: ProjectVisualProps) {
   const marker = `arrow-${useId().replace(/:/g, "")}`;
   const body =
-    kind === "apple-boss" ? <AppleBoss marker={marker} /> : kind === "flow" ? <Flow labels={labels} marker={marker} /> : kind === "nodes" ? <Nodes labels={labels} /> : kind === "grid" ? <Grid labels={labels} /> : <Layers labels={labels} />;
+    kind === "apple-boss" ? <AppleBoss marker={marker} /> : kind === "summers" ? <Summers marker={marker} /> : kind === "flow" ? <Flow labels={labels} marker={marker} /> : kind === "nodes" ? <Nodes labels={labels} /> : kind === "grid" ? <Grid labels={labels} /> : <Layers labels={labels} />;
   return (
     <div className={cn("relative grid place-items-center overflow-hidden rounded-lg border border-line bg-panel", className)}>
       <span className="absolute top-3 left-4 type-mono text-muted" aria-hidden="true">
