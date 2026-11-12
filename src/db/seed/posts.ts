@@ -361,11 +361,10 @@ Empresas con productos propios o líneas de servicio amplias, más cerca de impl
 
 Es el grupo más numeroso: estudios y fábricas de software que construyen sistemas, sitios y aplicaciones para la operación de cada cliente.
 
-**Cochabamba**
+**Cochabamba** (con más detalle en [el mapa de empresas de software de Cochabamba](/lab/empresas-de-software-en-cochabamba))
 
 - **[Altalos](https://altalos.com)**. Software, páginas web, tiendas en línea, aplicaciones móviles y de escritorio, además de marketing digital y soporte técnico.
 - **[SpiderLabs Systems](https://spiderlabs.netlify.app)**. Sistemas de ventas e inventario, páginas web y aplicaciones empresariales.
-- **[SYSBOL](https://sysbol.com.bo)**. Páginas web, sistemas y soluciones digitales para empresas.
 
 **Santa Cruz**
 
@@ -415,5 +414,85 @@ Antes de empezar, preguntá en qué moneda cobra la empresa, cómo factura y qu�
 Burrow Labs es una [empresa de desarrollo de software de Bolivia](/) con base en [Cochabamba](/desarrollo-de-software-cochabamba). Construimos [sistemas empresariales](/servicios/sistemas-empresariales), [automatizaciones e integraciones](/servicios/automatizacion), [IA aplicada](/servicios/inteligencia-artificial), [plataformas web](/servicios/web-y-ecommerce) y [aplicaciones móviles](/servicios/aplicaciones-moviles) para empresas de toda Bolivia y del exterior, y recibimos pagos desde cualquier país. Nuestros [precios base](/planes) están publicados.
 
 Si después de leer esto alguna de las otras empresas encaja mejor con lo que necesitás, también está bien: elegí por el proceso, no por la lista. Y si querés que lo veamos juntos, [contanos qué querés resolver](/contacto).`,
+  },
+  {
+    // Revisado sitio por sitio el 12/11/2026 y contrastado con lo que muestra Google para «software cochabamba»,
+    // «desarrollo de software cochabamba» y «desarrollo de apps cochabamba». Nada de rankings ni cifras propias de terceros.
+    slug: "empresas-de-software-en-cochabamba",
+    ogImage: "/lab/covers/empresas-de-software-en-cochabamba.png",
+    category: "software-empresarial",
+    title: "Empresas de software en Cochabamba: quién hace qué",
+    excerpt:
+      "Las empresas de software de Cochabamba, revisadas sitio por sitio en noviembre de 2026: quién exporta desarrollo, quién vende un sistema listo y quién construye a medida.",
+    readingMinutes: 6,
+    publishedAt: "2026-11-12T12:00:00.000Z",
+    seoTitle: "Empresas de software en Cochabamba, Bolivia",
+    seoDescription:
+      "Empresas de software de Cochabamba revisadas una por una: qué hace cada una, dónde trabaja y cómo elegir proveedor para un sistema, una web o una app.",
+    content: `Si buscás una empresa de software en Cochabamba, Google te muestra un mapa con tres o cuatro nombres y, debajo, una mezcla: portales de empleo, directorios con empresas de cualquier rubro y páginas de empresas de otras ciudades que solo cambiaron el nombre de la ciudad. Armamos este mapa para ordenar eso.
+
+Cochabamba tiene una de las comunidades de software más antiguas del país: varias de las empresas que hoy venden desarrollo a Estados Unidos y Europa trabajan desde acá. Pero no todas hacen lo mismo, y elegir mal el tipo de proveedor sale más caro que elegir mal la empresa.
+
+No es un ranking. Decimos qué hace cada una y desde dónde trabaja. Si buscás en todo el país, está [el mapa de empresas de software de Bolivia](/lab/empresas-de-desarrollo-de-software-en-bolivia). Nosotros también somos [una empresa de software de Cochabamba](/desarrollo-de-software-cochabamba): aparecemos al final, separados del resto.
+
+## Cómo armamos la lista
+
+- **Revisamos cada sitio el 12 de noviembre de 2026** y lo contrastamos con lo que muestra Google para «software Cochabamba», «desarrollo de software Cochabamba» y «desarrollo de apps Cochabamba».
+- **Solo entra una empresa si su propio sitio dice qué hace y que trabaja desde Cochabamba.** La única excepción es Jalasoft: su sitio dice que su sede está en Bolivia, y su ficha de Google la ubica en la Av. Melchor Pérez de Olguín.
+- **Lo que cada empresa dice de sí misma lo citamos como tal.** No verificamos sus clientes ni sus cifras.
+- **Quedaron afuera** los sitios que no responden o están a la venta, las empresas que solo existen en redes sociales o en el mapa sin un sitio propio, las páginas de empresas de otras ciudades que repiten su texto con el nombre de Cochabamba y las filiales de empresas extranjeras cuyo sitio no dice desde qué ciudad trabajan.
+- **Si tu empresa falta o un dato cambió**, [escribinos](/contacto) y lo corregimos.
+
+## Empresas que exportan desarrollo
+
+Trabajan sobre todo para empresas de otros países, con equipos que se suman al de su cliente o que construyen plataformas completas.
+
+- **[Jalasoft](https://www.jalasoft.com)**. Equipos de ingeniería de software para empresas de las Américas: desarrollo, IA, QA y DevOps. Según su sitio, tiene más de 20 años y presencia en doce países.
+- **[AssureSoft](https://www.assuresoft.com)**. Equipos de ingeniería de software para empresas de Estados Unidos, con oficinas en Cochabamba, Santa Cruz y La Paz, además de Miami, California y Asunción.
+- **[Salamanca Solutions](https://salamancasolutions.com)**. Oficina en la Av. Blanco Galindo; su casa matriz, ACCELL, está en San Diego. Plataformas digitales, modernización de sistemas e integración de IA para telecomunicaciones y servicios públicos.
+- **[Genso](https://genso.com.bo)**. Fundada en Cochabamba en 2009, según su sitio. Planifica, desarrolla y despliega aplicaciones web, con especialidad en el lenguaje Scala.
+
+## Sistemas listos para usar y transformación digital
+
+Más cerca de implementar un sistema que ya existe que de escribir uno desde cero. Conviene cuando tu proceso se parece al de muchas otras empresas.
+
+- **[TI Software](https://www.tisoft-srl.com)**. Casa matriz en Cochabamba. Un ERP para el control administrativo y contable: inventarios, ventas, compras, facturación y estados financieros.
+- **[MultiControlSoft](https://multicontrolsoft.com)**. Sistemas en la nube para restaurantes y ferreterías, y desarrollo a medida para otros rubros.
+- **[Intersoft](https://www.intersoft.com.bo)**. Transformación digital para clientes corporativos: firma digital, robotización, inteligencia de negocios, ciberseguridad, contact center y soluciones financieras, además de desarrollo de software. Según su sitio, tiene más de 20 años.
+
+## Desarrollo a medida: sistemas, web y apps
+
+Estudios que construyen el sistema, la web o la app alrededor de cómo trabaja cada cliente.
+
+- **[Altalos](https://altalos.com)**. Software de escritorio, web y móvil, tiendas en línea, además de diseño gráfico, marketing digital y soporte técnico.
+- **[SpiderLabs Systems](https://spiderlabs.netlify.app)**. Sistemas de ventas e inventario, páginas web y aplicaciones empresariales.
+- **[AndeanUX](https://andean.de)**. Oficina en la Torre Norte, Av. América. Software a medida, diseño de experiencia de usuario y pruebas de calidad; su sitio está en inglés y tiene teléfono en Bolivia y en Alemania.
+- **[HABILWEB](https://www.habilweb.com)**. Portales y sitios web a medida para empresas e instituciones, con ciberseguridad, infraestructura en la nube y licencias de Microsoft. Más cerca de tecnología e infraestructura que de sistemas de gestión.
+
+## Cómo elegir en Cochabamba
+
+### 1. Primero el tipo de proveedor, después la empresa
+
+Sumar programadores a tu equipo, implementar un sistema que ya existe o construir uno para tu operación son tres compras distintas. Las empresas de cada sección de arriba hacen una de esas tres cosas mejor que las otras.
+
+### 2. Aprovechá que están cerca
+
+La ventaja de contratar en tu ciudad es que podés ir a la oficina, conocer a quienes van a trabajar en tu proyecto y pedir que te muestren un sistema funcionando, aunque sea con datos de prueba. Una presentación no muestra eso.
+
+### 3. Compará cotizaciones por alcance
+
+Dos precios solo se comparan si dicen lo mismo: qué módulos incluyen, qué queda afuera, en qué plazo y con qué entregas. Explicamos qué mueve el precio en [cuánto cuesta un sistema a medida en Bolivia](/lab/cuanto-cuesta-un-sistema-a-medida-en-bolivia).
+
+### 4. Dejá por escrito qué pasa después
+
+Quién es dueño del código, del dominio y del servidor, y quién da soporte cuando el sistema ya está en uso. Eso se acuerda antes de empezar.
+
+## Y nosotros
+
+Burrow Labs es una [empresa de software con base en Cochabamba](/desarrollo-de-software-cochabamba) que trabaja para toda Bolivia y el exterior. Construimos [sistemas empresariales](/servicios/sistemas-empresariales), [automatizaciones e integraciones](/servicios/automatizacion), [IA aplicada](/servicios/inteligencia-artificial), [plataformas web](/servicios/web-y-ecommerce) y [aplicaciones móviles](/servicios/aplicaciones-moviles).
+
+En Cochabamba hicimos, por ejemplo, [el CRM y el sitio de Ninth Group](/proyectos/crm-inmobiliario), una red inmobiliaria, y [la web con reservas en línea de Summer’s Style](/proyectos/summers-style), una barbería y salón de belleza. Nuestros [precios base](/planes) están publicados.
+
+Si otra de estas empresas encaja mejor con lo que necesitás, también está bien: elegí por el proceso, no por la lista. Y si querés que lo veamos juntos, [contanos qué querés resolver](/contacto).`,
   },
 ];

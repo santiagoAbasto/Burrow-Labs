@@ -133,7 +133,8 @@ export function professionalServiceJsonLd(settings: Settings): JsonLd {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     ...organizationFields(settings),
-    ...compact({ areaServed: settings.seo.country }),
+    // hasMap: la ficha de Google Maps cargada en Redes, para que el buscador una el sitio con su ficha local.
+    ...compact({ areaServed: settings.seo.country, hasMap: settings.social.googleMaps }),
   };
 }
 

@@ -148,6 +148,20 @@
       "when": 1794203334955,
       "tag": "0020_caso_summers_style",
       "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1794511737166,
+      "tag": "0021_caso_blackphone",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1794512942423,
+      "tag": "0022_seo_cochabamba",
+      "breakpoints": true
     }
   ]
 }

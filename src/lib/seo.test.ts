@@ -66,6 +66,12 @@ describe("JSON-LD", () => {
     expect(webSiteJsonLd(settings)).toMatchObject({ "@id": `${SITE_URL}/#website`, publisher: ORG, inLanguage: "es-BO" });
   });
 
+  it("ProfessionalService enlaza la ficha de Google Maps solo si está cargada", () => {
+    const maps = "https://maps.app.goo.gl/ejemplo";
+    expect(professionalServiceJsonLd({ ...settings, social: { ...settings.social, googleMaps: maps } }).hasMap).toBe(maps);
+    expect(professionalServiceJsonLd({ ...settings, social: { ...settings.social, googleMaps: "" } })).not.toHaveProperty("hasMap");
+  });
+
   it("Service referencia a la organización como proveedor", () => {
     const service = serviceJsonLd({ slug: "automatizacion", name: "Automatización", tagline: "Menos trabajo manual.", seoDescription: null }, settings);
     expect(service).toMatchObject({ "@id": `${SITE_URL}/servicios/automatizacion#service`, provider: ORG, description: "Menos trabajo manual." });

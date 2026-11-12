@@ -21,9 +21,11 @@ import { breadcrumbJsonLd, buildMetadata, localServiceJsonLd } from "@/lib/seo";
 export const generateMetadata = (): Promise<Metadata> =>
   buildMetadata({
     path: "/desarrollo-de-software-cochabamba",
-    title: "Desarrollo de software a medida en Cochabamba",
+    // «empresa de software» es la consulta con más impresiones en Search Console (12/11/2026) y «software Cochabamba» no
+    // tenía ninguna: esta página es la que compite por las dos. /nosotros ya no usa el mismo título, para no pisarse.
+    title: "Empresa de software en Cochabamba",
     description:
-      "Desarrollo de software y desarrollo web en Cochabamba: sistemas a medida, páginas web, apps, automatización e IA para empresas de Bolivia y del exterior.",
+      "Empresa de software en Cochabamba: desarrollo de software a medida, páginas web, apps, automatización e IA para empresas de Bolivia y del exterior.",
   });
 
 /** El precio base más bajo de cada categoría, tomado de los planes publicados. Si no hay, no se afirma nada. */
@@ -42,8 +44,8 @@ export default async function CochabambaPage() {
 
   return (
     <>
-      <PageHeader eyebrow="Cochabamba, Bolivia" title="Desarrollo de software a medida en Cochabamba">
-        Burrow Labs es un software studio con base en Cochabamba. Construimos sistemas a medida, aplicaciones móviles,
+      <PageHeader eyebrow="Desarrollo de software a medida · Cochabamba, Bolivia" title="Empresa de software en Cochabamba">
+        Burrow Labs es una empresa de desarrollo de software con base en Cochabamba. Construimos sistemas a medida, aplicaciones móviles,
         automatizaciones, integraciones e inteligencia artificial aplicada para empresas que ya funcionan y necesitan ordenar su
         operación.
       </PageHeader>
@@ -131,6 +133,17 @@ export default async function CochabambaPage() {
                   diagnóstico express
                 </Link>{" "}
                 son cinco preguntas.
+              </dd>
+            </div>
+            <div>
+              <dt className="type-h3">¿Qué otras empresas de software hay en Cochabamba?</dt>
+              <dd className="mt-3 text-muted">
+                Varias, y no todas hacen lo mismo: algunas exportan equipos de desarrollo, otras venden un sistema listo y otras construyen a
+                medida. Las revisamos una por una en el{" "}
+                <Link href="/lab/empresas-de-software-en-cochabamba" className="text-link underline-offset-4 hover:underline">
+                  mapa de empresas de software de Cochabamba
+                </Link>
+                .
               </dd>
             </div>
           </dl>

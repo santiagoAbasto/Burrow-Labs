@@ -2,6 +2,7 @@
 import { project as appleBoss } from "./apple-boss";
 import { project as burrowProspect } from "./burrow-prospect";
 import { project as summersStyle } from "./summers-style";
+import { project as blackphone } from "./blackphone";
 import { project as asistenteVentasIa } from "./asistente-de-ventas-con-ia";
 import { project as commerceIntelligence } from "./commerce-intelligence";
 import { project as controlOperaciones } from "./control-de-operaciones-y-produccion";
@@ -15,6 +16,7 @@ export const PROJECTS: SeedProject[] = [
   appleBoss,
   burrowProspect,
   summersStyle,
+  blackphone,
   trazabilidadIndustrial,
   asistenteVentasIa,
   plataformaB2b,
