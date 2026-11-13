@@ -7,7 +7,7 @@ Capa de temporada que viste el sitio y el panel sin tocar ninguna página. Se en
 «Navidad en la madriguera»: la mina de noche, con luces. La identidad de Burrow Labs no se reemplaza: siguen los azules, el amarillo y la tinta; la temporada suma rojo y verde pino.
 
 - **El burro no se redibuja** (ver [BRAND-ASSETS.md](BRAND-ASSETS.md)). El gorro, el trineo, los renos y el paisaje son accesorios externos, como la vagoneta.
-- **El gorro** tapa las dos orejas por completo, con la colita y el pompón a la izquierda. Está dibujado como el burro del logotipo (contorno de tinta y borde amarillo de sticker) para que se lea como parte de la ilustración. Lo lleva cada burro del sitio y del panel: lo monta `Mascot`.
+- **El gorro** es un dibujo propio en estilo de caricatura de trazo grueso (la referencia la eligió el dueño): banda de piel curva que abraza la cabeza, copa roja inclinada a la derecha y la punta que cae por la izquierda hasta el pompón. Tapa las dos orejas por completo y lleva el contorno del burro del logotipo (tinta y borde amarillo de sticker), para que se lea como parte de la ilustración y no como un recorte pegado. Lo lleva cada burro del sitio y del panel: lo monta `Mascot`. Sobresale un 23 % por arriba: donde un burro va pegado debajo de un texto (acceso, hero en celular) se baja para no taparlo.
 - **Los textos son saludos**, no promociones. Nada dice descuento ni fecha de entrega.
 
 ## Piezas

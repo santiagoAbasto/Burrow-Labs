@@ -41,50 +41,51 @@ function Svg({ className = "", children, ...rest }: SVGProps<SVGSVGElement>) {
 
 const SPARK = "M12 0C13 7 17 11 24 12C17 13 13 17 12 24C11 17 7 13 0 12C7 11 11 7 12 0Z";
 
-/* ───────────── Gorro: tapa las DOS orejas del burro por completo; no modifica la marca ─────────────
-   Lienzo 100×100, con la colita y el pompón cayendo hacia la izquierda. Está dibujado como el burro del logotipo:
-   contorno de tinta y, por fuera, el borde amarillo de sticker. Así se lee como parte de la ilustración y no como
-   un recorte pegado encima. La banda blanca apoya en la cabeza, justo sobre el ojo. */
-const HAT_TAIL = "M42 9C20 5 4 22 4 50";
-const HAT_CROWN = "M6 84C6 34 20 4 50 4C80 4 94 34 94 84Z";
+/* ───────────── Gorro de Papá Noel: tapa las DOS orejas del burro; no modifica la marca ─────────────
+   Dibujo propio, en estilo de caricatura de trazo grueso (la referencia que eligió el dueño): banda de piel curva que
+   abraza la cabeza, copa roja con el pico arriba y la punta que cae por la izquierda hasta un pompón que cuelga.
+   Lienzo: x −36–106, y 24–162. Va inclinado a la derecha (lo rota season.css). Lleva el contorno del burro del
+   logotipo, tinta y borde amarillo de sticker, para que se lea como parte de la ilustración y no como un recorte. */
+const HAT_CAP = "M9 132C9 110 10 92 12 74C5 79 -1 90 -5 106L-22 101C-20 78 -8 56 12 46C28 38 50 36 64 44C80 54 88 92 91 132Z";
+const HAT_BAND = "M0 131C0 120 11 121 20 126C40 136 62 136 82 126C91 121 102 120 102 131C102 143 92 147 82 150C62 157 40 157 20 150C10 147 0 143 0 131Z";
+const POM = { cx: -14, cy: 110, r: 11.5 };
 
-/** La silueta entera (colita, copa, banda y pompón) trazada con un solo color: sirve de contorno. */
-function HatSilhouette({ color, width }: { color: string; width: number }) {
-  const line = { fill: color, stroke: color, strokeWidth: width, strokeLinejoin: "round" as const, strokeLinecap: "round" as const };
+function HatOutline({ color, width }: { color: string; width: number }) {
+  const line = { fill: color, stroke: color, strokeWidth: width, strokeLinejoin: "round" as const };
   return (
     <>
-      <path d={HAT_TAIL} fill="none" stroke={color} strokeWidth={15 + width} strokeLinecap="round" />
-      <path d={HAT_CROWN} {...line} />
-      <rect x="0" y="76" width="100" height="21" rx="10.5" {...line} />
-      {[9, 23, 37, 51, 65, 79].map((x) => (
-        <circle key={x} cx={x + 6} cy="78" r="8" {...line} />
-      ))}
-      <circle cx="4" cy="55" r="10" {...line} />
+      <path d={HAT_CAP} {...line} />
+      <path d={HAT_BAND} {...line} />
+      <circle cx={POM.cx} cy={POM.cy} r={POM.r} {...line} />
     </>
   );
 }
 
 function HatDrawing() {
+  const ink = { stroke: C.ink, strokeWidth: 2.6, strokeLinejoin: "round" as const, strokeLinecap: "round" as const };
   return (
     <>
-      <HatSilhouette color={C.gold} width={9} />
-      <HatSilhouette color={C.ink} width={4} />
-      {/* colita caída hacia la izquierda, detrás de la copa */}
-      <path d={HAT_TAIL} fill="none" stroke={C.redDeep} strokeWidth="15" strokeLinecap="round" />
+      <HatOutline color={C.gold} width={10} />
+      <HatOutline color={C.ink} width={5} />
       {/* copa */}
-      <path d={HAT_CROWN} fill={C.red} />
-      <path d="M6 84C6 52 12 24 28 11C20 30 18 56 20 84Z" fill={C.redDeep} />
-      <path d="M81 62C80 38 72 20 56 13" fill="none" stroke="#fff" strokeWidth="4.5" strokeLinecap="round" opacity=".28" />
-      <path d="M44 6C30 9 20 22 14 40" fill="none" stroke={C.ink} strokeWidth="2" strokeLinecap="round" opacity=".55" />
-      {/* banda de piel */}
-      <rect x="0" y="76" width="100" height="21" rx="10.5" fill={C.snow} />
-      {[9, 23, 37, 51, 65, 79].map((x) => (
-        <circle key={x} cx={x + 6} cy="78" r="8" fill={C.snow} />
-      ))}
-      <path d="M10 92.5H90" stroke="#d9dde2" strokeWidth="3" strokeLinecap="round" />
+      <path d={HAT_CAP} fill={C.red} />
+      {/* lado en sombra y revés de la punta */}
+      <path d="M91 132C88 92 80 54 64 44C74 66 78 100 76 132Z" fill={C.redDeep} />
+      <path d="M12 74C5 79 -1 90 -5 106L-14 103C-11 86 -3 72 8 64C12 61 16 62 18 66C15 68 13 71 12 74Z" fill={C.redDeep} />
+      <path d="M12 74C18 86 20 104 18 126L9 130C9 110 10 92 12 74Z" fill={C.redDeep} opacity=".55" />
+      {/* brillo en el lomo */}
+      <path d="M-12 84C-4 68 10 56 26 49" fill="none" stroke="#fff" strokeWidth="4" strokeLinecap="round" opacity=".35" />
+      <path d="M40 43C48 41 56 42 62 46" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" opacity=".28" />
+      {/* pliegues: donde la punta se dobla sobre la copa */}
+      <path d="M12 74C20 66 30 62 42 62" fill="none" {...ink} />
+      <path d="M30 78C38 74 46 73 54 75" fill="none" {...ink} strokeWidth={2} opacity=".75" />
+      {/* banda de piel: curva, abraza la cabeza */}
+      <path d={HAT_BAND} fill={C.snow} {...ink} />
+      <path d="M4 138C10 146 20 149 30 151C48 155 62 154 80 148C90 145 98 141 100 134C99 143 91 147 82 150C62 157 40 157 20 150C11 147 4 144 4 138Z" fill="#cfd5db" />
+      <path d="M10 127C22 133 36 137 50 137" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" />
       {/* pompón */}
-      <circle cx="4" cy="55" r="10" fill={C.snow} />
-      <path d="M-2 58C0 62.5 6 63.5 10 61" fill="none" stroke="#d9dde2" strokeWidth="2.6" strokeLinecap="round" />
+      <circle cx={POM.cx} cy={POM.cy} r={POM.r} fill={C.snow} {...ink} />
+      <path d="M-24 112C-22 119 -14 122 -7 118C-12 121 -20 119 -24 112Z" fill="#cfd5db" stroke="#cfd5db" strokeWidth="3" strokeLinejoin="round" />
     </>
   );
 }
@@ -93,7 +94,7 @@ function HatDrawing() {
 export function Hat({ view }: PieceProps) {
   if (!view.characters) return null;
   return (
-    <Svg viewBox="-14 -8 120 112" className="nv-hat">
+    <Svg viewBox="-36 24 142 138" className="nv-hat">
       <HatDrawing />
     </Svg>
   );
@@ -174,7 +175,7 @@ function Reindeer({ x, lead = false, phase = "" }: { x: number; lead?: boolean; 
 /** Lienzo 320×104. El burro es `public/brand/mascot.svg` tal cual; el trineo le tapa la parte de abajo. */
 function Sleigh({ className = "" }: { className?: string }) {
   return (
-    <Svg viewBox="0 -10 320 114" className={className}>
+    <Svg viewBox="0 -18 320 122" className={className}>
       <path d="M104 64Q150 70 190 58Q230 68 262 58" fill="none" stroke={C.goldDeep} strokeWidth="1.6" />
       <g className="nv-gallop nv-gallop-c">
         {/* patines */}
@@ -187,7 +188,7 @@ function Sleigh({ className = "" }: { className?: string }) {
         <rect x="28" y="30" width="12" height="12" rx="2" fill={C.gold} transform="rotate(10 34 36)" />
         {/* el burro oficial, con su gorro */}
         <image href="/brand/mascot.svg" x="38" y="6" width="50" height="77.5" />
-        <g transform="translate(40.5 -1.5) rotate(10 17 29) scale(.36)">
+        <g transform="translate(44 -19.9) rotate(12 16.5 46) scale(.33)">
           <HatDrawing />
         </g>
         {/* cuerpo del trineo */}
@@ -287,7 +288,7 @@ export function Landscape({ view }: PieceProps) {
         <button type="button" className="nv-burro" data-hop={hop || undefined} onClick={() => setHop(true)} aria-label="Saludar al burro">
           {/* eslint-disable-next-line @next/next/no-img-element -- vector oficial sin optimizar: next/image no aporta nada a un SVG */}
           <img src="/brand/mascot.svg" alt="" width={529} height={820} loading="lazy" decoding="async" draggable={false} />
-          <Svg viewBox="-14 -8 120 112" className="nv-burro-hat">
+          <Svg viewBox="-36 24 142 138" className="nv-burro-hat">
             <HatDrawing />
           </Svg>
           <Svg viewBox="0 0 48 48" className="nv-burro-gift">
