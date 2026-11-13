@@ -21,7 +21,7 @@ Cuando todo eso se resuelve de memoria o en un chat, el error aparece en el peor
 
 Summer’s Style necesitaba una web que muestre el salón y deje reservar sin llamar, y un sistema interno que sostenga esa promesa: agenda, clientes y caja sobre las mismas reglas.`,
 
-  context: `**Un salón para todo público, con servicios muy distintos.** Summer’s Style es una barbería y salón de belleza en Calacala, Cochabamba, para mujeres, hombres y niños. Su catálogo tiene 21 servicios en cinco categorías: cortes y barbería, coloración, ondulaciones, tratamientos capilares y uñas. Una barba dura 30 minutos; un soft gel con diseño, dos horas y media. Algunos precios son fijos y otros son «desde», porque dependen de una evaluación en el salón.
+  context: `**Un salón para todo público, con servicios muy distintos.** Summer’s Style es una barbería y salón de belleza en Cochabamba, para mujeres, hombres y niños. Su catálogo tiene más de veinte servicios en cinco categorías: cortes y barbería, coloración, ondulaciones, tratamientos capilares y uñas. Una barba dura 30 minutos; un soft gel con diseño, dos horas y media. Algunos precios son fijos y otros son «desde», porque dependen de una evaluación en el salón.
 
 Sobre eso conviven dos mundos: quien busca el salón en Google y reserva desde el celular, y el equipo que recibe, atiende, cobra y cierra el día. Y uno más: el dueño, que quiere cambiar un texto, una foto o el número de WhatsApp sin depender de un programador.`,
 
@@ -99,7 +99,7 @@ Hay ocho roles con permisos por sucursal: propietario, administrador, encargado,
 Los formularios públicos (reserva, contacto, reseñas y lista de espera) pasan por Turnstile de Cloudflare y límites de solicitudes. Una reseña solo se puede dejar desde una cita completada, una por cita y con moderación antes de publicarse.`,
 
   features: [
-    "Catálogo de 21 servicios con filtros por público y buscador",
+    "Catálogo de más de veinte servicios con filtros por público y buscador",
     "Reserva en tres pasos con horarios reales, sin cuenta ni pago",
     "Enlace privado para reprogramar o cancelar la cita",
     "Agenda del día con estados de atención",
@@ -141,9 +141,9 @@ Los formularios públicos (reserva, contacto, reseñas y lista de espera) pasan 
   client: { slug: "summers-style", name: "Summer’s Style", sector: "Barbería y belleza", website: "https://summersstyles.com.bo" },
   gallery: [
     { key: "/capturas/summers-style/inicio.webp", alt: "Inicio de summersstyles.com.bo: «Tu estilo. Tu momento.», con las puertas Hombres y Mujeres sobre el salón", caption: "La portada: dos puertas, Hombres y Mujeres, que llevan a los servicios de cada público.", size: 254274, width: 3840, height: 2400 },
-    { key: "/capturas/summers-style/servicios.webp", alt: "Catálogo de servicios de Summer’s Style con filtros por público y categoría, buscador, precios en bolivianos y duración", caption: "Catálogo: 21 servicios con filtros, buscador, precio y duración, editables desde el panel.", size: 272594, width: 3840, height: 2400 },
+    { key: "/capturas/summers-style/servicios.webp", alt: "Catálogo de servicios de Summer’s Style con filtros por público y categoría, buscador, precios en bolivianos y duración", caption: "Catálogo: más de veinte servicios con filtros, buscador, precio y duración, editables desde el panel.", size: 272594, width: 3840, height: 2400 },
     { key: "/capturas/summers-style/reservar.webp", alt: "Primer paso de la reserva en summersstyles.com.bo: elegir el servicio, con filtros, buscador y el resumen de la cita", caption: "Reserva en tres pasos: servicio, día y hora, y tus datos, sin crear cuenta ni pagar.", size: 201132, width: 3840, height: 2400 },
     { key: "/capturas/summers-style/servicio.webp", alt: "Ficha del Corte premium en summersstyles.com.bo, con lo que incluye, el precio de Bs. 100 y la duración", caption: "Ficha de servicio: qué incluye, precio y duración, con el botón para reservar o consultar por WhatsApp.", size: 192156, width: 3840, height: 2400 },
-    { key: "/capturas/summers-style/como-llegar.webp", alt: "Video «Cómo llegar» de Summer’s Style: un auto recorre en un mapa 3D la ruta hasta el salón en Calacala", caption: "«Cómo llegar»: un video 3D con calles reales de OpenStreetMap, de la Av. Melchor Urquidi a la puerta del salón.", size: 159336, width: 3840, height: 2400 },
+    { key: "/capturas/summers-style/como-llegar.webp", alt: "Video «Cómo llegar» de Summer’s Style: un auto recorre en un mapa 3D la ruta hasta el salón, sobre la Av. Circunvalación", caption: "«Cómo llegar»: un video 3D con calles reales de OpenStreetMap, de la Av. Melchor Urquidi a la puerta del salón.", size: 159336, width: 3840, height: 2400 },
   ],
 };
