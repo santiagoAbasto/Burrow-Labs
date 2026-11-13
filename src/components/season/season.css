@@ -103,23 +103,24 @@ html[data-season="christmas"] .control:focus-visible:not([aria-invalid="true"]) 
 }
 
 /* ═══════════════════════════════ GORRO ═══════════════════════════════
-   Gorro de Papá Noel inclinado a la derecha: banda curva que abraza la cabeza y punta que cae a la izquierda hasta el pompón; tapa las dos orejas por completo.
-   Medido contra los vectores. Burro recortado (529×820): puntas de las orejas en x 31 % y 66 %, y 2,5 % y 7,5 %;
-   la cabeza empieza en y 28 % y el ojo en y 35 %: la banda apoya entre los dos. En la insignia (868×868) el burro
-   ocupa el 62,9 % del ancho desde x 19,5 %. Todo en porcentajes del burro: acompaña cualquier tamaño. */
+   Va puesto en UNA sola oreja, la izquierda (la más alta): la tapa entera y la otra queda a la vista, por detrás.
+   Medido contra los vectores. Burro recortado (529×820): la punta de esa oreja está en x 31 %, y 2,5 % y su base en
+   y 28 %; el ojo empieza en y 35 %. La banda (100 unidades = 44 % del ancho) abraza la base de la oreja y apoya en la
+   cabeza sin tapar el ojo. En la insignia (868×868) el burro ocupa el 62,9 % del ancho desde x 19,5 %. Todo en
+   porcentajes del burro: acompaña cualquier tamaño. */
 .nv-hat {
   position: absolute;
-  left: 12.1%;
-  top: -22.1%;
-  width: 58.9%;
-  rotate: 12deg;
-  transform-origin: 60.6% 84%;
+  left: 16.9%;
+  top: -3%;
+  width: 40.4%;
+  rotate: 2deg;
+  transform-origin: 61.6% 74.3%;
   z-index: 1;
 }
 .mascot[data-variant="mascot"] > .nv-hat {
-  left: -11.8%;
-  top: -23.2%;
-  width: 93.7%;
+  left: -4.2%;
+  top: -3.6%;
+  width: 64.2%;
 }
 html[data-season="christmas"]:not([data-season-still]) :is(a:hover, a:focus-visible, a:active, button:hover, button:active) .nv-hat,
 html[data-season="christmas"]:not([data-season-still]) .mascot:is(:hover, :active) > .nv-hat {
@@ -128,13 +129,13 @@ html[data-season="christmas"]:not([data-season-still]) .mascot:is(:hover, :activ
 @keyframes nv-hat {
   0%,
   100% {
-    rotate: 12deg;
+    rotate: 2deg;
   }
   35% {
-    rotate: 5deg;
+    rotate: -6deg;
   }
   70% {
-    rotate: 16deg;
+    rotate: 7deg;
   }
 }
 
@@ -396,11 +397,11 @@ a.nv-greeting-text:focus-visible {
 /* El mismo calce que .mascot[data-variant="mascot"] > .nv-hat */
 .nv-burro-hat {
   position: absolute;
-  left: -11.8%;
-  top: -23.2%;
-  width: 93.7%;
-  rotate: 12deg;
-  transform-origin: 60.6% 84%;
+  left: -4.2%;
+  top: -3.6%;
+  width: 64.2%;
+  rotate: 2deg;
+  transform-origin: 61.6% 74.3%;
 }
 .nv-burro-gift {
   position: absolute;
@@ -782,18 +783,5 @@ html[data-season="christmas"][data-season-surface="admin"][data-season-intensity
   }
   .nv-snow {
     display: none;
-  }
-}
-
-/* ═══════════════════════════════ LUGAR PARA EL GORRO ═══════════════════════════════
-   El gorro sobresale un 23 % por arriba del burro. Donde el burro va pegado debajo de un texto o de un botón, se
-   baja para que el gorro no los tape (regla del dueño: el contenido nunca se cubre con adornos). */
-html[data-season="christmas"] .login-burro {
-  margin-top: 4.5rem;
-}
-@media (max-width: 63.99rem) {
-  /* hero del inicio en una columna: la insignia queda justo debajo de los botones */
-  html[data-season="christmas"][data-season-surface="site"] main .mascot[data-variant="badge"].mx-auto {
-    margin-top: 5.5rem;
   }
 }
