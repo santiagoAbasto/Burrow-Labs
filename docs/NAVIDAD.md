@@ -7,14 +7,14 @@ Capa de temporada que viste el sitio y el panel sin tocar ninguna página. Se en
 «Navidad en la madriguera»: la mina de noche, con luces. La identidad de Burrow Labs no se reemplaza: siguen los azules, el amarillo y la tinta; la temporada suma rojo y verde pino.
 
 - **El burro no se redibuja** (ver [BRAND-ASSETS.md](BRAND-ASSETS.md)). El gorro, el trineo, los renos y el paisaje son accesorios externos, como la vagoneta.
-- **El gorro** es un dibujo propio en estilo de caricatura de trazo grueso (la referencia la eligió el dueño): piel esponjosa color crema en la banda y el pompón, copa roja con degradado que sube en curva, colita que cae por la izquierda hasta el pompón y una ramita de acebo. Va puesto en **una sola oreja** del burro, la izquierda: la tapa entera y la otra queda a la vista. La banda apoya en la cabeza sin tapar el ojo, con una sombra de apoyo, y lleva el contorno del burro del logotipo (tinta y borde amarillo de sticker) para que se lea como parte de la ilustración y no como un recorte pegado. Lo lleva cada burro del sitio y del panel: lo monta `Mascot`.
+- **El gorro** es un dibujo propio en estilo de caricatura de trazo grueso (la referencia la eligió el dueño): piel esponjosa color crema en la banda y el pompón, copa roja con degradado que sube en curva, colita que cae por la izquierda hasta el pompón y una ramita de acebo. Va puesto en **una sola oreja** del burro, la izquierda: la tapa entera y la otra queda a la vista. La banda apoya en la cabeza sin tapar el ojo, con una sombra de apoyo, y lleva el contorno del burro del logotipo (tinta y borde amarillo de sticker) para que se lea como parte de la ilustración y no como un recorte pegado. Lo lleva cada burro del sitio y del panel: lo monta `Mascot`. El burro del laboratorio de la escena 3D del inicio es una textura, no `Mascot`: el mismo dibujo se rasteriza (`season/hat-texture.ts`) y se apoya sobre su plano con la misma medida (solo con la campaña y los personajes activos).
 - **Los textos son saludos**, no promociones. Nada dice descuento ni fecha de entrega.
 
 ## Piezas
 
 | Pieza | Dónde | Interruptor |
 | --- | --- | --- |
-| Gorro en una oreja del burro | logotipo, hero, planes, boletín, panel, acceso | Personajes |
+| Gorro en una oreja del burro | logotipo, hero (incluida la escena 3D), planes, boletín, panel, acceso | Personajes |
 | Trineo: el burro oficial con dos renos | cielo del paisaje del pie, 404, saludo del Dashboard | Personajes |
 | Reno que pasea y burro que salta al tocarlo | paisaje del pie | Personajes |
 | Luces que parpadean por turnos | bajo el encabezado, menú del panel, acceso | Luces |
@@ -49,7 +49,7 @@ cookie de vista previa ──► /api/season (reloj del servidor + sesión del p
 - **Todo el estilo cuelga de `html[data-season="christmas"]`** (`src/components/season/season.css`). Esa hoja y las piezas (`pieces.tsx`) son un archivo aparte que solo se descarga con la campaña encendida: los pide `SeasonSlot`. Apagada, el único costo es `provider.tsx`.
 - **Modo programado:** el HTML se regenera cada 5 minutos como el resto del contenido; para la hora exacta, el script consulta `/api/season` (solo en modo programado o con vista previa abierta).
 - **Vista previa:** los ajustes van en una cookie `httpOnly` de quien administra, no en la base. `/api/season` solo la respeta si la petición trae una sesión del panel válida. No hay parámetro de URL. Dura dos horas o hasta guardar.
-- **Puntos de montaje** (los únicos archivos del sitio que conocen la campaña): `Mascot` (gorro), `Header` (luces), el layout del sitio (paisaje, colgantes, controles), `not-found`, `AdminShell`, `Dashboard` y `LoginScreen`.
+- **Puntos de montaje** (los únicos archivos del sitio que conocen la campaña): `Mascot` (gorro), `hero/scene.tsx` (gorro del burro 3D), `Header` (luces), el layout del sitio (paisaje, colgantes, controles), `not-found`, `AdminShell`, `Dashboard` y `LoginScreen`.
 
 ## Música
 
