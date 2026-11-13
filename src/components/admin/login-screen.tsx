@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/brand/logo";
+import { SeasonSlot } from "@/components/season/provider";
 import { login } from "@/lib/admin/actions";
 import { LoginForm } from "./login-form";
 
@@ -14,6 +15,7 @@ export function LoginScreen() {
             ← Volver al sitio
           </Link>
         </div>
+        <SeasonSlot name="loginScene" surface="admin" />
         <LoginForm action={login} />
       </div>
     </main>

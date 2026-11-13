@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Logo } from "@/components/brand/logo";
+import { SeasonSlot } from "@/components/season/provider";
 import { Button } from "@/components/ui/button";
 import { Drawer } from "@/components/ui/dialog";
 import { Container } from "@/components/ui/stratum";
@@ -82,6 +83,7 @@ export function Header() {
           </button>
         </div>
       </Container>
+      <SeasonSlot name="headerLights" surface="site" />
       <Drawer open={open} onOpenChange={setOpen} title="Menú" tone="lab">
         <nav aria-label="Principal (móvil)">
           <ul className="grid">

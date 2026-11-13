@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import manifest from "@/../public/brand/manifest.json";
 import { cn } from "@/lib/cn";
 import { REDUCED_MOTION_QUERY } from "@/lib/motion";
+import { SeasonSlot } from "@/components/season/provider";
 
 type Props = {
   /** `badge`: el burro dentro de su insignia. `mascot`: el burro recortado. */
@@ -92,6 +93,7 @@ export function Mascot({ variant = "mascot", sizes, alt = "", className, priorit
       role={alt ? "img" : undefined}
       aria-label={alt || undefined}
       aria-hidden={alt ? undefined : true}
+      data-variant={variant}
       className={cn("mascot", lively && "mascot-lively", className)}
       style={{ aspectRatio: `${size.width} / ${size.height}` }}
     >
@@ -110,6 +112,8 @@ export function Mascot({ variant = "mascot", sizes, alt = "", className, priorit
           width: `${geo.pupil.radius * 200}%`,
         }}
       />
+      {/* Campaña de temporada: el gorro es un accesorio aparte, apoyado sobre la oreja (no toca el vector). Apagada, nada. */}
+      <SeasonSlot name="hat" />
     </span>
   );
 }

@@ -2,6 +2,7 @@ import { ArrowUp } from "lucide-react";
 import type { Metadata } from "next";
 import { GameStage } from "@/components/game/game-stage";
 import { HOME_SECTIONS } from "@/components/home/sections";
+import { SeasonSlot } from "@/components/season/provider";
 import { Button } from "@/components/ui/button";
 import { Container, Stratum } from "@/components/ui/stratum";
 
@@ -11,6 +12,7 @@ export default function NotFound() {
   return (
     <Stratum tone="bedrock" flush className="min-h-svh pt-32 pb-section lg:pt-44">
       <Container>
+        <SeasonSlot name="notFound" surface="site" />
         <p className="type-mono text-muted">Error 404 · −404 m</p>
         <h1 className="mt-5 max-w-4xl type-h1">Parece que este burro cavó demasiado profundo.</h1>
         <p className="mt-6 type-lead">La página que buscás no existe o cambió de lugar.</p>

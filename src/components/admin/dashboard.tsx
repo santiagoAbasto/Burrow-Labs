@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import { ActivityList } from "./activity-list";
 import { BurroStatus } from "./burro-status";
 import { AreaChart, BarList, Delta, Donut, HourBars, Sparkline } from "./charts";
+import { SeasonSlot } from "@/components/season/provider";
 import { AdminHeading, Panel } from "./shell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -156,6 +157,7 @@ export async function Dashboard({ user, days = 30 }: { user: SessionUser; days?:
 
   return (
     <>
+      <SeasonSlot name="adminGreeting" surface="admin" />
       <AdminHeading
         eyebrow="Dashboard"
         title={`${greeting}, ${user.name?.split(" ")[0] || "admin"}.`}

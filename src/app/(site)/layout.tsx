@@ -6,6 +6,7 @@ import { Footer } from "@/components/site/footer";
 import { Header } from "@/components/site/header";
 import { JsonLd } from "@/components/site/json-ld";
 import { PageView } from "@/components/site/track";
+import { SeasonSlot } from "@/components/season/provider";
 import { WhatsAppButton } from "@/components/site/whatsapp-button";
 import { getSettings } from "@/lib/content";
 import { organizationJsonLd, webSiteJsonLd } from "@/lib/seo";
@@ -19,6 +20,7 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
       </a>
       <Header />
       <main id="contenido">{children}</main>
+      <SeasonSlot name="landscape" surface="site" />
       <Footer settings={settings} />
       <DepthGauge />
       {settings.contact.whatsappEnabled && (
@@ -32,6 +34,7 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
       <PageView />
       <ConsentAnalytics />
       <EasterEggs />
+      <SeasonSlot name="siteExtras" surface="site" />
       <JsonLd data={[organizationJsonLd(settings), webSiteJsonLd(settings)]} />
     </>
   );

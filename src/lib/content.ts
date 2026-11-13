@@ -23,6 +23,7 @@ import {
   testimonials,
 } from "@/db/schema";
 import { env } from "./env";
+import { seasonSchema } from "./season";
 import { storage } from "./storage";
 import { isHttpsUrl, slugSchema } from "./validation";
 
@@ -154,6 +155,8 @@ export const settingsSchema = z.object({
     values: z.array(z.object({ name: z.string(), description: text() })).default([]),
   }),
   legal: group({ privacy: text(), terms: text(), cookies: text() }), // md
+  // Campaña de Navidad (src/lib/season.ts): no pasa por el formulario genérico, tiene su pantalla en Sitio → Campaña de Navidad.
+  season: seasonSchema,
 });
 export type Settings = z.infer<typeof settingsSchema>;
 export type SettingsKey = keyof Settings;

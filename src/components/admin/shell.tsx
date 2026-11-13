@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { Logo } from "@/components/brand/logo";
 import { Mascot } from "@/components/brand/mascot";
+import { SeasonSlot } from "@/components/season/provider";
 import { logout } from "@/lib/admin/actions";
 import { cn } from "@/lib/cn";
 import { AutoSubmit } from "./autosubmit";
@@ -16,6 +17,7 @@ export function AdminShell({ user, counts, children }: { user: { name: string; e
       <aside data-stratum="lab" className="flex flex-col lg:sticky lg:top-0 lg:h-svh lg:overflow-y-auto">
         <div className="px-4 py-4">
           <Logo />
+          <SeasonSlot name="adminLights" surface="admin" />
         </div>
         <details className="group border-t border-line lg:hidden">
           <summary className="flex min-h-12 cursor-pointer list-none items-center gap-2 px-4 font-semibold">
@@ -49,6 +51,7 @@ export function AdminShell({ user, counts, children }: { user: { name: string; e
               Cerrar sesión
             </button>
           </form>
+          <SeasonSlot name="adminExtras" surface="admin" />
         </div>
       </aside>
       <main id="contenido" className="admin-canvas min-w-0 px-4 py-8 sm:px-8 lg:px-12 lg:py-10">

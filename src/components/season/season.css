@@ -1,0 +1,786 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Campaña de Navidad. Esta hoja solo se descarga con la campaña encendida (la importa pieces.tsx) y TODO cuelga de
+   html[data-season="christmas"]: apagada, ninguna regla llega a aplicarse.
+
+   · data-season-surface: "site" | "admin"      · data-season-intensity: "festive" | "subtle"
+   · data-season-still: sin animaciones (panel, «Reducir efectos» o prefers-reduced-motion)
+   · data-season-scrolled: la página ya bajó (las luces dejan libre la columna del contenido)
+
+   Colores: los de la marca (azules, amarillo, tinta) más cuatro de temporada, declarados acá abajo. Son la única
+   excepción a «solo tokens de globals.css» y viven mientras dure la campaña. Contrastes medidos: docs/NAVIDAD.md.
+   ═══════════════════════════════════════════════════════════════════════════ */
+html[data-season="christmas"] {
+  --nv-red: #d42b2b;
+  --nv-red-deep: #9c1c1c; /* texto y bordes sobre claro: 6,9:1 sobre paper */
+  --nv-pine: #145239;
+  --nv-pine-light: #24805a;
+  --nv-footer: var(--color-night-950);
+  --nv-candy: repeating-linear-gradient(135deg, var(--nv-red) 0 7px, #fff 7px 14px);
+}
+
+/* Piezas SVG: nunca capturan clics ni foco */
+.nv-svg {
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ═══════════════════════════════ ACENTOS (sitio y panel, las dos intensidades) ═══════════════════════════════ */
+
+html[data-season="christmas"] ::selection {
+  background: var(--nv-red);
+  color: #fff;
+}
+html[data-season="christmas"] .veta-dot {
+  background-color: var(--nv-red);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--nv-red) 25%, transparent);
+}
+html[data-season="christmas"] :is(input[type="checkbox"], input[type="radio"]) {
+  accent-color: var(--nv-pine);
+}
+
+/* ── Botones-reno ──
+   Primario: astas que asoman por arriba (se mueven al pasar el cursor o al tocar) y la veta de abajo en bastón de
+   caramelo. No cambian tamaño ni etiqueta. Secundario: marco de caramelo. Enlace y fantasma: no se tocan. */
+html[data-season="christmas"] .btn[data-variant="primary"] {
+  overflow: visible;
+}
+html[data-season="christmas"] .btn[data-variant="primary"]::after {
+  background: var(--nv-candy);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+}
+html[data-season="christmas"] .btn[data-variant="primary"]:not(:disabled, [aria-disabled="true"])::before {
+  content: "";
+  position: absolute;
+  right: 0.875rem;
+  bottom: calc(100% - 2px);
+  width: 2rem;
+  height: 1rem; /* 16 px: entra en la separación mínima entre un campo y su botón */
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 18' fill='none' stroke='%239a6b45' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M12 18C12 10 8 5 3 2M11 11C8 10.500 5 9 2.500 9.500M10 6C9 4 8.500 2.500 9 1'/%3E%3Cpath d='M22 18C22 10 26 5 31 2M23 11C26 10.500 29 9 31.500 9.500M24 6C25 4 25.500 2.500 25 1'/%3E%3C/svg%3E") center / contain no-repeat;
+  transform-origin: 50% 100%;
+  pointer-events: none;
+}
+html[data-season="christmas"]:not([data-season-still]) .btn[data-variant="primary"]:is(:hover, :focus-visible, :active)::before {
+  animation: nv-antlers 700ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+@keyframes nv-antlers {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+  30% {
+    rotate: -9deg;
+  }
+  65% {
+    rotate: 7deg;
+  }
+}
+/* En pantallas táctiles (sin hover) la veta queda encendida siempre: el detalle también se ve en el celular */
+@media (hover: none) {
+  html[data-season="christmas"] .btn[data-variant="primary"]:not(:disabled)::after {
+    transform: scaleX(1);
+  }
+}
+html[data-season="christmas"] .btn[data-variant="secondary"]:not(:disabled, [aria-disabled="true"]) {
+  border: 2px solid transparent;
+  background:
+    linear-gradient(var(--bg), var(--bg)) padding-box,
+    var(--nv-candy) border-box;
+}
+/* Enlaces del menú: el subrayado del actual, en caramelo */
+html[data-season="christmas"] .nav-link[aria-current="page"] {
+  text-decoration-color: var(--nv-red);
+}
+
+/* Campos: al enfocar, doble anillo blanco y rojo (bastón de caramelo). No toca el fondo ni el borde del campo, así
+   vale en cualquier estrato. Un campo con error conserva su borde de error. */
+html[data-season="christmas"] .control:focus-visible:not([aria-invalid="true"]) {
+  outline: none;
+  box-shadow:
+    0 0 0 2px #fff,
+    0 0 0 4px var(--nv-red),
+    0 0 0 6px #fff;
+}
+
+/* ═══════════════════════════════ GORRO ═══════════════════════════════
+   Tapa las dos orejas por completo, apenas inclinado a la derecha (como las orejas), con la colita a la izquierda.
+   Medido contra los vectores. Burro recortado (529×820): puntas de las orejas en x 31 % y 66 %, y 2,5 % y 7,5 %;
+   la cabeza empieza en y 28 % y el ojo en y 35 %: la banda apoya entre los dos. En la insignia (868×868) el burro
+   ocupa el 62,9 % del ancho desde x 19,5 %. Todo en porcentajes del burro: acompaña cualquier tamaño. */
+.nv-hat {
+  position: absolute;
+  left: 17.3%;
+  top: -9.5%;
+  width: 51.8%;
+  rotate: 8deg;
+  transform-origin: 53% 85%;
+  z-index: 1;
+}
+.mascot[data-variant="mascot"] > .nv-hat {
+  left: -3.7%;
+  top: -10.3%;
+  width: 81.8%;
+}
+html[data-season="christmas"]:not([data-season-still]) :is(a:hover, a:focus-visible, a:active, button:hover, button:active) .nv-hat,
+html[data-season="christmas"]:not([data-season-still]) .mascot:is(:hover, :active) > .nv-hat {
+  animation: nv-hat 600ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+@keyframes nv-hat {
+  0%,
+  100% {
+    rotate: 8deg;
+  }
+  35% {
+    rotate: 2deg;
+  }
+  70% {
+    rotate: 12deg;
+  }
+}
+
+/* ═══════════════════════════════ LUCES ═══════════════════════════════ */
+.nv-lights {
+  display: flex;
+  overflow: hidden;
+  pointer-events: none;
+}
+.nv-lights-run {
+  flex: 0 0 240px;
+  width: 240px;
+  height: 46px;
+}
+/* Bajo el encabezado: cuelgan sin ocupar alto */
+.nv-lights-header {
+  position: absolute;
+  inset: 100% 0 auto;
+  height: 46px;
+  transition: opacity 220ms ease;
+}
+/* Al bajar dejan libre la columna del contenido (los 80rem del centro) y quedan solo en los márgenes */
+html[data-season-scrolled] .nv-lights-header {
+  -webkit-mask-image: linear-gradient(90deg, #000 calc(50% - 42rem), transparent calc(50% - 42rem), transparent calc(50% + 42rem), #000 calc(50% + 42rem));
+  mask-image: linear-gradient(90deg, #000 calc(50% - 42rem), transparent calc(50% - 42rem), transparent calc(50% + 42rem), #000 calc(50% + 42rem));
+}
+@media (max-width: 95.99rem) {
+  /* sin márgenes libres, al bajar se van del todo */
+  html[data-season-scrolled] .nv-lights-header {
+    opacity: 0;
+  }
+}
+@media (max-width: 39.99rem) {
+  .nv-lights-run {
+    flex-basis: 180px;
+    width: 180px;
+    height: 34px;
+  }
+  .nv-lights-header {
+    height: 34px;
+  }
+}
+
+/* Parpadeo lento y por turnos: un ciclo cada 3,2 s (menos de una vez por segundo), sin apagarse del todo */
+html[data-season="christmas"]:not([data-season-still]) .nv-bulb {
+  animation: nv-blink 3.2s ease-in-out infinite;
+}
+html[data-season="christmas"]:not([data-season-still]) .nv-glow {
+  animation: nv-glow 3.2s ease-in-out infinite;
+}
+html[data-season="christmas"]:not([data-season-still]) .nv-bulb-2 {
+  animation-delay: -0.8s;
+}
+html[data-season="christmas"]:not([data-season-still]) .nv-bulb-3 {
+  animation-delay: -1.6s;
+}
+html[data-season="christmas"]:not([data-season-still]) .nv-bulb-4 {
+  animation-delay: -2.4s;
+}
+@keyframes nv-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+@keyframes nv-glow {
+  0%,
+  100% {
+    opacity: 0.34;
+  }
+  50% {
+    opacity: 0.06;
+  }
+}
+
+.nv-swing {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+}
+html[data-season="christmas"]:not([data-season-still]) .nv-swing {
+  animation: nv-swing 5.2s ease-in-out infinite;
+}
+html[data-season="christmas"]:not([data-season-still]) .nv-swing-b {
+  animation-duration: 6.4s;
+  animation-delay: -1.6s;
+}
+html[data-season="christmas"]:not([data-season-still]) .nv-swing-c {
+  animation-duration: 4.4s;
+  animation-delay: -2.8s;
+}
+@keyframes nv-swing {
+  0%,
+  100% {
+    rotate: -5deg;
+  }
+  50% {
+    rotate: 5deg;
+  }
+}
+
+/* ═══════════════════════════════ SITIO ═══════════════════════════════ */
+
+/* Encabezado: una cinta fina de caramelo en el borde de abajo. No cambia el alto. */
+html[data-season="christmas"][data-season-surface="site"] .site-header::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 3px;
+  background: var(--nv-candy);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+/* Festiva: los estratos oscuros (la mina de noche) ganan un cielo de estrellas muy tenue, fijo y sin animación. */
+html[data-season="christmas"][data-season-surface="site"][data-season-intensity="festive"] main :is([data-stratum="deep"], [data-stratum="lab"], [data-stratum="bedrock"]) {
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 18%, #fff9 50%, transparent 51%), radial-gradient(1px 1px at 27% 62%, #fff7 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 44% 31%, #fcea1099 50%, transparent 51%), radial-gradient(1px 1px at 58% 78%, #fff6 50%, transparent 51%),
+    radial-gradient(2px 2px at 71% 22%, #fff8 50%, transparent 51%), radial-gradient(1px 1px at 86% 55%, #fff7 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 93% 12%, #fcea1088 50%, transparent 51%), radial-gradient(1px 1px at 6% 84%, #fff6 50%, transparent 51%);
+  background-size: 620px 420px;
+}
+/* …y los enlaces del texto sobre claro pasan al rojo profundo (6,9:1 sobre paper; 8,1:1 sobre blanco). */
+html[data-season="christmas"][data-season-surface="site"][data-season-intensity="festive"] :is([data-stratum="surface"], [data-stratum="chalk"]) {
+  --link: var(--nv-red-deep);
+  --accent-hover: var(--nv-pine);
+}
+html[data-season="christmas"][data-season-surface="site"][data-season-intensity="festive"]:root {
+  --link: var(--nv-red-deep);
+  --accent-hover: var(--nv-pine);
+}
+
+/* ── Paisaje del pie ── */
+.nv-landscape {
+  position: relative;
+  height: 250px;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--color-night-900) 0%, var(--color-navy-800) 62%, var(--color-navy-700) 100%);
+  color: #fff;
+  isolation: isolate;
+}
+.nv-stars {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 8% 20%, #fff 50%, transparent 51%), radial-gradient(1px 1px at 21% 48%, #fffb 50%, transparent 51%),
+    radial-gradient(2px 2px at 36% 14%, #fcea10 50%, transparent 51%), radial-gradient(1px 1px at 49% 40%, #fffb 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 63% 22%, #fff 50%, transparent 51%), radial-gradient(1px 1px at 77% 46%, #fffb 50%, transparent 51%),
+    radial-gradient(2px 2px at 90% 16%, #fcea10 50%, transparent 51%), radial-gradient(1px 1px at 97% 38%, #fff9 50%, transparent 51%);
+  background-size: 560px 150px;
+  opacity: 0.8;
+}
+html[data-season="christmas"]:not([data-season-still]) .nv-stars {
+  animation: nv-twinkle 6s ease-in-out infinite;
+}
+@keyframes nv-twinkle {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+.nv-ground {
+  position: absolute;
+  inset: auto 0 -1px;
+  width: 100%;
+  height: 120px;
+}
+/* El trineo cruza el cielo, por encima del saludo: nunca pasa sobre el texto */
+.nv-flight {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+}
+.nv-flight-sleigh {
+  width: 200px;
+  translate: 8vw 0;
+}
+html[data-season="christmas"]:not([data-season-still]) .nv-flight-sleigh {
+  animation: nv-fly 34s linear infinite;
+}
+@keyframes nv-fly {
+  from {
+    translate: -220px 6px;
+  }
+  50% {
+    translate: 50vw -4px;
+  }
+  to {
+    translate: 100vw 6px;
+  }
+}
+.nv-greeting {
+  position: absolute;
+  inset: 84px auto auto 50%;
+  width: min(40rem, 100% - 2rem);
+  translate: -50% 0;
+  display: grid;
+  gap: 0.25rem;
+  text-align: center;
+  z-index: 1;
+}
+.nv-greeting-kicker {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-yellow-400);
+}
+.nv-greeting-text {
+  font-size: var(--text-h3);
+  font-weight: 800;
+  font-stretch: 112%;
+  line-height: 1.1;
+  color: #fff;
+  text-wrap: balance;
+}
+a.nv-greeting-text {
+  text-decoration: underline;
+  text-decoration-color: var(--color-yellow-400);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+}
+a.nv-greeting-text:focus-visible {
+  outline: 2px solid var(--color-yellow-400);
+  outline-offset: 4px;
+}
+
+/* El burro del paisaje: se toca y salta (en el celular no existe el hover) */
+.nv-burro {
+  position: absolute;
+  right: max(1rem, calc(50% - 38rem));
+  bottom: 8px;
+  width: 92px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  z-index: 2;
+}
+.nv-burro img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.nv-burro:focus-visible {
+  outline: 2px solid var(--color-yellow-400);
+  outline-offset: 4px;
+  border-radius: var(--radius-md);
+}
+/* El mismo calce que .mascot[data-variant="mascot"] > .nv-hat */
+.nv-burro-hat {
+  position: absolute;
+  left: -3.7%;
+  top: -10.3%;
+  width: 81.8%;
+  rotate: 8deg;
+  transform-origin: 53% 85%;
+}
+.nv-burro-gift {
+  position: absolute;
+  left: -46%;
+  bottom: 0;
+  width: 46%;
+}
+html[data-season="christmas"]:not([data-season-still]) .nv-burro[data-hop] {
+  animation: nv-hop 900ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+@keyframes nv-hop {
+  0%,
+  100% {
+    translate: 0 0;
+    rotate: 0deg;
+  }
+  30% {
+    translate: 0 -22px;
+    rotate: -5deg;
+  }
+  55% {
+    translate: 0 0;
+    rotate: 3deg;
+  }
+  75% {
+    translate: 0 -8px;
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  html[data-season="christmas"]:not([data-season-still]) .nv-burro:hover {
+    animation: nv-hop 900ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+}
+@media (max-width: 39.99rem) {
+  .nv-landscape {
+    height: 230px;
+  }
+  .nv-ground {
+    height: 84px;
+  }
+  .nv-flight-sleigh {
+    width: 136px;
+  }
+  .nv-greeting {
+    inset-block-start: 66px;
+  }
+  .nv-burro {
+    width: 62px;
+    right: 5.25rem; /* a la izquierda del botón de WhatsApp */
+    bottom: 4px;
+  }
+}
+
+/* Un reno pasea por el suelo del paisaje, despacio, de punta a punta */
+html[data-season="christmas"]:not([data-season-still]) .nv-stroll {
+  animation: nv-stroll 48s linear infinite;
+}
+.nv-stroll {
+  translate: 520px 0;
+}
+@keyframes nv-stroll {
+  from {
+    translate: -90px 0;
+  }
+  to {
+    translate: 1240px 0;
+  }
+}
+
+/* Renos y trineo */
+.nv-gallop {
+  transform-box: fill-box;
+}
+html[data-season="christmas"]:not([data-season-still]) .nv-gallop {
+  animation: nv-gallop 0.7s ease-in-out infinite alternate;
+}
+html[data-season="christmas"]:not([data-season-still]) .nv-gallop-b {
+  animation-delay: -0.35s;
+}
+html[data-season="christmas"]:not([data-season-still]) .nv-gallop-c {
+  animation-duration: 1.4s;
+}
+@keyframes nv-gallop {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: 0 -3px;
+  }
+}
+.nv-leg {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+}
+html[data-season="christmas"]:not([data-season-still]) .nv-leg-a {
+  animation: nv-leg 0.7s ease-in-out infinite alternate;
+}
+html[data-season="christmas"]:not([data-season-still]) .nv-leg-b {
+  animation: nv-leg 0.7s ease-in-out infinite alternate-reverse;
+}
+@keyframes nv-leg {
+  from {
+    rotate: -16deg;
+  }
+  to {
+    rotate: 16deg;
+  }
+}
+
+/* Colgantes en los márgenes: solo donde sobra espacio a los lados de la columna de 80rem */
+.nv-pendants {
+  display: none;
+}
+@media (min-width: 96rem) {
+  .nv-pendants {
+    display: block;
+    position: fixed;
+    top: 4.5rem;
+    width: 92px;
+    z-index: 20;
+    opacity: 0.95;
+  }
+  .nv-pendants-left {
+    left: 1.25rem;
+  }
+  .nv-pendants-right {
+    right: 4.5rem; /* deja libre el profundímetro */
+    scale: -1 1;
+  }
+}
+
+/* Nieve opcional (apagada por defecto): 14 copos, solo transform y opacity */
+.nv-snow {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 25;
+}
+.nv-snow span {
+  position: absolute;
+  top: -12px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 1px #0f192122;
+  opacity: 0.85;
+  animation: nv-fall linear infinite;
+}
+@keyframes nv-fall {
+  to {
+    transform: translate3d(18px, 105vh, 0);
+  }
+}
+html[data-season-still] .nv-snow {
+  display: none;
+}
+
+/* Controles del visitante: abajo a la izquierda (a la derecha vive WhatsApp). En celular, solo el ícono. */
+.nv-controls {
+  position: fixed;
+  left: 1rem;
+  bottom: 1rem;
+  z-index: 35;
+  display: grid;
+  gap: 0.5rem;
+  justify-items: start;
+}
+.nv-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0 0.875rem;
+  border: 1.5px solid var(--color-ink);
+  border-radius: var(--radius-pill);
+  background: #fff;
+  color: var(--color-ink);
+  font-size: var(--text-small);
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 var(--nv-red);
+}
+.nv-control svg {
+  width: 1.125rem;
+  height: 1.125rem;
+  flex: none;
+}
+.nv-control[aria-pressed="true"] {
+  background: var(--color-ink);
+  color: #fff;
+}
+.nv-control:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 3px;
+  box-shadow:
+    0 0 0 2px #fff,
+    3px 3px 0 var(--nv-red);
+}
+/* Solo el ícono (el nombre lo llevan title y el texto para lectores): así no tapan contenido */
+.nv-controls .nv-control {
+  padding: 0;
+  justify-content: center;
+}
+.nv-controls .nv-control span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+ /* En celular «Reducir efectos» no flota (taparía etiquetas de formularios): va quieto en el paisaje del pie */
+.nv-effects-inline {
+  display: none;
+}
+@media (max-width: 39.99rem) {
+  .nv-controls > .nv-effects {
+    display: none;
+  }
+  .nv-effects-inline {
+    display: inline-flex;
+    position: absolute;
+    left: 0.75rem;
+    bottom: 10px;
+    z-index: 2;
+    min-height: 2.25rem;
+    font-size: 0.75rem;
+  }
+}
+/* El pie deja lugar a los controles: al llegar abajo no quedan encima de los enlaces legales */
+@media (min-width: 40rem) {
+  html[data-season="christmas"][data-season-surface="site"] footer[data-stratum] {
+    padding-bottom: 5rem;
+  }
+}
+
+/* Aviso de vista previa (solo quien administra) */
+.nv-preview {
+  position: fixed;
+  left: 50%;
+  bottom: 1rem;
+  translate: -50% 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: calc(100% - 8rem);
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-ink);
+  color: #fff;
+  font-size: var(--text-small);
+  font-weight: 600;
+  box-shadow: 0 8px 24px -8px #000a;
+}
+.nv-preview button {
+  min-height: 2.25rem;
+  padding: 0 0.875rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-yellow-400);
+  color: var(--color-ink);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.nv-notfound {
+  width: min(22rem, 80%);
+  margin: 0 0 1.5rem;
+}
+
+/* ═══════════════════════════════ PANEL ═══════════════════════════════
+   El panel entero: menú, títulos, fichas, tablas, formularios y diálogos. Éxito, peligro y aviso (admin-alert,
+   status-pill, hazard) no cambian de color. */
+
+/* Las dos intensidades: filete de caramelo sobre cada ficha, títulos con marca roja, cabeceras de tabla con oro. */
+html[data-season="christmas"][data-season-surface="admin"] .admin-panel::before {
+  content: "";
+  position: absolute;
+  inset: -1.5px 0.875rem auto;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--nv-candy);
+  opacity: 0.85;
+  pointer-events: none;
+}
+html[data-season="christmas"][data-season-surface="admin"] .admin-title {
+  padding-left: 0.875rem;
+  border-left: 5px solid var(--nv-red);
+}
+html[data-season="christmas"][data-season-surface="admin"] .admin-table thead th {
+  box-shadow: inset 0 -2px 0 color-mix(in srgb, var(--color-yellow-500) 70%, transparent);
+}
+html[data-season="christmas"][data-season-surface="admin"] .admin-nav-link[aria-current="page"] {
+  box-shadow: inset 4px 0 0 var(--color-yellow-400);
+}
+html[data-season="christmas"][data-season-surface="admin"] :is(dialog, .admin-sheet) {
+  border-top: 4px solid var(--nv-red);
+}
+
+/* Festiva: además el menú pasa al verde pino y el botón primario del lienzo, también. */
+html[data-season="christmas"][data-season-surface="admin"][data-season-intensity="festive"] .admin > aside {
+  --bg: var(--nv-pine);
+  --panel: #0e3d2a;
+  --line: #ffffff2e;
+  background: linear-gradient(180deg, #145239 0%, #0e3d2a 100%);
+}
+html[data-season="christmas"][data-season-surface="admin"][data-season-intensity="festive"] .admin-canvas {
+  --accent: var(--nv-pine);
+  --accent-hover: #0e3d2a;
+  --link: var(--nv-red-deep);
+}
+
+.nv-lights-admin {
+  margin-top: -0.25rem;
+  justify-content: center;
+}
+.nv-lights-admin .nv-lights-run {
+  flex-basis: 128px;
+  width: 128px;
+  height: 26px;
+}
+.nv-lights-login {
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+.nv-control-admin {
+  width: 100%;
+  margin-top: 0.5rem;
+  justify-content: center;
+}
+
+/* Saludo del Dashboard */
+.nv-admin-greeting {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 2.75rem 1.25rem 1rem;
+  overflow: hidden;
+  border-radius: 0.875rem;
+  background: linear-gradient(120deg, var(--color-night-900), var(--color-navy-800));
+  color: #fff;
+}
+.nv-admin-greeting-lights {
+  position: absolute;
+  inset: 0 0 auto;
+}
+.nv-admin-greeting p {
+  display: grid;
+  gap: 0.125rem;
+}
+.nv-admin-greeting strong {
+  font-size: 1.25rem;
+  font-weight: 800;
+  font-stretch: 112%;
+}
+.nv-admin-greeting span {
+  font-size: var(--text-small);
+  color: #ffffffd9;
+}
+.nv-admin-greeting-sleigh {
+  width: 190px;
+  flex: none;
+}
+@media (max-width: 39.99rem) {
+  .nv-admin-greeting-sleigh {
+    width: 120px;
+  }
+}
+
+/* ═══════════════════════════════ MOVIMIENTO ═══════════════════════════════
+   Quien pide menos movimiento en su sistema no ve ninguna animación de la campaña, aunque estén encendidas. */
+@media (prefers-reduced-motion: reduce) {
+  html[data-season="christmas"] :is(.nv-bulb, .nv-glow, .nv-swing, .nv-gallop, .nv-leg, .nv-flight-sleigh, .nv-hat, .nv-burro, .nv-stars, .nv-stroll, .btn::before, .nv-snow span) {
+    animation: none !important;
+  }
+  .nv-snow {
+    display: none;
+  }
+}
