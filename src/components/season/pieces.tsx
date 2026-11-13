@@ -86,7 +86,7 @@ function HatOutline({ color, width }: { color: string; width: number }) {
   );
 }
 
-function HatDrawing() {
+export function HatDrawing() {
   const shade = useId();
   return (
     <>

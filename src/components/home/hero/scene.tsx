@@ -3,6 +3,7 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, useState, type RefObject } from "react";
 import * as THREE from "three";
+import { useSeason } from "@/components/season/provider";
 
 // La madriguera: corte transversal del terreno. Arriba, el desorden de la superficie; al bajar,
 // cada pieza cae por el túnel, se da vuelta y llega al laboratorio convertida en parte de un sistema.
@@ -334,7 +335,7 @@ function Strata() {
   );
 }
 
-function World({ progress, textures, mascotTexture, lite, onProgress, onReady, anchor }: { textures: { before: THREE.Texture; after: THREE.Texture }[]; mascotTexture: THREE.Texture; lite: boolean } & Pick<Props, "progress" | "onProgress" | "onReady" | "anchor">) {
+function World({ progress, textures, mascotTexture, hatTexture, lite, onProgress, onReady, anchor }: { textures: { before: THREE.Texture; after: THREE.Texture }[]; mascotTexture: THREE.Texture; hatTexture: THREE.Texture | null; lite: boolean } & Pick<Props, "progress" | "onProgress" | "onReady" | "anchor">) {
   const { camera, size } = useThree();
   const tall = size.width / size.height < 0.85;
   // cámara en la superficie (inicio del descenso)
@@ -476,6 +477,13 @@ function World({ progress, textures, mascotTexture, lite, onProgress, onReady, a
       <mesh ref={mascot} position={[SHAFT_X, CHAMBER_Y + 0.6, 0.2]}>
         <planeGeometry args={[2.84, 4.4]} />
         <meshBasicMaterial map={mascotTexture} transparent alphaTest={0.02} />
+        {/* Navidad: el mismo gorro del sitio, medido contra el vector (season.css: left -4,2 %, top -3,6 %, ancho 64,2 %) */}
+        {hatTexture && (
+          <mesh position={[-0.627, 1.434, 0.02]} rotation={[0, 0, -0.035]}>
+            <planeGeometry args={[1.8233, 1.8484]} />
+            <meshBasicMaterial map={hatTexture} transparent alphaTest={0.02} />
+          </mesh>
+        )}
       </mesh>
     </>
   );
@@ -483,6 +491,27 @@ function World({ progress, textures, mascotTexture, lite, onProgress, onReady, a
 
 export default function Scene({ progress, surfaceItems, depthItems, active, onReady, onProgress, anchor }: Props) {
   const [assets, setAssets] = useState<{ cards: { before: THREE.Texture; after: THREE.Texture }[]; mascot: THREE.Texture } | null>(null);
+  const season = useSeason();
+  const [hat, setHat] = useState<THREE.Texture | null>(null);
+  const wantHat = Boolean(season?.characters);
+  useEffect(() => {
+    if (!wantHat) return;
+    let cancelled = false;
+    let made: THREE.Texture | null = null;
+    import("@/components/season/hat-texture")
+      .then((m) => m.hatTexture())
+      .then((texture) => {
+        if (cancelled) return texture.dispose();
+        made = texture;
+        setHat(texture);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+      made?.dispose();
+      setHat(null);
+    };
+  }, [wantHat]);
   const [lite] = useState(() => window.innerWidth < 768 || matchMedia("(pointer: coarse)").matches);
 
   useEffect(() => {
@@ -515,7 +544,7 @@ export default function Scene({ progress, surfaceItems, depthItems, active, onRe
       gl={{ antialias: !lite, powerPreference: "high-performance" }}
       onCreated={({ scene }) => (scene.background = new THREE.Color(C.paper))}
     >
-      <World progress={progress} textures={assets.cards} mascotTexture={assets.mascot} lite={lite} onProgress={onProgress} onReady={onReady} anchor={anchor} />
+      <World progress={progress} textures={assets.cards} mascotTexture={assets.mascot} hatTexture={hat} lite={lite} onProgress={onProgress} onReady={onReady} anchor={anchor} />
     </Canvas>
   );
 }
