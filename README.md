@@ -34,7 +34,7 @@ Sistemas a medida · Automatización · Integraciones · IA aplicada
 
 <img src="docs/readme/divider.svg" alt="" width="100%">
 
-## 🫏 Qué es esto
+## <img src="docs/readme/ic-info.svg" width="24" height="24" alt=""> Qué es esto
 
 Este repositorio contiene **todo el sitio de Burrow Labs**: la web pública, las herramientas interactivas, el panel de administración y la infraestructura de pruebas con la que se publicó.
 
@@ -48,7 +48,7 @@ El contenido es real: servicios, ocho casos de estudio, planes con precios base 
 
 </div>
 
-## 🎬 En acción
+## <img src="docs/readme/ic-play.svg" width="24" height="24" alt=""> En acción
 
 <div align="center">
 
@@ -90,13 +90,13 @@ El contenido es real: servicios, ocho casos de estudio, planes con precios base 
 
 <img src="docs/readme/divider.svg" alt="" width="100%">
 
-## ✨ Qué incluye
+## <img src="docs/readme/ic-funcionalidades.svg" width="24" height="24" alt=""> Qué incluye
 
 <table>
 <tr>
 <td width="50%" valign="top">
 
-### 🌐 Sitio público
+### Sitio público
 
 - **Inicio** con hero 3D (tarjetas que caen y se acomodan), frases de marca y secciones administrables.
 - **Servicios**: sistemas empresariales, automatización e integraciones, IA aplicada, web y e-commerce.
@@ -108,13 +108,13 @@ El contenido es real: servicios, ocho casos de estudio, planes con precios base 
 </td>
 <td width="50%" valign="top">
 
-### 🧰 Herramientas
+### Herramientas
 
 - **Diagnóstico express**: preguntas guiadas y una recomendación de servicio.
 - **Calculadora de procesos manuales**: cuánto tiempo y dinero se pierde haciendo algo a mano, con resultado compartible por URL.
 - **Burrow Runner**: un juego con el burro en la página 404, con récord en el navegador.
 
-### 🛠️ Panel de administración
+### Panel de administración
 
 - CMS completo: servicios, proyectos, planes, FAQ, Lab, secciones del inicio, SEO por página, medios, textos legales y configuración.
 - **Consultas** con estados, notas, exportación CSV y respuesta por correo.
@@ -126,7 +126,7 @@ El contenido es real: servicios, ocho casos de estudio, planes con precios base 
 <tr>
 <td valign="top">
 
-### 🔎 SEO y búsqueda con IA
+### SEO y búsqueda con IA
 
 - Metadata única por página, canonical, Open Graph y Twitter Cards.
 - Sitemap con `lastmod` real, `robots.txt`, `manifest` e iconos.
@@ -136,7 +136,7 @@ El contenido es real: servicios, ocho casos de estudio, planes con precios base 
 </td>
 <td valign="top">
 
-### 🔐 Privacidad y correo
+### Privacidad y correo
 
 - Estadísticas propias **sin cookies** (identificador seudónimo diario).
 - Google Analytics 4 y Microsoft Clarity **solo después de aceptar** el aviso de cookies.
@@ -147,7 +147,7 @@ El contenido es real: servicios, ocho casos de estudio, planes con precios base 
 </tr>
 </table>
 
-## 🏗️ Arquitectura
+## <img src="docs/readme/ic-arquitectura.svg" width="24" height="24" alt=""> Arquitectura
 
 ```mermaid
 flowchart LR
@@ -170,7 +170,7 @@ flowchart LR
 | Motion | Motion para microinteracciones, GSAP ScrollTrigger en hero y proceso, three.js solo en el hero; todo respeta `prefers-reduced-motion`. |
 | Despliegue | Imagen Docker que migra, siembra y arranca; detrás de un proxy con HTTPS. |
 
-## ✅ Calidad
+## <img src="docs/readme/ic-pruebas.svg" width="24" height="24" alt=""> Calidad
 
 | Qué | Resultado |
 |---|---|
@@ -185,7 +185,7 @@ flowchart LR
 
 <img src="docs/readme/divider.svg" alt="" width="100%">
 
-## 🚀 Empezar
+## <img src="docs/readme/ic-arranque.svg" width="24" height="24" alt=""> Empezar
 
 **Requisitos:** Node.js 26, pnpm 11 y PostgreSQL 17 o 18 (producción usa la 18).
 
@@ -230,7 +230,7 @@ Todas están documentadas, con valores de ejemplo, en [`.env.example`](.env.exam
 | `pnpm admin:password <email>` | Contraseña de un administrador |
 | `pnpm brand:email` | Regenerar las imágenes de los correos |
 
-## 🗂️ Estructura
+## <img src="docs/readme/ic-estructura.svg" width="24" height="24" alt=""> Estructura
 
 ```text
 src/
@@ -249,7 +249,7 @@ brand-src/             # fuentes de los assets de marca
 docs/                  # diseño, arquitectura, CMS, SEO, seguridad y pruebas
 ```
 
-## 🐳 Despliegue
+## <img src="docs/readme/ic-despliegue.svg" width="24" height="24" alt=""> Despliegue
 
 El proyecto se publica como una imagen Docker. Al arrancar, el contenedor aplica las migraciones, siembra el contenido sin pisar lo existente, compila y sirve. Para un servidor propio alcanza con `docker-compose.yml` (sitio + PostgreSQL 17 + volumen de medios) detrás de un proxy con HTTPS:
 
@@ -260,7 +260,7 @@ docker compose up -d --build
 
 El kit de despliegue de producción, los procedimientos de rollback y los documentos de operación del servidor se mantienen fuera de este repositorio público.
 
-## 🛡️ Seguridad y privacidad
+## <img src="docs/readme/ic-seguridad.svg" width="24" height="24" alt=""> Seguridad y privacidad
 
 - Sesión propia con cookie `HttpOnly`, `Secure` y prefijo `__Host-`, renovación deslizante y tope de 30 días.
 - Límites de frecuencia por IP y por cuenta en ingreso, formularios y estadísticas.
@@ -270,7 +270,7 @@ El kit de despliegue de producción, los procedimientos de rollback y los docume
 
 Para reportar un problema de seguridad, escribí a **info@burrowlabs.com.bo**. El detalle técnico está en [`docs/SECURITY.md`](docs/SECURITY.md).
 
-## 📚 Documentación
+## <img src="docs/readme/ic-libro.svg" width="24" height="24" alt=""> Documentación
 
 | Documento | Contenido |
 |---|---|
@@ -285,13 +285,13 @@ Para reportar un problema de seguridad, escribí a **info@burrowlabs.com.bo**. E
 | [TESTING](docs/TESTING.md) | Estrategia de pruebas |
 | [BRAND-ASSETS](docs/BRAND-ASSETS.md) | Logo, mascota y reglas de uso |
 
-## 🏷️ Versiones
+## <img src="docs/readme/ic-versiones.svg" width="24" height="24" alt=""> Versiones
 
 | Versión | Fecha | Notas |
 |---|---|---|
 | **1.0.0** · *V1 Final Production* | 4 de octubre de 2026 | Primera versión pública en producción en [burrowlabs.com.bo](https://burrowlabs.com.bo) |
 
-## ©️ Derechos
+## <img src="docs/readme/ic-licencia.svg" width="24" height="24" alt=""> Derechos
 
 © 2026 Burrow Labs. Todos los derechos reservados.
 
@@ -303,6 +303,6 @@ El código se publica para mostrar el trabajo del estudio. El nombre Burrow Labs
 
 <a href="https://burrowlabs.com.bo"><img src="docs/readme/footer.svg" alt="Codificando soluciones." width="100%"></a>
 
-<sub>Hecho con 🫏 en Cochabamba, Bolivia · <a href="https://burrowlabs.com.bo">burrowlabs.com.bo</a> · <a href="https://www.instagram.com/burrowlabsbo/">Instagram</a></sub>
+<sub>Hecho en Cochabamba, Bolivia · <a href="https://burrowlabs.com.bo">burrowlabs.com.bo</a> · <a href="https://www.instagram.com/burrowlabsbo/">Instagram</a></sub>
 
 </div>
